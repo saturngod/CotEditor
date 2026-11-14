@@ -15601,6 +15601,18 @@
         }
       }
     },
+    "cMp-Pl-Cmd.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Command Palette…\"; ObjectID = \"cMp-Pl-Cmd\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Command Palette…"
+          }
+        }
+      }
+    },
     "cTU-2P-7Tp.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Brackets\"; ObjectID = \"cTU-2P-7Tp\"; Note = \"[]\";",
       "extractionState" : "extracted_with_value",
@@ -18117,6 +18129,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "顯示替代項目"
+          }
+        }
+      }
+    },
+    "gTs-Ym-Cmd.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Go to Symbol…\"; ObjectID = \"gTs-Ym-Cmd\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Go to Symbol…"
           }
         }
       }
@@ -24357,6 +24381,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "在Finder顯示"
+          }
+        }
+      }
+    },
+    "qOp-Fl-Cmd.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Quick Open…\"; ObjectID = \"qOp-Fl-Cmd\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Quick Open…"
           }
         }
       }

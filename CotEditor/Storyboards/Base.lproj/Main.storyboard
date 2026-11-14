@@ -102,6 +102,11 @@
                                                 </items>
                                             </menu>
                                         </menuItem>
+                                        <menuItem title="Quick Open…" keyEquivalent="p" id="qOp-Fl-Cmd">
+                                            <connections>
+                                                <action selector="showQuickOpen:" target="Ady-hI-5gd" id="qOp-Ac-Cmd"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="79"/>
                                         <menuItem title="Close" keyEquivalent="w" id="73">
                                             <connections>
@@ -144,12 +149,14 @@
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="74"/>
-                                        <menuItem title="Page Setup…" keyEquivalent="P" id="77">
+                                        <menuItem title="Page Setup…" id="77">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="runPageLayout:" target="Ady-hI-5gd" id="Aor-aT-MJT"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Print…" keyEquivalent="p" id="78">
+                                        <menuItem title="Print…" id="78">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="printDocument:" target="Ady-hI-5gd" id="Yhm-qV-RJT"/>
                                             </connections>
@@ -639,6 +646,11 @@ Gw
                                         <menuItem title="Show Quick Actions…" secondaryImage="filemenu.and.selection" catalog="system" keyEquivalent="k" id="7Su-OV-TgR">
                                             <connections>
                                                 <action selector="showQuickActions:" target="Ady-hI-5gd" id="6AA-OS-m64"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Command Palette…" secondaryImage="chevron.right" catalog="system" keyEquivalent="P" id="cMp-Pl-Cmd">
+                                            <connections>
+                                                <action selector="showCommandPalette:" target="Ady-hI-5gd" id="cMp-Ac-Cmd"/>
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="93A-bv-3Qn"/>
@@ -1175,6 +1187,11 @@ CA
                                         <menuItem title="Go to Line…" secondaryImage="number" catalog="system" keyEquivalent="l" id="eIc-Sj-2mO">
                                             <connections>
                                                 <action selector="gotoLocation:" target="Ady-hI-5gd" id="Oq7-s2-rmJ"/>
+                                            </connections>
+                                        </menuItem>
+                                        <menuItem title="Go to Symbol…" secondaryImage="at" catalog="system" keyEquivalent="O" id="gTs-Ym-Cmd">
+                                            <connections>
+                                                <action selector="showGoToSymbol:" target="Ady-hI-5gd" id="gTs-Ac-Cmd"/>
                                             </connections>
                                         </menuItem>
                                     </items>
