@@ -68,6 +68,7 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
     private let splitState = SplitState()
     
     private var themeName: String?
+    private var isThemeManuallySelected = false
     
     private var editableObserver: Task<Void, Never>?
     private var observers: Set<AnyCancellable> = []
@@ -162,7 +163,10 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         self.observers = [
             // observe theme change
             UserDefaults.standard.publisher(for: .theme, initial: false)
-                .sink { [weak self] in self?.setTheme(name: $0) },
+                .sink { [weak self] in
+                    self?.isThemeManuallySelected = false
+                    self?.setTheme(name: $0)
+                },
             NotificationCenter.default.publisher(for: DidManagerUpdateSettingMessage<ThemeManager>.name, object: ThemeManager.shared)
                 .map { $0.userInfo!["change"] as! SettingChange }
                 .filter { [weak self] in $0.old == self?.themeName }
@@ -170,12 +174,17 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
                 .throttle(for: 0.1, scheduler: DispatchQueue.main, latest: true)
                 .sink { [weak self] in self?.setTheme(name: $0) },
             
+            // observe theme appearance pinning change
+            UserDefaults.standard.publisher(for: .pinsThemeAppearance, initial: false)
+                .sink { [weak self] _ in self?.invalidateWindowAppearance() },
+            
             // observe appearance change for theme toggle
             self.view.publisher(for: \.effectiveAppearance)
                 .sink { [weak self] appearance in
                     guard
                         let self,
                         !UserDefaults.standard[.pinsThemeAppearance],
+                        !self.isThemeManuallySelected,
                         self.viewIfLoaded?.window != nil,
                         let currentThemeName = self.themeName,
                         let themeName = ThemeManager.shared.equivalentSettingName(to: currentThemeName, forDark: appearance.isDark),
@@ -191,6 +200,8 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
     override func viewWillAppear() {
         
         super.viewWillAppear()
+        
+        self.invalidateWindowAppearance()
         
         // observe user defaults
         self.defaultsObservers = [
@@ -610,6 +621,7 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
     /// Sets new theme from a menu item.
     @IBAction func changeTheme(_ sender: NSMenuItem) {
         
+        self.isThemeManuallySelected = true
         self.setTheme(name: sender.title)
     }
     
@@ -942,6 +954,28 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
             textView.layoutManager?.invalidateHighlight(theme: theme)
         }
         
+        self.invalidateWindowAppearance()
         self.invalidateRestorableState()
+    }
+    
+    
+    /// Syncs the window appearance (toolbar, sidebar, etc.) with the current theme.
+    ///
+    /// The window follows the theme's lightness when the theme doesn't switch automatically with the system appearance,
+    /// that is, when the theme is pinned, manually selected, or has no light/dark variant.
+    private func invalidateWindowAppearance() {
+        
+        guard
+            let windowController = self.viewIfLoaded?.window?.windowController as? DocumentWindowController,
+            let themeName = self.themeName,
+            let theme = try? ThemeManager.shared.setting(name: themeName)
+        else { return }
+        
+        let isDark = theme.isDarkTheme
+        let hasVariant = ThemeManager.shared.equivalentSettingName(to: themeName, forDark: !isDark)
+            .map { $0 != themeName } ?? false
+        let followsTheme = UserDefaults.standard[.pinsThemeAppearance] || self.isThemeManuallySelected || !hasVariant
+        
+        windowController.themeAppearance = followsTheme ? NSAppearance(named: isDark ? .darkAqua : .aqua) : nil
     }
 }

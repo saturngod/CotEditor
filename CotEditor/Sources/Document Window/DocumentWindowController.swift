@@ -63,7 +63,19 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
     }
     
     
+    /// The appearance requested by the editor theme to sync window chrome (toolbar, sidebar, etc.) with the theme, or `nil` to follow the user setting.
+    var themeAppearance: NSAppearance? {
+        
+        didSet {
+            guard themeAppearance?.name != oldValue?.name else { return }
+            self.invalidateWindowAppearance()
+        }
+    }
+    
+    
     // MARK: Private Properties
+    
+    private var settingAppearance: NSAppearance?
     
     private let directoryDocument: DirectoryDocument?
     private let isDirectoryDocument: Bool
@@ -149,14 +161,17 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
         
         // observe appearance setting change
         self.appearanceModeObserver = UserDefaults.standard.publisher(for: .documentAppearance, initial: true)
-            .map { value in
+            .map { value -> NSAppearance? in
                 switch value {
                     case .default: nil
                     case .light: NSAppearance(named: .aqua)
                     case .dark: NSAppearance(named: .darkAqua)
                 }
             }
-            .assign(to: \.appearance, on: window)
+            .sink { [weak self] in
+                self?.settingAppearance = $0
+                self?.invalidateWindowAppearance()
+            }
         
         // observe for syntax line-up change
         self.syntaxNamesObserver = Task { [weak self] in
@@ -237,6 +252,15 @@ final class DocumentWindowController: NSWindowController, NSWindowDelegate {
                 ?? self.fileDocument?.displayName
                 ?? ""
         }
+    }
+    
+    
+    // MARK: Private Methods
+    
+    /// Applies the effective appearance to the window.
+    private func invalidateWindowAppearance() {
+        
+        self.window?.appearance = self.themeAppearance ?? self.settingAppearance
     }
     
     
