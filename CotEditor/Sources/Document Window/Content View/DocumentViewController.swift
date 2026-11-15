@@ -70,6 +70,12 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
     private var themeName: String?
     private var isThemeManuallySelected = false
     
+    /// The theme currently applied to the editors.
+    private(set) var theme: Theme?
+    
+    /// Posted when the theme applied to the editors has changed. The notification object is the document view controller.
+    static let didChangeThemeNotification = Notification.Name("DocumentViewController.didChangeThemeNotification")
+    
     private var editableObserver: Task<Void, Never>?
     private var observers: Set<AnyCancellable> = []
     private var defaultsObservers: Set<AnyCancellable> = []
@@ -947,6 +953,7 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         }
         
         self.themeName = name
+        self.theme = theme
         self.document.syntaxController.theme = theme
         
         for textView in self.textViews {
@@ -956,6 +963,8 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         
         self.invalidateWindowAppearance()
         self.invalidateRestorableState()
+        
+        NotificationCenter.default.post(name: Self.didChangeThemeNotification, object: self)
     }
     
     

@@ -195,6 +195,7 @@ struct DefaultSettings {
             .showNavigationBar: true,
             .splitViewVertical: false,
             .consoleFontSize: NSFont.smallSystemFontSize,
+            .terminalHeight: 240.0,
             .findResultViewFontSize: NSFont.smallSystemFontSize,
             
             // hidden settings

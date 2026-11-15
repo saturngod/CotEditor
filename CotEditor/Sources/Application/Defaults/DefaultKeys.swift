@@ -177,6 +177,7 @@ extension DefaultKeys {
     static let showNavigationBar = DefaultKey<Bool>("showNavigationBar")
     static let splitViewVertical = DefaultKey<Bool>("splitViewVertical")
     static let consoleFontSize = DefaultKey<Double>("consoleFontSize")
+    static let terminalHeight = DefaultKey<Double>("terminalHeight")
     static let findResultViewFontSize = DefaultKey<Double>("findResultViewFontSize")
     static let selectedMultipleReplaceSettingName = DefaultKey<String?>("selectedMultipleReplaceSettingName")
     static let unicodeHistory = DefaultKey<[String]>("unicodeHistory")

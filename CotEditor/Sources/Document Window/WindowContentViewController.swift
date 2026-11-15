@@ -270,6 +270,11 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
                     ? String(localized: "Hide Status Bar", table: "MainMenu", comment: "verb; menu item")
                     : String(localized: "Show Status Bar", table: "MainMenu", comment: "verb; menu item")
                 
+            case #selector(toggleTerminal):
+                (item as? NSMenuItem)?.title = self.contentViewController.isTerminalShown
+                    ? String(localized: "Hide Terminal", table: "MainMenu", comment: "verb; menu item")
+                    : String(localized: "Show Terminal", table: "MainMenu", comment: "verb; menu item")
+                
             default: break
         }
         
@@ -374,7 +379,30 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
     }
     
     
+    /// Toggles the visibility of the terminal at the bottom of the content view.
+    ///
+    /// When the terminal is visible but doesn't have the keyboard focus, this moves the focus to the terminal instead of hiding it.
+    @IBAction func toggleTerminal(_ sender: Any?) {
+        
+        let contentViewController = self.contentViewController
+        
+        if contentViewController.isTerminalShown, contentViewController.isTerminalFocused || sender is NSToolbarItem {
+            contentViewController.hideTerminal()
+            self.focusEditor()
+        } else {
+            contentViewController.showTerminal(workingDirectory: self.terminalWorkingDirectory)
+        }
+    }
+    
+    
     // MARK: Private Methods
+    
+    /// The directory where a new terminal session starts.
+    private var terminalWorkingDirectory: URL? {
+        
+        self.directoryDocument?.fileURL ?? self.document?.fileURL?.deletingLastPathComponent()
+    }
+    
     
     /// Whether the sidebar can currently be toggled.
     private var canToggleSidebar: Bool {

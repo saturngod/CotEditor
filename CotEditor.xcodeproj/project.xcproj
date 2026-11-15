@@ -56,6 +56,12 @@
       "version": {
         "up-to-next-major-version": "1.1.0",
       },
+    }, {
+      "kind": "remote",
+      "repository": "https://github.com/migueldeicaza/SwiftTerm",
+      "version": {
+        "up-to-next-major-version": "1.2.0",
+      },
     },
   ],
   "files": [
@@ -171,6 +177,10 @@
         }, {
           "package": "Sparkle",
           "product-name": "Sparkle",
+          "build-phase": { "build-phase": "frameworks" },
+        }, {
+          "package": "SwiftTerm",
+          "product-name": "SwiftTerm",
           "build-phase": { "build-phase": "frameworks" },
         }, {
           "package": "WFColorCode",
