@@ -259,31 +259,62 @@ struct QuickOpenView: View {
 
     private func fileCandidates() -> [Candidate] {
 
-        let query = self.parsedFileInput.query
+        let query = QuickOpenItem.Query(self.parsedFileInput.query)
+        let items = self.model.items
+        let limit = Self.maxCandidates
 
-        if query.allSatisfy(\.isWhitespace) {
+        if query.isEmpty {
             // show recently used files first, then the rest
             let recents = self.model.recentURLs
-            let recentItems = recents.compactMap { url in self.model.items.first { $0.fileURL == url } }
-            let rest = self.model.items.filter { !recents.contains($0.fileURL) }
+            let recentSet = Set(recents)
+            var recentItems: [URL: QuickOpenItem] = [:]
+            var rest: [QuickOpenItem] = []
 
-            return (recentItems + rest)
-                .prefix(Self.maxCandidates)
+            for item in items {
+                if recentSet.contains(item.fileURL) {
+                    if recentItems[item.fileURL] == nil {
+                        recentItems[item.fileURL] = item
+                    }
+                } else if rest.count < limit {
+                    rest.append(item)
+                }
+                if rest.count >= limit, recentItems.count == recentSet.count { break }
+            }
+
+            return (recents.compactMap { recentItems[$0] } + rest)
+                .prefix(limit)
                 .map { Candidate(value: .file($0), title: $0.name, subtitle: $0.parentPath) }
         }
 
-        return self.model.items
-            .compactMap { item -> Candidate? in
-                guard let match = item.match(query) else { return nil }
-                let parentPath = item.parentPath
-                return Candidate(value: .file(item), title: item.name, titleRanges: match.nameRanges,
-                                 subtitle: parentPath,
-                                 subtitleRanges: match.pathRanges.filter { $0.upperBound <= parentPath.endIndex },
-                                 score: match.score)
+        // keep only the best matches while scanning to avoid building and sorting candidates for all files
+        typealias Entry = (score: Int, index: Int, match: QuickOpenItem.Match)
+        let isOrdered: (Entry, Entry) -> Bool = { ($0.score, $0.index) < ($1.score, $1.index) }
+        var entries: [Entry] = []
+        entries.reserveCapacity(limit * 2)
+        var threshold = Int.max  // scores not smaller than this can no longer be in the result
+
+        for (index, item) in items.enumerated() {
+            guard let match = item.match(query), match.score < threshold else { continue }
+
+            entries.append((match.score, index, match))
+
+            if entries.count >= limit * 2 {
+                entries.sort(by: isOrdered)
+                entries.removeSubrange(limit...)
+                threshold = entries[limit - 1].score
             }
-            .sorted { $0.score < $1.score }
-            .prefix(Self.maxCandidates)
-            .map(\.self)
+        }
+        entries.sort(by: isOrdered)
+
+        return entries.prefix(limit).map { entry in
+            let item = items[entry.index]
+            let parentPath = item.parentPath
+
+            return Candidate(value: .file(item), title: item.name, titleRanges: entry.match.nameRanges,
+                             subtitle: parentPath,
+                             subtitleRanges: entry.match.pathRanges.filter { $0.upperBound <= parentPath.endIndex },
+                             score: entry.score)
+        }
     }
 
 

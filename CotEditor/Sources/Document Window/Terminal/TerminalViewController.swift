@@ -220,7 +220,7 @@ final class TerminalViewController: NSViewController {
 
 
     /// The path to the user's login shell.
-    private static var loginShell: String {
+    private static let loginShell: String = {
 
         if let entry = getpwuid(getuid()), let shell = entry.pointee.pw_shell {
             let path = String(cString: shell)
@@ -230,7 +230,7 @@ final class TerminalViewController: NSViewController {
         }
 
         return ProcessInfo.processInfo.environment["SHELL"] ?? "/bin/zsh"
-    }
+    }()
 
 
     /// Applies the current palette to the terminal view.
