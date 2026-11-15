@@ -15274,6 +15274,9 @@
         }
       }
     },
+    "Select Language Mode" : {
+      "comment" : "tooltip"
+    },
     "Show Hidden Files" : {
       "comment" : "verb; menu item",
       "localizations" : {
@@ -16303,6 +16306,9 @@
           }
         }
       }
+    },
+    "Syntax" : {
+
     },
     "Tags" : {
       "comment" : "label in document inspector",

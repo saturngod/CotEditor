@@ -29,8 +29,18 @@ import DocumentFile
 
 struct QuickOpenView: View {
 
+    enum Mode {
+
+        /// Files, symbols (`@`), and commands (`>`).
+        case standard
+        /// The language (syntax) selector.
+        case syntax
+    }
+
+
     @Observable final class Model {
 
+        var mode: Mode = .standard
         var input: String = ""
 
         /// Files in the project (or open/recent files).
@@ -46,11 +56,18 @@ struct QuickOpenView: View {
         /// Labels of recently performed commands, newest first.
         var recentCommandLabels: [String] = []
 
+        /// Syntax names available for the language selector.
+        var syntaxNames: [String] = []
+        /// The syntax name of the current text document.
+        var currentSyntaxName: String?
+
         var width: CGFloat = 600
 
         var onOpen: (_ item: QuickOpenItem, _ line: FuzzyRange?) -> Void = { _, _ in }
         var onSelectSymbol: (_ symbol: OutlineItem) -> Void = { _ in }
         var onPerformCommand: (_ command: ActionCommand, _ label: String) -> Void = { _, _ in }
+        /// Called with the selected syntax name, or `nil` for auto-detection.
+        var onSelectSyntax: (_ name: String?) -> Void = { _ in }
         var onCancel: () -> Void = {}
     }
 
@@ -62,6 +79,7 @@ struct QuickOpenView: View {
             case file(QuickOpenItem)
             case symbol(OutlineItem)
             case command(ActionCommand)
+            case syntax(String?)
         }
 
         var value: Value
@@ -79,6 +97,7 @@ struct QuickOpenView: View {
                 case .file(let item): item.fileURL.absoluteString
                 case .symbol(let item): item.id.uuidString
                 case .command(let command): "command:\(command.id.hashValue)"
+                case .syntax(let name): name.map { "syntax:\($0)" } ?? "syntax-auto"
             }
         }
     }
@@ -99,8 +118,7 @@ struct QuickOpenView: View {
 
         VStack(spacing: 0) {
             QuickOpenTextField(
-                prompt: String(localized: "Search files by name (append : to go to line, prefix @ to go to symbol, or > to run a command)",
-                               table: "QuickOpen", comment: "placeholder for the Quick Open field"),
+                prompt: self.prompt,
                 text: $model.input,
                 onMove: self.move(down:),
                 onSubmit: self.submit,
@@ -144,6 +162,7 @@ struct QuickOpenView: View {
         .background(.regularMaterial, in: .rect(cornerRadius: 10))
         .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(.separator))
         .onChange(of: self.model.input, initial: true) { self.updateCandidates() }
+        .onChange(of: self.model.mode) { self.updateCandidates() }
         .onChange(of: self.model.items) { self.updateCandidates() }
         .onChange(of: self.model.symbols) { self.updateCandidates() }
         .onChange(of: self.selection) { _, newValue in
@@ -154,20 +173,42 @@ struct QuickOpenView: View {
 
     // MARK: Private Methods
 
+    private var prompt: String {
+
+        switch self.model.mode {
+            case .standard:
+                String(localized: "Search files by name (append : to go to line, prefix @ to go to symbol, or > to run a command)",
+                       table: "QuickOpen", comment: "placeholder for the Quick Open field")
+            case .syntax:
+                String(localized: "Select Language Mode", table: "QuickOpen", comment: "placeholder for the language selector")
+        }
+    }
+
+
+    private var isSyntaxMode: Bool {
+
+        self.model.mode == .syntax
+    }
+
+
     private var isSymbolMode: Bool {
 
-        self.model.input.first == Self.symbolPrefix
+        !self.isSyntaxMode && self.model.input.first == Self.symbolPrefix
     }
 
 
     private var isCommandMode: Bool {
 
-        self.model.input.first == Self.commandPrefix
+        !self.isSyntaxMode && self.model.input.first == Self.commandPrefix
     }
 
 
     /// The message to show when no candidate is listed.
     private var message: String? {
+
+        if self.isSyntaxMode {
+            return String(localized: "No matching languages", table: "QuickOpen", comment: "message when no syntax matched")
+        }
 
         if self.isCommandMode {
             return String(localized: "No matching commands", table: "QuickOpen", comment: "message when no command matched")
@@ -203,7 +244,9 @@ struct QuickOpenView: View {
 
     private func updateCandidates() {
 
-        self.candidates = if self.isCommandMode {
+        self.candidates = if self.isSyntaxMode {
+            self.syntaxCandidates()
+        } else if self.isCommandMode {
             self.commandCandidates()
         } else if self.isSymbolMode {
             self.symbolCandidates()
@@ -314,6 +357,45 @@ struct QuickOpenView: View {
     }
 
 
+    private func syntaxCandidates() -> [Candidate] {
+
+        let query = self.model.input.filter { !$0.isWhitespace }
+        let current = String(localized: "current", table: "QuickOpen", comment: "badge for the syntax currently used in the document")
+
+        let autoDetect = Candidate(value: .syntax(nil),
+                                   title: String(localized: "Auto Detect", table: "QuickOpen", comment: "item to detect the syntax automatically"))
+        let none = Candidate(value: .syntax(SyntaxName.none),
+                             title: String(localized: "SyntaxName.none", defaultValue: "None"))
+        let all = [autoDetect, none] + self.model.syntaxNames.map { Candidate(value: .syntax($0), title: $0) }
+
+        let candidates = all.enumerated().compactMap { offset, candidate -> Candidate? in
+            var candidate = candidate
+            if case .syntax(let name?) = candidate.value, name == self.model.currentSyntaxName {
+                candidate.badge = current
+            }
+
+            if query.isEmpty {
+                candidate.score = offset
+                return candidate
+            }
+
+            guard
+                let ranges = candidate.title.abbreviatedMatchedRanges(with: query),
+                let first = ranges.first, let last = ranges.last
+            else { return nil }
+
+            var score = candidate.title.distance(from: first.lowerBound, to: last.upperBound) * 10 + candidate.title.count
+            if first.lowerBound == candidate.title.startIndex { score -= 500 }
+
+            candidate.titleRanges = ranges
+            candidate.score = score * all.count + offset  // keep list order for ties
+            return candidate
+        }
+
+        return query.isEmpty ? candidates : candidates.sorted { $0.score < $1.score }
+    }
+
+
     private func move(down: Bool) {
 
         guard !self.candidates.isEmpty else { return }
@@ -337,6 +419,8 @@ struct QuickOpenView: View {
                 self.model.onSelectSymbol(symbol)
             case .command(let command):
                 self.model.onPerformCommand(command, candidate.title)
+            case .syntax(let name):
+                self.model.onSelectSyntax(name)
         }
     }
 }
@@ -372,7 +456,7 @@ private struct QuickOpenRow: View {
     var body: some View {
 
         HStack(alignment: .firstTextBaseline, spacing: 8) {
-            if !self.isCommand {
+            if self.hasIcon {
                 self.icon
                     .frame(width: 16, height: 16)
                     .alignmentGuide(.firstTextBaseline) { $0[.bottom] - 3 }
@@ -386,7 +470,7 @@ private struct QuickOpenRow: View {
                 .foregroundStyle(self.isSelected ? Color(nsColor: .selectedMenuItemTextColor).opacity(0.8) : .secondary)
                 .truncationMode(.head)
 
-            if self.isCommand {
+            if !self.hasIcon {
                 Spacer(minLength: 8)
 
                 if let shortcut = self.candidate.shortcut {
@@ -414,9 +498,12 @@ private struct QuickOpenRow: View {
     }
 
 
-    private var isCommand: Bool {
+    private var hasIcon: Bool {
 
-        if case .command = self.candidate.value { true } else { false }
+        switch self.candidate.value {
+            case .file, .symbol: true
+            case .command, .syntax: false
+        }
     }
 
 
@@ -433,7 +520,7 @@ private struct QuickOpenRow: View {
                     Image(systemName: "number")
                         .foregroundStyle(.secondary)
                 }
-            case .command:
+            case .command, .syntax:
                 EmptyView()
         }
     }
@@ -483,6 +570,10 @@ private struct QuickOpenTextField: NSViewRepresentable {
     func updateNSView(_ nsView: NSTextField, context: Context) {
 
         context.coordinator.parent = self
+
+        if nsView.placeholderString != self.prompt {
+            nsView.placeholderString = self.prompt
+        }
 
         if nsView.stringValue != self.text {
             nsView.stringValue = self.text

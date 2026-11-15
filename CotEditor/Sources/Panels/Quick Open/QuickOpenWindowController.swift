@@ -68,6 +68,7 @@ final class QuickOpenWindowController: NSWindowController {
         self.model.onOpen = { [unowned self] item, line in self.open(item, line: line) }
         self.model.onSelectSymbol = { [unowned self] symbol in self.select(symbol) }
         self.model.onPerformCommand = { [unowned self] command, label in self.perform(command, label: label) }
+        self.model.onSelectSyntax = { [unowned self] name in self.selectSyntax(name: name) }
         self.model.onCancel = { [unowned self] in self.close() }
     }
 
@@ -104,15 +105,37 @@ final class QuickOpenWindowController: NSWindowController {
     }
 
 
+    /// Whether the bar is currently in the language selector mode.
+    var isSyntaxMode: Bool {
+
+        self.model.mode == .syntax
+    }
+
+
+    /// Shows the language selector to change the syntax of the current text document.
+    ///
+    /// - Parameter sender: The sender of the action.
+    func showSyntaxSelector(sender: Any? = nil) {
+
+        self.show(input: "", mode: .syntax, sender: sender)
+
+        if self.textDocument == nil {
+            self.close()
+            NSSound.beep()
+        }
+    }
+
+
     /// Shows the Quick Open bar with the given initial input.
     ///
     /// - Parameters:
     ///   - input: The initial input, such as `"@"` to go to a symbol.
+    ///   - mode: The mode of the bar.
     ///   - sender: The sender of the action.
-    func show(input: String, sender: Any? = nil) {
+    func show(input: String, mode: QuickOpenView.Mode = .standard, sender: Any? = nil) {
 
         if self.window?.isVisible == true {
-            self.model.input = input
+            self.enter(mode: mode, input: input)
             return
         }
 
@@ -121,10 +144,13 @@ final class QuickOpenWindowController: NSWindowController {
         self.directoryDocument = document as? DirectoryDocument
         self.textDocument = (document as? TextDocument) ?? (self.directoryDocument?.currentDocument as? TextDocument)
 
-        self.model.input = input
+        self.enter(mode: mode, input: input)
         self.model.symbols = self.textDocument?.syntaxController.outlineItems?.filter { !$0.isSeparator }
         // -> Collect commands before the panel becomes key so that menu validation targets the document window.
         self.model.commands = NSApp.actionCommands.filter { !Self.excludedActions.contains($0.action) }
+        if self.textDocument != nil {
+            self.model.commands.append(Self.changeSyntaxCommand)
+        }
         self.model.recentCommandLabels = UserDefaults.standard.stringArray(forKey: Self.recentCommandsKey) ?? []
         self.loadItems()
         self.reposition()
@@ -134,6 +160,47 @@ final class QuickOpenWindowController: NSWindowController {
 
 
     // MARK: Private Methods
+
+    /// The command to switch the bar to the language selector.
+    private static let changeSyntaxCommand = ActionCommand(
+        id: ObjectIdentifier(QuickOpenWindowController.self),
+        kind: .command,
+        title: String(localized: "Change Language Mode", table: "QuickOpen", comment: "command to show the language selector"),
+        action: #selector(AppDelegate.showLanguageSelector))
+
+
+    /// Switches the mode of the bar.
+    private func enter(mode: QuickOpenView.Mode, input: String) {
+
+        if mode == .syntax {
+            self.model.syntaxNames = SyntaxManager.shared.settingNames
+            self.model.currentSyntaxName = self.textDocument?.syntaxName
+        }
+        self.model.mode = mode
+        self.model.input = input
+    }
+
+
+    /// Changes the syntax of the current text document.
+    ///
+    /// - Parameter name: The syntax name, or `nil` to detect the syntax from the filename and the content.
+    private func selectSyntax(name: String?) {
+
+        let textDocument = self.textDocument
+
+        self.close()
+        self.parentWindow?.makeKeyAndOrderFront(nil)
+
+        guard let textDocument else { return NSSound.beep() }
+
+        let name = name
+            ?? SyntaxManager.shared.settingName(documentName: textDocument.fileURL?.lastPathComponent ?? textDocument.displayName,
+                                                content: textDocument.textStorage.string)
+            ?? SyntaxName.none
+
+        textDocument.setSyntax(name: name)
+    }
+
 
     /// Collects the candidate files.
     private func loadItems() {
@@ -182,7 +249,7 @@ final class QuickOpenWindowController: NSWindowController {
     /// Places the panel at the top center of the parent window, just below the toolbar.
     private func reposition() {
 
-        guard let panel = self.window, let contentView = panel.contentView else { return }
+        guard let panel = self.window as? QuickOpenPanel, let contentView = panel.contentView else { return }
 
         let anchorFrame: NSRect
         let top: CGFloat
@@ -201,8 +268,9 @@ final class QuickOpenWindowController: NSWindowController {
 
         contentView.layoutSubtreeIfNeeded()
         let size = contentView.fittingSize
-        let origin = NSPoint(x: (anchorFrame.midX - size.width / 2).rounded(), y: (top - size.height).rounded())
+        let origin = NSPoint(x: (anchorFrame.midX - size.width / 2).rounded(), y: top.rounded() - size.height)
         let frame = NSRect(origin: origin, size: size)
+        panel.anchoredTop = top.rounded()
 
         if panel.frame != frame {
             panel.setFrame(frame, display: true)
@@ -216,6 +284,7 @@ final class QuickOpenWindowController: NSWindowController {
         #selector(AppDelegate.showQuickOpen),
         #selector(AppDelegate.showGoToSymbol),
         #selector(AppDelegate.showCommandPalette),
+        #selector(AppDelegate.showLanguageSelector),
     ]
 
 
@@ -226,6 +295,12 @@ final class QuickOpenWindowController: NSWindowController {
         recents.removeAll { $0 == label }
         recents.insert(label, at: 0)
         UserDefaults.standard.set(Array(recents.prefix(Self.maxRecentCommands)), forKey: Self.recentCommandsKey)
+
+        // switch to the language selector in place
+        if command.id == Self.changeSyntaxCommand.id {
+            self.enter(mode: .syntax, input: "")
+            return
+        }
 
         // close first so that the action is delivered to the document window's responder chain
         self.close()
@@ -307,13 +382,32 @@ private final class QuickOpenPanel: NSPanel {
     override var canBecomeKey: Bool  { true }
 
 
+    /// The screen position of the top edge to keep while the panel is resized to fit the result list.
+    var anchoredTop: CGFloat?
+
+    private var resizeObserver: (any NSObjectProtocol)?
+
+
+    override init(contentRect: NSRect, styleMask style: NSWindow.StyleMask, backing backingStoreType: NSWindow.BackingStoreType, defer flag: Bool) {
+
+        super.init(contentRect: contentRect, styleMask: style, backing: backingStoreType, defer: flag)
+
+        // -> The hosting view doesn't always resize the window through `setFrame(_:display:)`.
+        self.resizeObserver = NotificationCenter.default.addObserver(forName: NSWindow.didResizeNotification, object: self, queue: .main) { [weak self] _ in
+            MainActor.assumeIsolated {
+                guard let self, let top = self.anchoredTop, self.frame.maxY != top else { return }
+                self.setFrameOrigin(NSPoint(x: self.frame.minX, y: top - self.frame.height))
+            }
+        }
+    }
+
+
     override func setFrame(_ frameRect: NSRect, display flag: Bool) {
 
-        // keep the top edge anchored when only the size changes
-        // (e.g., when the hosting view resizes the panel to fit the result list)
+        // keep the top edge anchored when the hosting view resizes the panel to fit the result list
         var frame = frameRect
-        if frame.origin == self.frame.origin, frame.height != self.frame.height {
-            frame.origin.y = self.frame.maxY - frame.height
+        if let top = self.anchoredTop {
+            frame.origin.y = top - frame.height
         }
 
         super.setFrame(frame, display: flag)

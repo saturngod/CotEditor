@@ -269,6 +269,23 @@ private struct DocumentStatusBar: View {
         HStack(spacing: 4) {
             Divider()
             
+            Button {
+                QuickOpenWindowController.shared.showSyntaxSelector()
+            } label: {
+                if self.document.syntaxName == SyntaxName.none {
+                    Text(.init("SyntaxName.none", defaultValue: "None"))
+                } else {
+                    Text(self.document.syntaxName)
+                }
+            }
+            .help(.init("Select Language Mode", table: "Document", comment: "tooltip"))
+            .accessibilityLabel(.init("Syntax", table: "Document"))
+            .foregroundStyle(.primary)
+            .padding(.horizontal, 4)
+            .fixedSize()
+            
+            Divider()
+            
             Picker(.init("Text Encoding", table: "Document"), selection: $fileEncoding) {
                 Section(.init("Text Encoding", table: "Document")) {
                     if !self.encodingManager.fileEncodings.contains(self.fileEncoding) {

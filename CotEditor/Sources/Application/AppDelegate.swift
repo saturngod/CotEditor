@@ -393,13 +393,26 @@ extension Logger {
     }
     
     
+    /// Shows the language selector to change the syntax of the current document.
+    @IBAction func showLanguageSelector(_ sender: Any?) {
+        
+        let controller = QuickOpenWindowController.shared
+        
+        if controller.window?.isVisible == true, controller.isSyntaxMode {
+            controller.close()
+        } else {
+            controller.showSyntaxSelector(sender: sender)
+        }
+    }
+    
+    
     /// Shows the Quick Open bar with the given mode prefix, or closes it if it's already shown in the same mode.
     private func toggleQuickOpen(prefix: String, sender: Any?) {
         
         let controller = QuickOpenWindowController.shared
         let currentPrefix = controller.input.first.flatMap { "@>".contains($0) ? String($0) : nil } ?? ""
         
-        if controller.window?.isVisible == true, currentPrefix == prefix {
+        if controller.window?.isVisible == true, !controller.isSyntaxMode, currentPrefix == prefix {
             controller.close()
         } else {
             controller.show(input: prefix, sender: sender)
