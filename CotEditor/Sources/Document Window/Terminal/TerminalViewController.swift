@@ -35,6 +35,17 @@ final class TerminalViewController: NSViewController {
     /// The handler invoked when the shell process has terminated.
     var terminationHandler: (@MainActor () -> Void)?
 
+    /// The handler invoked when the title of the terminal has changed.
+    var titleHandler: (@MainActor () -> Void)?
+
+    /// The title to display in the session list.
+    var displayTitle: String {
+
+        let title = self.terminalTitle.trimmingCharacters(in: .whitespacesAndNewlines)
+
+        return title.isEmpty ? URL(filePath: Self.loginShell).lastPathComponent : title
+    }
+
 
     // MARK: Private Properties
 
@@ -42,6 +53,7 @@ final class TerminalViewController: NSViewController {
 
     @ViewLoading private var terminalView: LocalProcessTerminalView
     private var isProcessStarted = false
+    private var terminalTitle = ""
 
     private var fontObserver: AnyCancellable?
 
@@ -84,30 +96,25 @@ final class TerminalViewController: NSViewController {
         terminalView.translatesAutoresizingMaskIntoConstraints = false
         self.terminalView = terminalView
 
-        let separator = NSBox()
-        separator.boxType = .separator
-        separator.translatesAutoresizingMaskIntoConstraints = false
-
-        // -> Fill the area under the status bar with the terminal background.
-        let view = BackgroundView()
+        let view = NSView()
         view.addSubview(terminalView)
-        view.addSubview(separator)
 
         let inset: CGFloat = 6
-        NSLayoutConstraint.activate([
-            separator.topAnchor.constraint(equalTo: view.topAnchor),
-            separator.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            separator.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            terminalView.topAnchor.constraint(equalTo: separator.bottomAnchor, constant: inset),
-            terminalView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: inset),
+        // -> The pane can be laid out smaller than the insets while the split view adds or collapses it,
+        //    so let the far edges give way instead of conflicting.
+        let farEdgeConstraints = [
             terminalView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             terminalView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+        ]
+        for constraint in farEdgeConstraints {
+            constraint.priority = .required - 1
+        }
+        NSLayoutConstraint.activate(farEdgeConstraints + [
+            terminalView.topAnchor.constraint(equalTo: view.topAnchor, constant: inset),
+            terminalView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: inset),
         ])
 
         self.view = view
-        self.view.setAccessibilityElement(true)
-        self.view.setAccessibilityRole(.group)
-        self.view.setAccessibilityLabel(String(localized: "Terminal", table: "Document", comment: "accessibility label"))
 
         self.applyPalette()
     }
@@ -162,6 +169,15 @@ final class TerminalViewController: NSViewController {
     }
 
 
+    /// Terminates the shell process.
+    func terminate() {
+
+        guard self.isProcessStarted, self.isViewLoaded else { return }
+
+        self.terminalView.terminate()
+    }
+
+
     // MARK: Private Methods
 
     /// The font for the terminal.
@@ -185,6 +201,7 @@ final class TerminalViewController: NSViewController {
         let shellName = URL(filePath: shell).lastPathComponent
         var environment = Terminal.getEnvironmentVariables(termName: "xterm-256color")
         environment.append("TERM_PROGRAM=CotEditor")
+        environment.append("CLICOLOR=1")
         if let path = ProcessInfo.processInfo.environment["PATH"] {
             environment.append("PATH=\(path)")
         }
@@ -229,8 +246,6 @@ final class TerminalViewController: NSViewController {
         self.terminalView.caretColor = palette.caret
         self.terminalView.selectedTextBackgroundColor = palette.selection
         self.terminalView.appearance = NSAppearance(named: palette.isDark ? .darkAqua : .aqua)
-
-        (self.view as? BackgroundView)?.backgroundColor = palette.background
         self.terminalView.needsDisplay = true
     }
 }
@@ -243,7 +258,11 @@ extension TerminalViewController: LocalProcessTerminalViewDelegate {
     func sizeChanged(source: LocalProcessTerminalView, newCols: Int, newRows: Int) { }
 
 
-    func setTerminalTitle(source: LocalProcessTerminalView, title: String) { }
+    func setTerminalTitle(source: LocalProcessTerminalView, title: String) {
+
+        self.terminalTitle = title
+        self.titleHandler?()
+    }
 
 
     func hostCurrentDirectoryUpdate(source: TerminalView, directory: String?) { }
@@ -256,23 +275,7 @@ extension TerminalViewController: LocalProcessTerminalViewDelegate {
 }
 
 
-// MARK: - Private Classes
-
-private final class BackgroundView: NSView {
-
-    var backgroundColor: NSColor = .textBackgroundColor  { didSet { self.needsDisplay = true } }
-
-
-    override var isOpaque: Bool { true }
-
-
-    override func draw(_ dirtyRect: NSRect) {
-
-        self.backgroundColor.setFill()
-        dirtyRect.fill()
-    }
-}
-
+// MARK: - Private Extensions
 
 private extension SwiftTerm.Color {
 

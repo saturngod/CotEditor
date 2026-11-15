@@ -43,11 +43,11 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
     // MARK: Private Properties
     
     private static let minimumEditorHeight: CGFloat = 80
-    private static let minimumTerminalHeight: CGFloat = 80
+    private static let minimumTerminalHeight: CGFloat = 120
     
     @ViewLoading private var splitView: NSSplitView
     @ViewLoading private var hostedContainerView: NSView
-    private var terminalViewController: TerminalViewController?
+    private var terminalViewController: TerminalPanelViewController?
     
     private var themeObservers: Set<AnyCancellable> = []
     
@@ -79,7 +79,7 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
         hostedContainerView.embedSubview(self.hostedViewController.view)
         self.hostedContainerView = hostedContainerView
         
-        let splitView = NSSplitView()
+        let splitView = InvisibleDividerSplitView()
         splitView.isVertical = false
         splitView.dividerStyle = .thin
         splitView.delegate = self
@@ -131,6 +131,13 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
     }
     
     
+    func splitView(_ splitView: NSSplitView, effectiveRect proposedEffectiveRect: NSRect, forDrawnRect drawnRect: NSRect, ofDividerAt dividerIndex: Int) -> NSRect {
+        
+        // widen the draggable area since the divider itself has no thickness
+        drawnRect.insetBy(dx: 0, dy: -3)
+    }
+    
+    
     func splitView(_ splitView: NSSplitView, shouldAdjustSizeOfSubview view: NSView) -> Bool {
         
         // keep the terminal height when the window is resized
@@ -141,8 +148,10 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
     func splitViewDidResizeSubviews(_ notification: Notification) {
         
         // store the terminal height only when the user drags the divider
+        // -> The divider index is also set on programmatic changes, so check the event as well.
         guard
             notification.userInfo?["NSSplitViewDividerIndex"] != nil,
+            NSApp.currentEvent?.type == .leftMouseDragged,
             let terminalView = self.terminalViewController?.viewIfLoaded,
             !terminalView.isHidden
         else { return }
@@ -158,22 +167,51 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
     /// - Parameter workingDirectory: The directory where the shell starts when a new terminal session is created.
     func showTerminal(workingDirectory: URL?) {
         
-        let terminalViewController: TerminalViewController
+        self.showTerminal(workingDirectory: workingDirectory, addsSession: false)
+    }
+    
+    
+    /// Shows the terminal pane and starts a new terminal session in it.
+    ///
+    /// - Parameter workingDirectory: The directory where the shell starts.
+    func newTerminal(workingDirectory: URL?) {
+        
+        self.showTerminal(workingDirectory: workingDirectory, addsSession: true)
+    }
+    
+    
+    /// Shows the terminal pane and moves the keyboard focus to it.
+    ///
+    /// - Parameters:
+    ///   - workingDirectory: The directory where the shell starts when a new terminal session is created.
+    ///   - addsSession: Whether to start a new session even when the pane already has one.
+    private func showTerminal(workingDirectory: URL?, addsSession: Bool) {
+        
+        let terminalViewController: TerminalPanelViewController
         if let controller = self.terminalViewController {
             terminalViewController = controller
         } else {
-            terminalViewController = TerminalViewController(workingDirectory: workingDirectory, palette: self.terminalPalette)
-            terminalViewController.terminationHandler = { [weak self] in self?.closeTerminal() }
+            terminalViewController = TerminalPanelViewController(palette: self.terminalPalette)
+            terminalViewController.closeHandler = { [weak self] in self?.closeTerminal() }
             self.addChild(terminalViewController)
+            // -> Start with the split view's width so the pane isn't laid out with zero width
+            //    before the split view sizes it.
+            terminalViewController.view.frame.size.width = self.splitView.bounds.width
             self.splitView.addArrangedSubview(terminalViewController.view)
             self.terminalViewController = terminalViewController
+        }
+        
+        if addsSession || terminalViewController.isEmpty {
+            terminalViewController.addSession(workingDirectory: workingDirectory)
         }
         
         if terminalViewController.view.isHidden || terminalViewController.view.frame.height < Self.minimumTerminalHeight {
             terminalViewController.view.isHidden = false
             self.splitView.layoutSubtreeIfNeeded()
             
-            let height = max(UserDefaults.standard[.terminalHeight], Self.minimumTerminalHeight)
+            // -> Ignore a stored height that is too small to be useful.
+            let storedHeight = UserDefaults.standard[.terminalHeight]
+            let height = (storedHeight >= Self.minimumTerminalHeight) ? storedHeight : 240
             let position = max(Self.minimumEditorHeight, self.splitView.bounds.height - self.splitView.dividerThickness - height)
             self.splitView.setPosition(position, ofDividerAt: 0)
         }
@@ -189,6 +227,7 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
         
         terminalView.isHidden = true
         self.splitView.adjustSubviews()
+        self.splitView.needsDisplay = true
     }
     
     
@@ -199,10 +238,9 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
     }
     
     
-    
     // MARK: Private Methods
     
-    /// Discards the terminal session and its pane.
+    /// Discards the terminal pane.
     private func closeTerminal() {
         
         guard let terminalViewController else { return }
@@ -213,6 +251,7 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
         terminalViewController.removeFromParent()
         self.terminalViewController = nil
         self.splitView.adjustSubviews()
+        self.splitView.needsDisplay = true
         
         if hadFocus {
             self.view.window?.makeFirstResponder((self.hostedViewController as? DocumentViewController)?.focusedTextView)
@@ -290,6 +329,18 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
         
         return controller
     }
+}
+
+
+/// A split view that draws no divider.
+///
+/// The terminal pane draws its own separator line, so the split view must not leave a divider line over the editor when the pane is hidden.
+private final class InvisibleDividerSplitView: NSSplitView {
+    
+    override var dividerThickness: CGFloat { 0 }
+    
+    
+    override func drawDivider(in rect: NSRect) { }
 }
 
 

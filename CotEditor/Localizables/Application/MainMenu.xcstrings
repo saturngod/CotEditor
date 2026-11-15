@@ -2148,6 +2148,9 @@
         }
       }
     },
+    "Hide Terminal" : {
+      "comment" : "verb; menu item"
+    },
     "Insert Color Code" : {
       "comment" : "verb; undo action name",
       "localizations" : {
@@ -5085,6 +5088,9 @@
           }
         }
       }
+    },
+    "Show Terminal" : {
+      "comment" : "verb; menu item"
     },
     "Shuffle Lines" : {
       "comment" : "verb; undo action name",

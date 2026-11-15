@@ -24397,6 +24397,18 @@
         }
       }
     },
+    "nTm-Nw-Cmd.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"New Terminal\"; ObjectID = \"nTm-Nw-Cmd\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "New Terminal"
+          }
+        }
+      }
+    },
     "tRm-Tg-Cmd.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Show Terminal\"; ObjectID = \"tRm-Tg-Cmd\";",
       "extractionState" : "extracted_with_value",

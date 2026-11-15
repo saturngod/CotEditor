@@ -8632,6 +8632,9 @@
         }
       }
     },
+    "Hide Terminal" : {
+      "comment" : "button label"
+    },
     "Image DPI" : {
       "comment" : "Refer the same expression by Apple.",
       "localizations" : {
@@ -10008,6 +10011,9 @@
           }
         }
       }
+    },
+    "Kill Terminal" : {
+      "comment" : "button label"
     },
     "Kind" : {
       "localizations" : {
@@ -12013,6 +12019,9 @@
           }
         }
       }
+    },
+    "New Terminal" : {
+      "comment" : "button label"
     },
     "Next Outline Item" : {
       "comment" : "accessibility label for button",
@@ -16407,6 +16416,12 @@
           }
         }
       }
+    },
+    "Terminal" : {
+      "comment" : "title of the terminal pane"
+    },
+    "Terminals" : {
+      "comment" : "accessibility label"
     },
     "Text Encoding" : {
       "comment" : "menu item header",

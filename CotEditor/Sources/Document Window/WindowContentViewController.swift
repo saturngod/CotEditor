@@ -386,12 +386,19 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
         
         let contentViewController = self.contentViewController
         
-        if contentViewController.isTerminalShown, contentViewController.isTerminalFocused || sender is NSToolbarItem {
+        if contentViewController.isTerminalShown, contentViewController.isTerminalFocused || sender is NSToolbarItem || sender is NSButton {
             contentViewController.hideTerminal()
             self.focusEditor()
         } else {
             contentViewController.showTerminal(workingDirectory: self.terminalWorkingDirectory)
         }
+    }
+    
+    
+    /// Starts a new terminal session in the terminal at the bottom of the content view.
+    @IBAction func newTerminal(_ sender: Any?) {
+        
+        self.contentViewController.newTerminal(workingDirectory: self.terminalWorkingDirectory)
     }
     
     

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="25408" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="25098" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="25408"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="25098"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -73,7 +72,7 @@
                                                 <action selector="newDocument:" target="Ady-hI-5gd" id="82J-OW-zaP"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New Window" secondaryImage="macwindow.badge.plus" catalog="system" keyEquivalent="N" id="cTV-Rh-597">
+                                        <menuItem title="New Window" secondaryImage="interface.window.badge.plus" catalog="system" keyEquivalent="N" id="cTV-Rh-597">
                                             <connections>
                                                 <action selector="newDocumentAsWindow:" target="Ady-hI-5gd" id="O1V-BQ-IdO"/>
                                             </connections>
@@ -736,6 +735,12 @@ Gw
                                                 <action selector="toggleTerminal:" target="Ady-hI-5gd" id="tRm-Ac-Cmd"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="New Terminal" secondaryImage="plus" catalog="system" keyEquivalent="`" id="nTm-Nw-Cmd">
+                                            <modifierMask key="keyEquivalentModifierMask" shift="YES" control="YES"/>
+                                            <connections>
+                                                <action selector="newTerminal:" target="Ady-hI-5gd" id="nTm-Ac-Cmd"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem isSeparatorItem="YES" id="366"/>
                                         <menuItem title="Move Focus to Next Editor" secondaryImage="inset.filled.bottomhalf.tophalf.rectangle" catalog="system" keyEquivalent="`" id="794">
                                             <modifierMask key="keyEquivalentModifierMask" control="YES" option="YES"/>
@@ -1190,7 +1195,7 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="4p1-Xh-XxQ"/>
-                                        <menuItem title="Go to Line…" secondaryImage="number" catalog="system" keyEquivalent="l" id="eIc-Sj-2mO">
+                                        <menuItem title="Go to Line…" secondaryImage="number.sign" catalog="system" keyEquivalent="l" id="eIc-Sj-2mO">
                                             <connections>
                                                 <action selector="gotoLocation:" target="Ady-hI-5gd" id="Oq7-s2-rmJ"/>
                                             </connections>
@@ -1349,11 +1354,13 @@ CA
         <image name="arrow.left.arrow.right" catalog="system" width="16" height="17"/>
         <image name="arrow.up.arrow.down" catalog="system" width="18" height="15"/>
         <image name="arrow.up.to.line" catalog="system" width="13" height="16"/>
+        <image name="at" catalog="system" width="16" height="16"/>
         <image name="book.pages" catalog="system" width="15" height="18"/>
         <image name="character.book.closed" catalog="system" width="14" height="16"/>
         <image name="character.bubble" catalog="system" width="17" height="16"/>
         <image name="character.cursor.ibeam" catalog="system" width="16" height="16"/>
         <image name="character.textbox" catalog="system" width="19" height="14"/>
+        <image name="chevron.right" catalog="system" width="10" height="14"/>
         <image name="curlybraces" catalog="system" width="15" height="16"/>
         <image name="decrease.indent" catalog="system" width="18" height="13"/>
         <image name="document" catalog="system" width="14" height="16"/>
@@ -1376,7 +1383,7 @@ CA
         <image name="inset.filled.topthird.rectangle" catalog="system" width="18" height="14"/>
         <image name="line.3.horizontal" catalog="system" width="16" height="9"/>
         <image name="list.bullet.indent" catalog="system" width="19" height="12"/>
-        <image name="macwindow.badge.plus" catalog="system" width="21" height="16"/>
+        <image name="interface.window.badge.plus" catalog="system" width="21" height="16"/>
         <image name="magnifyingglass" catalog="system" width="16" height="15"/>
         <image name="menuItem:124:secondaryImage" width="15" height="15">
             <mutableData key="keyedArchiveRepresentation">
@@ -1473,7 +1480,7 @@ AAAAFBk
 </mutableData>
         </image>
         <image name="mug" catalog="system" width="16" height="16"/>
-        <image name="number" catalog="system" width="15" height="15"/>
+        <image name="number.sign" catalog="system" width="15" height="15"/>
         <image name="numbers.rectangle" catalog="system" width="18" height="14"/>
         <image name="paintbrush" catalog="system" width="17" height="18"/>
         <image name="paperplane" catalog="system" width="16" height="16"/>
@@ -1481,6 +1488,7 @@ AAAAFBk
         <image name="pencil.slash" catalog="system" width="13" height="13"/>
         <image name="percent" catalog="system" width="15" height="15"/>
         <image name="pin" catalog="system" width="15" height="17"/>
+        <image name="plus" catalog="system" width="14" height="13"/>
         <image name="plus.square.dashed" catalog="system" width="15" height="14"/>
         <image name="plus.square.on.square" catalog="system" width="17" height="16"/>
         <image name="rectangle" catalog="system" width="18" height="14"/>
