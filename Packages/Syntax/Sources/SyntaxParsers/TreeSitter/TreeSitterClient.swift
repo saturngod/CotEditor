@@ -136,8 +136,9 @@ actor TreeSitterClient: IncrementalParsing, HighlightParsing, OutlineParsing {
                 let updateRange = (invalidations.unionRange()?.union(range) ?? range).intersection(parseRange)
             else { return nil }
             
-            let highlights = try self.queryMatches(.highlights, in: updateRange, string: string as NSString)
+            let captures = try self.queryMatches(.highlights, in: updateRange, string: string as NSString)
                 .flatMap(\.captures)
+            let highlights = self.confiningToInjections(captures)
                 .sorted()
                 .resolvingCaptureConflicts()
                 .compactMap(Highlight.init(capture:))
@@ -205,6 +206,10 @@ actor TreeSitterClient: IncrementalParsing, HighlightParsing, OutlineParsing {
     
     // MARK: Private Methods
     
+    /// The capture name that marks the ranges injected to other languages in a highlights query.
+    private static let injectedCaptureName = "_injected"
+    
+    
     /// The current parse range capped by `maximumParseLength`.
     private var parseRange: NSRange {
         
@@ -232,6 +237,38 @@ actor TreeSitterClient: IncrementalParsing, HighlightParsing, OutlineParsing {
         let parseRange = self.parseRange
         if parseRange.length > 0 {
             self.pendingAffectedRanges.update(editedRange: parseRange)
+        }
+    }
+    
+    
+    /// Removes captures of injected languages that extend beyond a single injected range.
+    ///
+    /// All injected ranges of a language are parsed as a single document.
+    /// When the snippets are not valid code on their own, such as the arguments of a Blade directive,
+    /// error recovery can produce nodes that span from one snippet to another over the host language's code.
+    ///
+    /// The injected ranges are obtained from the `@_injected` captures in the highlights query of the root language.
+    ///
+    /// - Parameter captures: The captures to filter.
+    /// - Returns: The filtered captures, or the given captures as-is if the syntax doesn't require the confinement.
+    private func confiningToInjections(_ captures: [QueryCapture]) -> [QueryCapture] {
+        
+        guard
+            self.syntax.confinesInjectedHighlights,
+            captures.contains(where: { $0.depth > 0 })
+        else { return captures }
+        
+        let injectedRanges = captures.lazy
+            .filter { $0.depth == 0 && $0.name == Self.injectedCaptureName }
+            .reduce(into: IndexSet()) { set, capture in
+                guard let range = Range(capture.range), !range.isEmpty else { return }
+                set.insert(integersIn: range)
+            }
+        
+        return captures.filter { capture in
+            guard capture.depth > 0, let range = Range(capture.range), !range.isEmpty else { return true }
+            
+            return injectedRanges.contains(integersIn: range)
         }
     }
     

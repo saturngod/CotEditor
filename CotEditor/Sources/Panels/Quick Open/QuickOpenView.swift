@@ -25,6 +25,7 @@ import StringUtils
 import SyntaxFormat
 import SyntaxParsers
 import Shortcut
+import DocumentFile
 
 struct QuickOpenView: View {
 
@@ -423,8 +424,8 @@ private struct QuickOpenRow: View {
 
         switch self.candidate.value {
             case .file(let item):
-                Image(nsImage: NSWorkspace.shared.icon(forFile: item.fileURL.path(percentEncoded: false)))
-                    .resizable()
+                Image(systemName: File.Kind(pathExtension: item.fileURL.pathExtension, isDirectory: false).symbolName)
+                    .foregroundStyle(self.isSelected ? AnyShapeStyle(.primary) : AnyShapeStyle(.secondary))
             case .symbol(let symbol):
                 if let kind = symbol.kind {
                     kind.icon()

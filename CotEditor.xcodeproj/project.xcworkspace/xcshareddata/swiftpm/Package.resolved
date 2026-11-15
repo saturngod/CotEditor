@@ -1,5 +1,5 @@
 {
-  "originHash" : "fc1b056312194d7b5ce74efca522ae800fe597a97ed27dc1e23d18542bddd3c9",
+  "originHash" : "6feaabb44ec69a01df015921129d05c96e7fbc3520cc8a22d456761e99e96a65",
   "pins" : [
     {
       "identity" : "h",
@@ -89,6 +89,15 @@
       "state" : {
         "revision" : "a06c2e4415e9bc0346c6b86d401879ffb44058f7",
         "version" : "0.25.1"
+      }
+    },
+    {
+      "identity" : "tree-sitter-blade",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/EmranMR/tree-sitter-blade",
+      "state" : {
+        "revision" : "cc764dadcbbceb3f259396fef66f970c72e94f96",
+        "version" : "0.12.3"
       }
     },
     {

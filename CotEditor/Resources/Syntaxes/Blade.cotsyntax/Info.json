@@ -1,0 +1,17 @@
+{
+  "fileMap" : {
+    "extensions" : [
+      "blade.php",
+      "blade"
+    ]
+  },
+  "kind" : "code",
+  "metadata" : {
+    "author" : "saturngod",
+    "description" : "Laravel Blade templates.",
+    "distributionURL" : "https://coteditor.com",
+    "lastModified" : "2026-11-15",
+    "license" : "Same as CotEditor",
+    "version" : "1.0.0"
+  }
+}

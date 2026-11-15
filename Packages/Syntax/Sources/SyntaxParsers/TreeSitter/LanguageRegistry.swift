@@ -27,6 +27,7 @@
 import Foundation
 import Synchronization
 import SwiftTreeSitter
+import TreeSitterPHP
 
 extension Query.Definition {
     
@@ -47,11 +48,18 @@ public final class LanguageRegistry: Sendable {
     
     public static let shared: LanguageRegistry = .init()
     
+    /// The provider/injection names for PHP code without PHP tags.
+    ///
+    /// Multiple names are provided so that a syntax can parse different kinds of PHP fragments,
+    /// such as statements and directive arguments in Blade, as separate documents.
+    static let phpOnlyProviderNames: Set<String> = ["php_only", "php_parameter"]
+    
     
     // MARK: Private Properties
     
     private let directoryURL: URL
     private let cachedConfiguration: Mutex<[TreeSitterSyntax: LanguageConfiguration]> = .init([:])
+    private let cachedPHPOnlyConfiguration: Mutex<LanguageConfiguration?> = .init(nil)
     
     
     // MARK: Lifecycle
@@ -71,9 +79,38 @@ public final class LanguageRegistry: Sendable {
     /// - Returns: A cached or newly created `LanguageConfiguration` if the language is supported, otherwise `nil`.
     nonisolated func languageProvider(name: String) -> LanguageConfiguration? {
         
+        if Self.phpOnlyProviderNames.contains(name.lowercased()) {
+            return self.phpOnlyConfiguration()
+        }
+        
         guard let syntax = TreeSitterSyntax(providerName: name) else { return nil }
         
         return try? self.configuration(for: syntax)
+    }
+    
+    
+    /// Returns (and caches) the configuration for PHP code that is not enclosed in PHP tags.
+    ///
+    /// This language is available only as an injection target, such as for PHP expressions in Blade templates.
+    ///
+    /// - Returns: A language configuration, or `nil` if the PHP highlights query cannot be loaded.
+    nonisolated func phpOnlyConfiguration() -> LanguageConfiguration? {
+        
+        if let cache = self.cachedPHPOnlyConfiguration.withLock({ $0 }) {
+            return cache
+        }
+        
+        // -> Share the highlights query with PHP since `php_only` is a strict subset of the PHP grammar.
+        //    The injections query is not shared because `php_only` has no text nodes to inject HTML into.
+        let language = unsafe Language(tree_sitter_php_only())
+        let queryURL = self.queriesURL(for: .php).appending(path: Query.Definition.highlights.filename)
+        
+        guard let query = try? Query(language: language, url: queryURL) else { return nil }
+        
+        let config = LanguageConfiguration(language, name: "php_only", queries: [.highlights: query])
+        self.cachedPHPOnlyConfiguration.withLock { $0 = config }
+        
+        return config
     }
     
     

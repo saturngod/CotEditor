@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="25098" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="25098"/>
     </dependencies>
     <scenes>
@@ -72,7 +73,7 @@
                                                 <action selector="newDocument:" target="Ady-hI-5gd" id="82J-OW-zaP"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="New Window" secondaryImage="interface.window.badge.plus" catalog="system" keyEquivalent="N" id="cTV-Rh-597">
+                                        <menuItem title="New Window" keyEquivalent="N" id="cTV-Rh-597">
                                             <connections>
                                                 <action selector="newDocumentAsWindow:" target="Ady-hI-5gd" id="O1V-BQ-IdO"/>
                                             </connections>
@@ -504,7 +505,7 @@ Gw
                                             <menu key="submenu" title="Theme" id="165-HJ-Xty"/>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="9GY-M7-uHl"/>
-                                        <menuItem title="Tab Width" secondaryImage="tab.forward" id="djM-fI-MkN">
+                                        <menuItem title="Tab Width" secondaryImage="arrow.right.to.line" catalog="system" id="djM-fI-MkN">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Tab Width" id="xAm-b4-9CY">
                                                 <items>
@@ -554,13 +555,13 @@ Gw
                                                 <action selector="toggleInvisibleChars:" target="Ady-hI-5gd" id="HlM-Aw-tfM"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Show Indent Guides" secondaryImage="text.indentguides" id="Qqu-pI-Xz6">
+                                        <menuItem title="Show Indent Guides" secondaryImage="align.horizontal.left" catalog="system" id="Qqu-pI-Xz6">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="toggleIndentGuides:" target="Ady-hI-5gd" id="Sbg-ca-Seo"/>
                                             </connections>
                                         </menuItem>
-                                        <menuItem title="Show Page Guide" secondaryImage="text.pageguide" id="749">
+                                        <menuItem title="Show Page Guide" secondaryImage="inset.filled.trailingthird.rectangle" catalog="system" id="749">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <connections>
                                                 <action selector="togglePageGuide:" target="Ady-hI-5gd" id="PpX-vI-RUr"/>
@@ -580,7 +581,7 @@ Gw
                                                             <action selector="makeLayoutOrientationHorizontal:" target="Ady-hI-5gd" id="WVo-ax-oWO"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Vertical" secondaryImage="text.vertical" id="bTd-nG-jjc">
+                                                    <menuItem title="Vertical" secondaryImage="arrow.left.and.right.text.vertical" catalog="system" id="bTd-nG-jjc">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="makeLayoutOrientationVertical:" target="Ady-hI-5gd" id="540-j1-Xm4"/>
@@ -802,7 +803,7 @@ Gw
                                                 </items>
                                             </menu>
                                         </menuItem>
-                                        <menuItem title="Comment" secondaryImage="text.commentout" id="yph-qH-qNE">
+                                        <menuItem title="Comment" secondaryImage="text.bubble" catalog="system" id="yph-qH-qNE">
                                             <modifierMask key="keyEquivalentModifierMask"/>
                                             <menu key="submenu" title="Comment" id="EYa-d3-sUR">
                                                 <items>
@@ -812,7 +813,7 @@ Gw
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="WqH-at-5aR"/>
-                                                    <menuItem title="Inline Comment" secondaryImage="text.commentout" id="F6P-7N-LSf">
+                                                    <menuItem title="Inline Comment" secondaryImage="text.bubble" catalog="system" id="F6P-7N-LSf">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <attributedString key="userComments">
                                                             <fragment content="verb, comment out the selection using inline comments"/>
@@ -854,13 +855,13 @@ Gw
                                                         </connections>
                                                     </menuItem>
                                                     <menuItem isSeparatorItem="YES" id="G27-U6-C9J"/>
-                                                    <menuItem title="Convert Indentation to Spaces" secondaryImage="tab.forward.split" id="EOT-3u-f0a">
+                                                    <menuItem title="Convert Indentation to Spaces" secondaryImage="space" catalog="system" id="EOT-3u-f0a">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="convertIndentationToSpaces:" target="Ady-hI-5gd" id="YAf-jR-0e6"/>
                                                         </connections>
                                                     </menuItem>
-                                                    <menuItem title="Convert Indentation to Tabs" secondaryImage="tab.forward" id="q32-Jm-eR3">
+                                                    <menuItem title="Convert Indentation to Tabs" secondaryImage="arrow.right.to.line" catalog="system" id="q32-Jm-eR3">
                                                         <modifierMask key="keyEquivalentModifierMask"/>
                                                         <connections>
                                                             <action selector="convertIndentationToTabs:" target="Ady-hI-5gd" id="kdi-SI-izy"/>
@@ -1195,7 +1196,7 @@ CA
                                             </connections>
                                         </menuItem>
                                         <menuItem isSeparatorItem="YES" id="4p1-Xh-XxQ"/>
-                                        <menuItem title="Go to Line…" secondaryImage="number.sign" catalog="system" keyEquivalent="l" id="eIc-Sj-2mO">
+                                        <menuItem title="Go to Line…" keyEquivalent="l" id="eIc-Sj-2mO">
                                             <connections>
                                                 <action selector="gotoLocation:" target="Ady-hI-5gd" id="Oq7-s2-rmJ"/>
                                             </connections>
@@ -1345,13 +1346,16 @@ CA
         </scene>
     </scenes>
     <resources>
+        <image name="align.horizontal.left" catalog="system" width="18" height="17"/>
         <image name="apple.terminal" catalog="system" width="18" height="14"/>
         <image name="applescript.fill" catalog="system" width="14" height="18"/>
         <image name="arrow.2.squarepath" catalog="system" width="19" height="14"/>
         <image name="arrow.clockwise" catalog="system" width="14" height="16"/>
         <image name="arrow.down.to.line" catalog="system" width="13" height="16"/>
         <image name="arrow.forward.circle" catalog="system" width="15" height="15"/>
+        <image name="arrow.left.and.right.text.vertical" catalog="system" width="16" height="17"/>
         <image name="arrow.left.arrow.right" catalog="system" width="16" height="17"/>
+        <image name="arrow.right.to.line" catalog="system" width="17" height="12"/>
         <image name="arrow.up.arrow.down" catalog="system" width="18" height="15"/>
         <image name="arrow.up.to.line" catalog="system" width="13" height="16"/>
         <image name="at" catalog="system" width="16" height="16"/>
@@ -1381,9 +1385,9 @@ CA
         <image name="inset.filled.leadingthird.rectangle" catalog="system" width="18" height="14"/>
         <image name="inset.filled.tophalf.bottomhalf.rectangle" catalog="system" width="18" height="14"/>
         <image name="inset.filled.topthird.rectangle" catalog="system" width="18" height="14"/>
+        <image name="inset.filled.trailingthird.rectangle" catalog="system" width="18" height="14"/>
         <image name="line.3.horizontal" catalog="system" width="16" height="9"/>
         <image name="list.bullet.indent" catalog="system" width="19" height="12"/>
-        <image name="interface.window.badge.plus" catalog="system" width="21" height="16"/>
         <image name="magnifyingglass" catalog="system" width="16" height="15"/>
         <image name="menuItem:124:secondaryImage" width="15" height="15">
             <mutableData key="keyedArchiveRepresentation">
@@ -1480,7 +1484,6 @@ AAAAFBk
 </mutableData>
         </image>
         <image name="mug" catalog="system" width="16" height="16"/>
-        <image name="number.sign" catalog="system" width="15" height="15"/>
         <image name="numbers.rectangle" catalog="system" width="18" height="14"/>
         <image name="paintbrush" catalog="system" width="17" height="18"/>
         <image name="paperplane" catalog="system" width="16" height="16"/>
@@ -1497,20 +1500,17 @@ AAAAFBk
         <image name="return" catalog="system" width="17" height="14"/>
         <image name="sidebar.leading" catalog="system" width="18" height="14"/>
         <image name="sidebar.trailing" catalog="system" width="18" height="14"/>
+        <image name="space" catalog="system" width="19" height="7"/>
         <image name="sparkles" catalog="system" width="15" height="17"/>
         <image name="square.and.arrow.up" catalog="system" width="15" height="18"/>
         <image name="square.and.pencil" catalog="system" width="17" height="16"/>
-        <image name="tab.forward" width="12" height="10"/>
-        <image name="tab.forward.split" width="12" height="10"/>
         <image name="text.alignleft" catalog="system" width="16" height="13"/>
         <image name="text.alignright" catalog="system" width="16" height="13"/>
         <image name="text.append" catalog="system" width="16" height="13"/>
+        <image name="text.bubble" catalog="system" width="17" height="16"/>
         <image name="text.commentout" width="12" height="11"/>
-        <image name="text.indentguides" width="12" height="10"/>
         <image name="text.line.magnify" catalog="system" width="16" height="14"/>
         <image name="text.page.badge.magnifyingglass" catalog="system" width="15" height="18"/>
-        <image name="text.pageguide" width="12" height="10"/>
-        <image name="text.vertical" width="9" height="11"/>
         <image name="text.viewfinder" catalog="system" width="16" height="15"/>
         <image name="textformat" catalog="system" width="18" height="12"/>
         <image name="textformat.characters" catalog="system" width="25" height="12"/>

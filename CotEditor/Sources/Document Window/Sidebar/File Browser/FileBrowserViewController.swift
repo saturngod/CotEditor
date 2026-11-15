@@ -1464,7 +1464,7 @@ private final class FileBrowserTableCellView: NSTableCellView {
         
         let aliasArrowView = NSImageView()
         aliasArrowView.alignment = .center
-        aliasArrowView.image = .arrowAliasFill
+        aliasArrowView.image = NSImage(systemSymbolName: "arrowshape.turn.up.right.fill", accessibilityDescription: nil)
         aliasArrowView.symbolConfiguration = .init(paletteColors: [.labelColor, .controlBackgroundColor])
         aliasArrowView.setAccessibilityLabel(String(localized: "Alias", table: "Document", comment: "accessibility label"))
         aliasArrowView.setAccessibilityRoleDescription(nil)
@@ -1535,7 +1535,7 @@ private extension FinderTag.Color {
 }
 
 
-private extension File.Kind {
+extension File.Kind {
     
     /// The system symbol name for label image.
     var symbolName: String {

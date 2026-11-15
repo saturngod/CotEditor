@@ -42,6 +42,12 @@
       "bibtex"
     ]
   },
+  "Blade" : {
+    "extensions" : [
+      "blade.php",
+      "blade"
+    ]
+  },
   "C" : {
     "extensions" : [
       "c",

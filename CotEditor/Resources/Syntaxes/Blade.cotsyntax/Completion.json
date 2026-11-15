@@ -1,0 +1,308 @@
+[
+  {
+    "text" : "@append"
+  },
+  {
+    "text" : "@auth"
+  },
+  {
+    "text" : "@aware"
+  },
+  {
+    "text" : "@break"
+  },
+  {
+    "text" : "@can"
+  },
+  {
+    "text" : "@canany"
+  },
+  {
+    "text" : "@cannot"
+  },
+  {
+    "text" : "@case"
+  },
+  {
+    "text" : "@checked"
+  },
+  {
+    "text" : "@choice"
+  },
+  {
+    "text" : "@class"
+  },
+  {
+    "text" : "@component"
+  },
+  {
+    "text" : "@continue"
+  },
+  {
+    "text" : "@csrf"
+  },
+  {
+    "text" : "@dd"
+  },
+  {
+    "text" : "@default"
+  },
+  {
+    "text" : "@disabled"
+  },
+  {
+    "text" : "@dump"
+  },
+  {
+    "text" : "@each"
+  },
+  {
+    "text" : "@else"
+  },
+  {
+    "text" : "@elseif"
+  },
+  {
+    "text" : "@empty"
+  },
+  {
+    "text" : "@endauth"
+  },
+  {
+    "text" : "@endcan"
+  },
+  {
+    "text" : "@endcanany"
+  },
+  {
+    "text" : "@endcannot"
+  },
+  {
+    "text" : "@endcomponent"
+  },
+  {
+    "text" : "@endempty"
+  },
+  {
+    "text" : "@endenv"
+  },
+  {
+    "text" : "@enderror"
+  },
+  {
+    "text" : "@endfor"
+  },
+  {
+    "text" : "@endforeach"
+  },
+  {
+    "text" : "@endforelse"
+  },
+  {
+    "text" : "@endfragment"
+  },
+  {
+    "text" : "@endguest"
+  },
+  {
+    "text" : "@endif"
+  },
+  {
+    "text" : "@endisset"
+  },
+  {
+    "text" : "@endonce"
+  },
+  {
+    "text" : "@endphp"
+  },
+  {
+    "text" : "@endprepend"
+  },
+  {
+    "text" : "@endproduction"
+  },
+  {
+    "text" : "@endpush"
+  },
+  {
+    "text" : "@endPushOnce"
+  },
+  {
+    "text" : "@endsection"
+  },
+  {
+    "text" : "@endsession"
+  },
+  {
+    "text" : "@endslot"
+  },
+  {
+    "text" : "@endswitch"
+  },
+  {
+    "text" : "@endunless"
+  },
+  {
+    "text" : "@endverbatim"
+  },
+  {
+    "text" : "@endwhile"
+  },
+  {
+    "text" : "@env"
+  },
+  {
+    "text" : "@error"
+  },
+  {
+    "text" : "@extends"
+  },
+  {
+    "text" : "@for"
+  },
+  {
+    "text" : "@foreach"
+  },
+  {
+    "text" : "@forelse"
+  },
+  {
+    "text" : "@fragment"
+  },
+  {
+    "text" : "@guest"
+  },
+  {
+    "text" : "@hasSection"
+  },
+  {
+    "text" : "@if"
+  },
+  {
+    "text" : "@include"
+  },
+  {
+    "text" : "@includeFirst"
+  },
+  {
+    "text" : "@includeIf"
+  },
+  {
+    "text" : "@includeUnless"
+  },
+  {
+    "text" : "@includeWhen"
+  },
+  {
+    "text" : "@inject"
+  },
+  {
+    "text" : "@isset"
+  },
+  {
+    "text" : "@js"
+  },
+  {
+    "text" : "@json"
+  },
+  {
+    "text" : "@lang"
+  },
+  {
+    "text" : "@livewire"
+  },
+  {
+    "text" : "@livewireScripts"
+  },
+  {
+    "text" : "@livewireStyles"
+  },
+  {
+    "text" : "@method"
+  },
+  {
+    "text" : "@once"
+  },
+  {
+    "text" : "@overwrite"
+  },
+  {
+    "text" : "@parent"
+  },
+  {
+    "text" : "@php"
+  },
+  {
+    "text" : "@prepend"
+  },
+  {
+    "text" : "@production"
+  },
+  {
+    "text" : "@props"
+  },
+  {
+    "text" : "@push"
+  },
+  {
+    "text" : "@pushOnce"
+  },
+  {
+    "text" : "@readonly"
+  },
+  {
+    "text" : "@required"
+  },
+  {
+    "text" : "@section"
+  },
+  {
+    "text" : "@sectionMissing"
+  },
+  {
+    "text" : "@selected"
+  },
+  {
+    "text" : "@session"
+  },
+  {
+    "text" : "@show"
+  },
+  {
+    "text" : "@slot"
+  },
+  {
+    "text" : "@stack"
+  },
+  {
+    "text" : "@stop"
+  },
+  {
+    "text" : "@style"
+  },
+  {
+    "text" : "@switch"
+  },
+  {
+    "text" : "@unless"
+  },
+  {
+    "text" : "@use"
+  },
+  {
+    "text" : "@verbatim"
+  },
+  {
+    "text" : "@vite"
+  },
+  {
+    "text" : "@viteReactRefresh"
+  },
+  {
+    "text" : "@while"
+  },
+  {
+    "text" : "@yield"
+  }
+]

@@ -65,6 +65,7 @@ struct TreeSitterSampleHighlightTests {
         
         switch syntax {
             case .bash: "test.sh"
+            case .blade: "test.blade.php"
             case .c: "test.c"
             case .cpp: "test.cpp"
             case .cSharp: "test.cs"

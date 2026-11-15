@@ -27,6 +27,7 @@
 public import SyntaxFormat
 
 import TreeSitterBash
+import TreeSitterBlade
 import TreeSitterC
 import TreeSitterCPP
 import TreeSitterCSharp
@@ -52,6 +53,7 @@ import TreeSitterTypeScript
 public enum TreeSitterSyntax: String, CaseIterable, Sendable {
     
     case bash = "Bash"
+    case blade = "Blade"
     case c = "C"
     case cpp = "C++"
     case cSharp = "C#"
@@ -81,8 +83,21 @@ public enum TreeSitterSyntax: String, CaseIterable, Sendable {
     public var features: ParserFeatures {
         
         switch self {
+            case .blade: [.highlight]
             case .markdown: [.outline]
             default: [.highlight, .outline]
+        }
+    }
+    
+    
+    /// Whether highlights of injected languages must stay within a single injected range.
+    ///
+    /// This is required for syntaxes that inject code fragments that are not valid on their own.
+    var confinesInjectedHighlights: Bool {
+        
+        switch self {
+            case .blade: true
+            default: false
         }
     }
     
@@ -103,6 +118,7 @@ public enum TreeSitterSyntax: String, CaseIterable, Sendable {
         
         switch self {
             case .bash: unsafe tree_sitter_bash()
+            case .blade: unsafe tree_sitter_blade()
             case .c: unsafe tree_sitter_c()
             case .cpp: unsafe tree_sitter_cpp()
             case .cSharp: unsafe tree_sitter_c_sharp()

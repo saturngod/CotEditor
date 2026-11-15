@@ -135,7 +135,7 @@ extension File.Kind {
     /// - Parameters:
     ///   - pathExtension: The path extension of the file.
     ///   - isDirectory: Whether the corresponding file is a directory.
-    init(pathExtension: String, isDirectory: Bool) {
+    public init(pathExtension: String, isDirectory: Bool) {
         
         if isDirectory {
             self = .folder

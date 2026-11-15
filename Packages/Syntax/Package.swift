@@ -23,6 +23,7 @@ let package = Package(
         .package(url: "https://github.com/tree-sitter/swift-tree-sitter", .upToNextMinor(from: Version(0, 10, 0))),
         
         .package(url: "https://github.com/tree-sitter/tree-sitter-bash", from: Version(0, 25, 1)),
+        .package(url: "https://github.com/EmranMR/tree-sitter-blade", from: Version(0, 12, 3)),
         .package(url: "https://github.com/tree-sitter/tree-sitter-c", from: Version(0, 24, 2)),
         .package(url: "https://github.com/tree-sitter/tree-sitter-cpp", from: Version(0, 23, 4)),
         .package(url: "https://github.com/tree-sitter/tree-sitter-c-sharp", from: Version(0, 23, 5)),
@@ -63,6 +64,7 @@ let package = Package(
                 "SyntaxFormat",
                 .product(name: "SwiftTreeSitterLayer", package: "swift-tree-sitter"),
                 .product(name: "TreeSitterBash", package: "tree-sitter-bash"),
+                .product(name: "TreeSitterBlade", package: "tree-sitter-blade"),
                 .product(name: "TreeSitterC", package: "tree-sitter-c"),
                 .product(name: "TreeSitterCPP", package: "tree-sitter-cpp"),
                 .product(name: "TreeSitterCSharp", package: "tree-sitter-c-sharp"),

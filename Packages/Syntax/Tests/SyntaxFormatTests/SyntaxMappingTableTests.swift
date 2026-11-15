@@ -57,6 +57,23 @@ struct SyntaxMappingTableTests {
     }
     
     
+    @Test func syntaxNameForCompoundExtension() {
+        
+        let table = SyntaxMappingTable(extensions: ["php": ["PHP"], "blade.php": ["Blade"], "json": ["JSON"]])
+        
+        #expect(table.syntaxName(forFilename: "welcome.blade.php") == "Blade")
+        #expect(table.syntaxName(forFilename: "Welcome.Blade.PHP") == "Blade")
+        #expect(table.syntaxName(forFilename: "layouts.app.blade.php") == "Blade")
+        #expect(table.syntaxName(forFilename: "index.php") == "PHP")
+        #expect(table.syntaxName(forFilename: "blade.php") == "PHP")
+        #expect(table.syntaxName(forFilename: ".blade.php") == "PHP")
+        #expect(table.syntaxName(forFilename: "archive.min.json") == "JSON")
+        #expect(table.syntaxName(forFilename: ".config.json") == "JSON")
+        #expect(table.syntaxName(forFilename: "name with space.json") == "JSON")
+        #expect(table.syntaxName(forFilename: "file.unknown") == nil)
+    }
+    
+    
     @Test func syntaxNameForExtensionCaseInsensitive() {
         
         let table = SyntaxMappingTable(extensions: ["Swift": ["Swift"]])

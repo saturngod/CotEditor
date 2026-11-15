@@ -76,7 +76,7 @@ extension EditorTextView {
             case .comment:
                 let item = NSCustomTouchBarItem(identifier: identifier)
                 item.customizationLabel = String(localized: "Toolbar.comment.label", defaultValue: "Comment", table: "Document", comment: "verb, toggle commenting of the selection")
-                item.view = NSButton(image: NSImage(resource: .textCommentout), target: self, action: #selector(toggleComment))
+                item.view = NSButton(image: NSImage(systemSymbolName: "text.bubble", accessibilityDescription: item.customizationLabel)!, target: self, action: #selector(toggleComment))
                 return item
                 
             case .textSize:

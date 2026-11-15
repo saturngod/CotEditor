@@ -855,7 +855,7 @@ extension DocumentWindowController: NSToolbarDelegate {
                                             defaultValue: "Vertical", table: "Document")
                 verticalItem.toolTip = String(localized: "Toolbar.textOrientation.verticalText.tooltip",
                                               defaultValue: "Vertical", table: "Document")
-                verticalItem.image = NSImage(resource: .textVertical)
+                verticalItem.image = NSImage(systemSymbolName: "arrow.left.and.right.text.vertical", accessibilityDescription: verticalItem.label)
                 verticalItem.action = #selector(DocumentViewController.makeLayoutOrientationVertical)
                 
                 let item = NSToolbarItemGroup(itemIdentifier: itemIdentifier)
@@ -905,7 +905,7 @@ extension DocumentWindowController: NSToolbarDelegate {
                                     comment: "verb, toggle commenting of the selection")
                 item.toolTip = String(localized: "Toolbar.comment.tooltip",
                                       defaultValue: "Comment-out or uncomment selection", table: "Document")
-                item.image = NSImage(resource: .textCommentout)
+                item.image = NSImage(systemSymbolName: "text.bubble", accessibilityDescription: item.label)
                 item.action = #selector(EditorTextView.toggleComment)
                 return item
                 
@@ -916,8 +916,8 @@ extension DocumentWindowController: NSToolbarDelegate {
                                     comment: "Tab refers to indentation")
                 item.toolTip = String(localized: "Toolbar.tabStyle.tooltip.off",
                                       defaultValue: "Use spaces for indentation", table: "Document")
-                item.stateImages[.on] = NSImage(resource: .tabForwardSplit)
-                item.stateImages[.off] = NSImage(resource: .tabForward)
+                item.stateImages[.on] = NSImage(systemSymbolName: "space", accessibilityDescription: item.label)
+                item.stateImages[.off] = NSImage(systemSymbolName: "arrow.right.to.line", accessibilityDescription: item.label)
                 item.action = #selector(DocumentViewController.toggleAutoTabExpand)
                 item.menu.items = [
                     .sectionHeader(title: String(localized: "Toolbar.tabStyle.menu.tabWidth.label",
@@ -944,8 +944,8 @@ extension DocumentWindowController: NSToolbarDelegate {
                                     defaultValue: "Line Wrapping", table: "Document")
                 item.toolTip = String(localized: "Toolbar.wrapLines.tooltip.off",
                                       defaultValue: "Wrap lines", table: "Document")
-                item.stateImages[.on] = NSImage(resource: .textWrapSlash)
-                item.stateImages[.off] = NSImage(resource: .textWrap)
+                item.stateImages[.on] = NSImage(systemSymbolName: "arrow.left.and.right", accessibilityDescription: item.label)
+                item.stateImages[.off] = NSImage(systemSymbolName: "arrow.turn.down.left", accessibilityDescription: item.label)
                 item.action = #selector(DocumentViewController.toggleLineWrap)
                 item.menuFormRepresentation = NSMenuItem(title: item.label, action: item.action, keyEquivalent: "")
                 return item
@@ -956,7 +956,7 @@ extension DocumentWindowController: NSToolbarDelegate {
                                     defaultValue: "Invisibles", table: "Document")
                 item.toolTip = String(localized: "Toolbar.invisibles.tooltip.off",
                                       defaultValue: "Show invisible characters", table: "Document")
-                item.stateImages[.on] = NSImage(resource: .paragraphsignSlash)
+                item.stateImages[.on] = NSImage(systemSymbolName: "eye.slash", accessibilityDescription: item.label)
                 item.stateImages[.off] = NSImage(systemSymbolName: "paragraphsign", accessibilityDescription: item.label)
                 item.action = #selector(DocumentViewController.toggleInvisibleChars)
                 item.menuFormRepresentation = NSMenuItem(title: item.label, action: item.action, keyEquivalent: "")
@@ -968,9 +968,9 @@ extension DocumentWindowController: NSToolbarDelegate {
                                     defaultValue: "Indent Guides", table: "Document")
                 item.toolTip = String(localized: "Toolbar.indentGuides.tooltip.off",
                                       defaultValue: "Show indent guide lines", table: "Document")
-                item.stateImages[.on] = NSImage(resource: .textIndentguides)
-                    .withSymbolConfiguration(.init(paletteColors: [.tertiaryLabelColor, .labelColor]))
-                item.stateImages[.off] = NSImage(resource: .textIndentguides)
+                item.stateImages[.on] = NSImage(systemSymbolName: "align.horizontal.left", accessibilityDescription: item.label)?
+                    .withSymbolConfiguration(.init(paletteColors: [.controlAccentColor]))
+                item.stateImages[.off] = NSImage(systemSymbolName: "align.horizontal.left", accessibilityDescription: item.label)
                 item.action = #selector(DocumentViewController.toggleIndentGuides)
                 item.menuFormRepresentation = NSMenuItem(title: item.label, action: item.action, keyEquivalent: "")
                 return item
@@ -1014,7 +1014,7 @@ extension DocumentWindowController: NSToolbarDelegate {
                                     defaultValue: "Emoji & Symbols", table: "Document")
                 item.toolTip = String(localized: "Toolbar.emojiAndSymbols.tooltip",
                                       defaultValue: "Show Emoji & Symbols", table: "Document")
-                item.image = NSImage(resource: .emoji)
+                item.image = NSImage(systemSymbolName: "face.smiling", accessibilityDescription: item.label)
                 item.action = #selector(NSApplication.orderFrontCharacterPalette)
                 return item
                 

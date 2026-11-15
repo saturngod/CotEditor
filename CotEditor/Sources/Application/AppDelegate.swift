@@ -496,6 +496,18 @@ extension Logger {
         
         self.syntaxesMenu?.delegate = self
         
+        // set the symbols renamed in macOS 27 programmatically so that they are available also in macOS 26
+        // (the storyboard accepts either only the deprecated name or only the new name)
+        let symbolNames: [(action: Selector, symbolName: String)] = [
+            (#selector(DocumentController.newDocumentAsWindow), "macwindow.badge.plus"),
+            (#selector(EditorTextViewController.gotoLocation), "number"),
+        ]
+        for (action, symbolName) in symbolNames {
+            let item = NSApp.mainMenu?.firstItem(withAction: action)
+            assert(item != nil)
+            item?.image = NSImage(systemSymbolName: symbolName, accessibilityDescription: nil)
+        }
+        
         self.updateEncodingMenu(self.encodingsMenu!)
         
         self.lineEndingsMenu?.items = LineEnding.allCases.map { lineEnding in
@@ -683,5 +695,23 @@ private extension UnicodeNormalizationForm {
     var tag: Int {
         
         Self.allCases.firstIndex(of: self)!
+    }
+}
+
+
+private extension NSMenu {
+    
+    /// Finds the first menu item that has the given action by searching also in submenus.
+    ///
+    /// - Parameter action: The action selector to find.
+    /// - Returns: The menu item, or `nil` if not found.
+    func firstItem(withAction action: Selector) -> NSMenuItem? {
+        
+        for item in self.items {
+            if item.action == action { return item }
+            if let found = item.submenu?.firstItem(withAction: action) { return found }
+        }
+        
+        return nil
     }
 }

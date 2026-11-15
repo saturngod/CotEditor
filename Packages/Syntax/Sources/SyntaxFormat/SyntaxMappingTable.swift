@@ -81,9 +81,24 @@ public struct SyntaxMappingTable: Equatable, Sendable {
             return name
         }
         
-        guard let pathExtension = filename.pathExtension else { return nil }
+        // -> Prefer the longest matching extension so that compound extensions,
+        //    such as `blade.php`, take precedence over their last component.
+        let components = filename.lowercased().split(separator: ".", omittingEmptySubsequences: false)
         
-        return self.extensions[pathExtension.lowercased()]?.first
+        for index in components.indices.dropFirst() {
+            // -> A leading dot doesn't start an extension, e.g. `.swift`.
+            guard components[..<index].contains(where: { !$0.isEmpty }) else { continue }
+            
+            let pathExtension = components[index...].joined(separator: ".")
+            
+            guard !pathExtension.isEmpty else { continue }
+            
+            if let name = self.extensions[pathExtension]?.first {
+                return name
+            }
+        }
+        
+        return nil
     }
     
     
