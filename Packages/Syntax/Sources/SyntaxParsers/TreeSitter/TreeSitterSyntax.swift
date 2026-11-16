@@ -48,6 +48,7 @@ import TreeSitterRust
 import TreeSitterScala
 import TreeSitterSql
 import TreeSitterSwift
+import TreeSitterTSX
 import TreeSitterTypeScript
 
 public enum TreeSitterSyntax: String, CaseIterable, Sendable {
@@ -62,6 +63,7 @@ public enum TreeSitterSyntax: String, CaseIterable, Sendable {
     case html = "HTML"
     case java = "Java"
     case javaScript = "JavaScript"
+    case jsx = "JSX"
     case kotlin = "Kotlin"
     case latex = "LaTeX"
     case lua = "Lua"
@@ -74,6 +76,7 @@ public enum TreeSitterSyntax: String, CaseIterable, Sendable {
     case scala = "Scala"
     case sql = "SQL"
     case swift = "Swift"
+    case tsx = "TSX"
     case typeScript = "TypeScript"
     
     var name: String  { self.rawValue }
@@ -126,7 +129,7 @@ public enum TreeSitterSyntax: String, CaseIterable, Sendable {
             case .go: unsafe tree_sitter_go()
             case .html: unsafe tree_sitter_html()
             case .java: unsafe tree_sitter_java()
-            case .javaScript: unsafe tree_sitter_javascript()
+            case .javaScript, .jsx: unsafe tree_sitter_javascript()
             case .kotlin: unsafe tree_sitter_kotlin()
             case .latex: unsafe tree_sitter_latex()
             case .lua: unsafe tree_sitter_lua()
@@ -139,6 +142,7 @@ public enum TreeSitterSyntax: String, CaseIterable, Sendable {
             case .scala: unsafe tree_sitter_scala()
             case .sql: unsafe tree_sitter_sql()
             case .swift: unsafe tree_sitter_swift()
+            case .tsx: unsafe tree_sitter_tsx()
             case .typeScript: unsafe tree_sitter_typescript()
         }
     }

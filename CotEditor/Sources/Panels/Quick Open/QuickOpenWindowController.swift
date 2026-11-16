@@ -20,6 +20,7 @@
 //
 
 import AppKit
+import Defaults
 import SwiftUI
 import StringUtils
 import SyntaxParsers
@@ -50,7 +51,7 @@ final class QuickOpenWindowController: NSWindowController {
     init() {
 
         let panel = QuickOpenPanel(contentRect: .zero, styleMask: [.borderless, .fullSizeContentView], backing: .buffered, defer: false)
-        let hostingView = NSHostingView(rootView: QuickOpenView(model: self.model))
+        let hostingView = QuickOpenHostingView(rootView: QuickOpenView(model: self.model))
         hostingView.sizingOptions = [.intrinsicContentSize]
         hostingView.safeAreaRegions = []
 
@@ -224,6 +225,8 @@ final class QuickOpenWindowController: NSWindowController {
         recents += (openURLs + recentURLs).filter { rootURL.isAncestor(of: $0) }
         self.model.recentURLs = recents.uniqued
 
+        let includesGitIgnoredFiles = UserDefaults.standard[.folderFindIncludesGitIgnoredFiles]
+
         if let cache = self.cache, cache.rootURL == rootURL {
             self.model.items = cache.items
         } else {
@@ -234,7 +237,7 @@ final class QuickOpenWindowController: NSWindowController {
         self.model.isLoading = true
         self.loadTask?.cancel()
         self.loadTask = Task { [weak self] in
-            let items = await QuickOpenFileCollector.collect(in: rootURL)
+            let items = await QuickOpenFileCollector.collect(in: rootURL, includesGitIgnoredFiles: includesGitIgnoredFiles)
             guard !Task.isCancelled, let self else { return }
 
             self.cache = (rootURL, items)
@@ -376,6 +379,27 @@ final class QuickOpenWindowController: NSWindowController {
 
 
 // MARK: - Private Classes
+
+private final class QuickOpenHostingView: NSHostingView<QuickOpenView> {
+
+    override func invalidateIntrinsicContentSize() {
+
+        super.invalidateIntrinsicContentSize()
+
+        // fit the panel to the content explicitly, keeping its top edge (anchored in `QuickOpenPanel.setFrame(_:display:)`)
+        DispatchQueue.main.async { [weak self] in
+            guard let self, let window = self.window, window.isVisible else { return }
+
+            let size = self.intrinsicContentSize
+            guard size.height > 0, size.height != window.frame.height else { return }
+
+            var frame = window.frame
+            frame.size.height = size.height
+            window.setFrame(frame, display: true)
+        }
+    }
+}
+
 
 private final class QuickOpenPanel: NSPanel {
 

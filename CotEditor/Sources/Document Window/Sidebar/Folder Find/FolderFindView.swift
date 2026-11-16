@@ -137,6 +137,7 @@ private struct FolderFindControlView: View {
     @AppStorage(.folderFindUsesRegularExpression) private var usesRegularExpression: Bool
     @AppStorage(.folderFindIgnoresCase) private var ignoresCase: Bool
     @AppStorage(.folderFindIncludesHiddenFiles) private var includesHiddenFiles: Bool
+    @AppStorage(.folderFindIncludesGitIgnoredFiles) private var includesGitIgnoredFiles: Bool
     @AppStorage(.folderFindIncludesOtherFileTypes) private var includesOtherFileTypes: Bool
     
     
@@ -186,6 +187,7 @@ private struct FolderFindControlView: View {
                                 usesRegularExpression: self.usesRegularExpression,
                                 ignoresCase: self.ignoresCase,
                                 includesHiddenFiles: self.includesHiddenFiles,
+                                includesGitIgnoredFiles: self.includesGitIgnoredFiles,
                                 includesOtherFileTypes: self.includesOtherFileTypes,
                                 fileScope: self.fileScopeSelection.fileScope.isEmpty ? nil : self.fileScopeSelection.fileScope)
             }
@@ -195,6 +197,7 @@ private struct FolderFindControlView: View {
             
             FileScopeMenu(selection: $fileScopeSelection,
                           includesHiddenFiles: $includesHiddenFiles,
+                          includesGitIgnoredFiles: $includesGitIgnoredFiles,
                           includesOtherFileTypes: $includesOtherFileTypes)
         }
     }
@@ -212,6 +215,7 @@ private struct FileScopeMenu: View {
     
     @Binding var selection: FileScopeSelection
     @Binding var includesHiddenFiles: Bool
+    @Binding var includesGitIgnoredFiles: Bool
     @Binding var includesOtherFileTypes: Bool
     
     @Environment(\.accessibilityDifferentiateWithoutColor) private var differentiateWithoutColor
@@ -226,6 +230,7 @@ private struct FileScopeMenu: View {
         Menu {
             Section {
                 Toggle(.init("Include Hidden Files", table: "Document", comment: "verb; menu item"), isOn: $includesHiddenFiles)
+                Toggle(.init("Include Git-Ignored Files", table: "Document", comment: "verb; menu item"), isOn: $includesGitIgnoredFiles)
                 Toggle(.init("Include Other File Types", table: "Document", comment: "verb; menu item"), isOn: $includesOtherFileTypes)
             }
             

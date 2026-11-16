@@ -70,6 +70,11 @@ extension NSTextView: EditorCounter.Source { }
     // MARK: Public Properties
     
     @objc var isEditable = true  { didSet { self.invalidateRestorableState() } }  // @objc for AppleScript support
+    
+    /// Whether the document lines were split for display because they were too long for TextKit to lay out.
+    ///
+    /// Such a document is shown read-only and cannot be saved, so the file on disk keeps its original content.
+    private(set) var hasSplitLongLines = false
     var isTransient = false  // untitled & empty document that was created automatically
     
     nonisolated var isVerticalText: Bool {
@@ -101,6 +106,8 @@ extension NSTextView: EditorCounter.Source { }
     private var isExecutable = false
     private var isExternalUpdateAlertPending = false
     private var isInconsistentLineEndingAlertPending = false
+    private var isSplitLongLinesAlertPending = false
+    private var didShowSplitLongLinesAlert = false
     private var suppressesInconsistentLineEndingAlert = false
     private var allowsLossySaving = false
     private var saveOptions: SaveOptions?
@@ -184,7 +191,7 @@ extension NSTextView: EditorCounter.Source { }
             self.allowsLossySaving = coder.decodeBool(forKey: SerializationKey.allowsLossySaving)
         }
         if coder.containsValue(forKey: SerializationKey.isEditable) {
-            self.isEditable = coder.decodeBool(forKey: SerializationKey.isEditable)
+            self.isEditable = coder.decodeBool(forKey: SerializationKey.isEditable) && !self.hasSplitLongLines
         }
         if coder.containsValue(forKey: SerializationKey.isTransient) {
             self.isTransient = coder.decodeBool(forKey: SerializationKey.isTransient)
@@ -366,7 +373,13 @@ extension NSTextView: EditorCounter.Source { }
         // .readingEncoding is only valid once
         self.readingEncoding.withLock { $0 = nil }
         
-        let (string, fileEncoding) = try String.string(data: data, decodingStrategy: strategy)
+        let (originalString, fileEncoding) = try String.string(data: data, decodingStrategy: strategy)
+        
+        // split extremely long lines that TextKit cannot lay out in reasonable time
+        let splitString = originalString.splittingLongLines(maximumLineLength: LongLineLimit.maximumLineLength,
+                                                            chunkLength: LongLineLimit.chunkLength)
+        let string = splitString ?? originalString
+        let hasSplitLongLines = (splitString != nil)
         
         // store file data in order to check the file content identity in `presentedItemDidChange()`
         self.fileData.withLock { $0 = data }
@@ -385,6 +398,10 @@ extension NSTextView: EditorCounter.Source { }
             if let openOptions {
                 self.isEditable = !openOptions.isReadOnly
             }
+            self.hasSplitLongLines = hasSplitLongLines
+            if hasSplitLongLines {
+                self.isEditable = false
+            }
             
             // do not save `com.apple.TextEncoding` extended attribute if it doesn't exists
             self.shouldSaveEncodingXattr = (extendedAttributes.encoding != nil)
@@ -395,7 +412,7 @@ extension NSTextView: EditorCounter.Source { }
                 self.isVerticalText = true
             }
             
-            if extendedAttributes.allowsInconsistentLineEndings {
+            if extendedAttributes.allowsInconsistentLineEndings || hasSplitLongLines {
                 self.suppressesInconsistentLineEndingAlert = true
             }
             
@@ -411,8 +428,9 @@ extension NSTextView: EditorCounter.Source { }
             self.lineEnding = self.lineEndingScanner.lineEndings.majorValue() ?? self.lineEnding  // keep default if no line endings are found
             
             // determine syntax (only on the first file open)
+            // -> Skip for documents with split long lines to avoid highlighting huge content.
             if !isInitialized {
-                if let syntaxName = SyntaxManager.shared.settingName(documentName: url.lastPathComponent, content: string) {
+                if !hasSplitLongLines, let syntaxName = SyntaxManager.shared.settingName(documentName: url.lastPathComponent, content: string) {
                     self.setSyntax(name: syntaxName)
                 }
                 self.isInitialized.withLock { $0 = true }
@@ -474,6 +492,11 @@ extension NSTextView: EditorCounter.Source { }
     
     
     override func save(to url: URL, ofType typeName: String, for saveOperation: NSDocument.SaveOperationType, completionHandler: @escaping (any Error?) -> Void) {
+        
+        // never write the content with line breaks inserted for display
+        guard !self.hasSplitLongLines else {
+            return completionHandler(SplitLongLinesSavingError())
+        }
         
         // check if the content can be saved with the current text encoding
         guard saveOperation.isAutosaveElsewhere || self.allowsLossySaving || self.canBeConverted() else {
@@ -931,6 +954,9 @@ extension NSTextView: EditorCounter.Source { }
                 }
                 
             case #selector(toggleEditable):
+                if self.hasSplitLongLines {
+                    return false
+                }
                 if let item = item as? NSMenuItem {
                     item.title = self.isEditable
                         ? String(localized: "Prevent Editing", table: "MainMenu", comment: "noun; menu item")
@@ -1255,6 +1281,8 @@ extension NSTextView: EditorCounter.Source { }
     /// Toggles the state of the read-only mode.
     @IBAction func toggleEditable(_ sender: Any?) {
         
+        guard !self.hasSplitLongLines else { return NSSound.beep() }
+        
         self.isEditable.toggle()
     }
     
@@ -1370,6 +1398,11 @@ extension NSTextView: EditorCounter.Source { }
         // show alert if line endings are inconsistent
         if !self.lineEndingScanner.inconsistentLineEndings.isEmpty, !self.isBrowsingVersions {
             self.showInconsistentLineEndingAlert()
+        }
+        
+        // inform that long lines were split for display
+        if self.hasSplitLongLines, !self.isBrowsingVersions {
+            self.showSplitLongLinesAlert()
         }
     }
     
@@ -1538,6 +1571,41 @@ extension NSTextView: EditorCounter.Source { }
                     default:  // = Cancel (or the sheet was dismissed programmatically)
                         finishActivity()
                 }
+            }
+        }
+    }
+    
+    
+    /// Displays an alert explaining that long lines were split for display and the document is read-only.
+    private func showSplitLongLinesAlert() {
+        
+        // avoid queuing the same alert twice
+        guard !self.isSplitLongLinesAlertPending, !self.didShowSplitLongLinesAlert else { return }
+        
+        self.isSplitLongLinesAlertPending = true
+        
+        self.performActivity(withSynchronousWaiting: false) { [unowned self] activityCompletionHandler in
+            guard let documentWindow = self.windowForSheet else {
+                self.isSplitLongLinesAlertPending = false
+                activityCompletionHandler()
+                return
+            }
+            
+            let limit = Int64(LongLineLimit.maximumLineLength).formatted(.byteCount(style: .memory))
+            
+            let alert = NSAlert()
+            alert.alertStyle = .informational
+            alert.messageText = String(localized: "SplitLongLinesAlert.message",
+                                       defaultValue: "This document has lines too long to display.")
+            alert.informativeText = String(localized: "SplitLongLinesAlert.informativeText",
+                                           defaultValue: "Lines longer than \(limit) were split into shorter lines for display. To keep the file unchanged, the document is read-only and can’t be saved.")
+            alert.addButton(withTitle: String(localized: .ok))
+            
+            Task {
+                _ = await alert.beginSheetModal(for: documentWindow)
+                self.isSplitLongLinesAlertPending = false
+                self.didShowSplitLongLinesAlert = true
+                activityCompletionHandler()
             }
         }
     }
@@ -1836,6 +1904,36 @@ struct LossyEncodingError: LocalizedError, RecoverableError {
     func attemptRecovery(optionIndex recoveryOptionIndex: Int) -> Bool {
         
         (recoveryOptionIndex == 0)
+    }
+}
+
+
+/// The limits to split long lines on reading files.
+///
+/// TextKit lays out a whole paragraph at once, and a line of a few megabytes already takes tens of seconds.
+private enum LongLineLimit {
+    
+    /// The line length in UTF-8 bytes above which a line is split.
+    static let maximumLineLength = 256 * 1024
+    
+    /// The target length in UTF-8 bytes of each split line.
+    static let chunkLength = 16 * 1024
+}
+
+
+private struct SplitLongLinesSavingError: LocalizedError {
+    
+    var errorDescription: String? {
+        
+        String(localized: "SplitLongLinesSavingError.description",
+               defaultValue: "The document can’t be saved because its long lines were split for display.")
+    }
+    
+    
+    var recoverySuggestion: String? {
+        
+        String(localized: "SplitLongLinesSavingError.recoverySuggestion",
+               defaultValue: "Saving would add line breaks that aren’t in the original file. Edit the file in another app that supports very long lines.")
     }
 }
 

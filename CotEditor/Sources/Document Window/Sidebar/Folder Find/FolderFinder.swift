@@ -127,9 +127,10 @@ import TextFind
     ///   - usesRegularExpression: Whether the search string should be treated as a regular expression.
     ///   - ignoresCase: Whether character case should be ignored.
     ///   - includesHiddenFiles: Whether hidden files should be searched.
+    ///   - includesGitIgnoredFiles: Whether files matched by `.gitignore` rules should be searched.
     ///   - includesOtherFileTypes: Whether files that do not look like plain text should also be searched.
     ///   - fileScope: The file scope to search.
-    func find(findString: String, usesRegularExpression: Bool, ignoresCase: Bool, includesHiddenFiles: Bool, includesOtherFileTypes: Bool = false, fileScope: FileScope? = nil) {
+    func find(findString: String, usesRegularExpression: Bool, ignoresCase: Bool, includesHiddenFiles: Bool, includesGitIgnoredFiles: Bool = false, includesOtherFileTypes: Bool = false, fileScope: FileScope? = nil) {
         
         self.searchTask?.cancel()
         self.selectionTask?.cancel()
@@ -164,6 +165,7 @@ import TextFind
         let options = FolderFind.Options(
             includesOtherFileTypes: includesOtherFileTypes,
             includesHiddenFiles: includesHiddenFiles,
+            includesGitIgnoredFiles: includesGitIgnoredFiles,
             fileScope: fileScope,
             decodingOptions: .init(candidates: EncodingManager.shared.fileEncodingCandidates)
         )

@@ -168,6 +168,7 @@ struct DefaultSettings {
             .folderFindUsesRegularExpression: false,
             .folderFindIgnoresCase: false,
             .folderFindIncludesHiddenFiles: false,
+            .folderFindIncludesGitIgnoredFiles: false,
             .folderFindIncludesOtherFileTypes: false,
             .folderFindSavedScopes: [:],
             

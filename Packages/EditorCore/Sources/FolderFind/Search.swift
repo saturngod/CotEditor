@@ -41,6 +41,7 @@ public struct Search: Sendable {
     
     private let rootPathComponents: [String]
     private var fileScopeMatcher: FileScope.Matcher?
+    private var gitIgnore: GitIgnore?
     private var metrics: FolderFind.Metrics
     private var files: [FolderFind.FileResult] = []
     
@@ -71,6 +72,12 @@ public struct Search: Sendable {
             nil
         }
         self.metrics = FolderFind.Metrics(findString: pattern.findString)
+        
+        if !options.includesGitIgnoredFiles {
+            var gitIgnore = GitIgnore()
+            gitIgnore.loadRoot(rootURL)
+            self.gitIgnore = gitIgnore
+        }
     }
     
     
@@ -109,7 +116,8 @@ public struct Search: Sendable {
                 !self.options.excludedNames.contains(url.lastPathComponent),
                 let candidate = try? FolderFind.Candidate(at: url),
                 !candidate.contentType.conforms(to: .resolvable),  // never follow aliases and symbolic links
-                candidate.isDirectory || self.includes(candidate)
+                candidate.isDirectory || self.includes(candidate),
+                !self.isGitIgnored(candidate)
             else { continue }
             
             candidates.append(candidate)
@@ -134,6 +142,9 @@ public struct Search: Sendable {
             }
             
             if candidate.isDirectory {
+                // -> Rules in a folder's `.gitignore` apply to its contents.
+                let base = self.relativePath(of: candidate.fileURL)
+                self.gitIgnore?.load(in: candidate.fileURL, base: base)
                 try await self.searchDirectory(at: candidate.fileURL)
             } else {
                 try self.searchFile(candidate)
@@ -176,6 +187,25 @@ public struct Search: Sendable {
                                                 directoryPathComponents: Array(directoryPathComponents.dropFirst(self.rootPathComponents.count)),
                                                 matches: matches,
                                                 isTruncated: isTruncated))
+    }
+    
+    
+    /// Returns whether the candidate is excluded by `.gitignore` rules.
+    ///
+    /// - Parameter candidate: The file candidate to evaluate.
+    /// - Returns: `true` if the candidate should be skipped.
+    private func isGitIgnored(_ candidate: FolderFind.Candidate) -> Bool {
+        
+        guard let gitIgnore = self.gitIgnore, !gitIgnore.isEmpty else { return false }
+        
+        return gitIgnore.isIgnored(self.relativePath(of: candidate.fileURL), isDirectory: candidate.isDirectory)
+    }
+    
+    
+    /// Returns the slash-separated path of the given URL relative to the root folder.
+    private func relativePath(of url: URL) -> String {
+        
+        url.standardizedFileURL.pathComponents.dropFirst(self.rootPathComponents.count).joined(separator: "/")
     }
     
     

@@ -150,6 +150,7 @@ extension DefaultKeys {
     static let folderFindUsesRegularExpression = DefaultKey<Bool>("folderFindUsesRegularExpression")
     static let folderFindIgnoresCase = DefaultKey<Bool>("folderFindIgnoresCase")
     static let folderFindIncludesHiddenFiles = DefaultKey<Bool>("folderFindIncludesHiddenFiles")
+    static let folderFindIncludesGitIgnoredFiles = DefaultKey<Bool>("folderFindIncludesGitIgnoredFiles")
     static let folderFindIncludesOtherFileTypes = DefaultKey<Bool>("folderFindIncludesOtherFileTypes")
     static let folderFindSavedScopes = DefaultKey<[String: Data]>("folderFindSavedScopes")
     

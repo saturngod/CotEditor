@@ -21,6 +21,7 @@
 
 import Foundation
 import StringUtils
+import FolderFind
 
 /// A file candidate for Quick Open.
 struct QuickOpenItem: Identifiable, Equatable, Sendable {
@@ -68,7 +69,7 @@ struct QuickOpenItem: Identifiable, Equatable, Sendable {
     }
 
 
-    private static func relativePath(of fileURL: URL, rootPrefix: String) -> String {
+    static func relativePath(of fileURL: URL, rootPrefix: String) -> String {
 
         let filePath = fileURL.standardizedFileURL.path(percentEncoded: false)
 
@@ -169,7 +170,11 @@ extension QuickOpenItem {
 enum QuickOpenFileCollector {
 
     /// The folder names that are skipped when collecting project files.
-    static let ignoredFolderNames: Set<String> = [".git", ".svn", ".hg", "node_modules", ".build", "DerivedData", "Pods", ".swiftpm"]
+    static let ignoredFolderNames: Set<String> = [".git", ".svn", ".hg", "node_modules", ".build", "DerivedData", "Pods", ".swiftpm",
+                                                  ".Trash", ".Trashes", ".Spotlight-V100", ".fseventsd", ".DocumentRevisions-V100"]
+
+    /// The file names that are skipped when collecting project files.
+    static let ignoredFileNames: Set<String> = [".DS_Store", ".localized"]
 
     /// The maximum number of files to collect.
     static let limit = 50_000
@@ -177,18 +182,27 @@ enum QuickOpenFileCollector {
 
     /// Recursively collects the files in the given folder.
     ///
-    /// - Parameter rootURL: The project folder.
+    /// - Parameters:
+    ///   - rootURL: The project folder.
+    ///   - includesGitIgnoredFiles: Whether files and folders matched by `.gitignore` rules are included.
     /// - Returns: The file items.
-    static func collect(in rootURL: URL) async -> [QuickOpenItem] {
+    static func collect(in rootURL: URL, includesGitIgnoredFiles: Bool = false) async -> [QuickOpenItem] {
 
         let task = Task.detached(priority: .userInitiated) { () -> [QuickOpenItem] in
             let keys: [URLResourceKey] = [.isDirectoryKey, .isRegularFileKey, .isAliasFileKey]
             let keySet = Set(keys)
             guard let enumerator = FileManager.default.enumerator(at: rootURL, includingPropertiesForKeys: keys,
-                                                                  options: [.skipsHiddenFiles, .skipsPackageDescendants])
+                                                                  options: [.skipsPackageDescendants])
             else { return [] }
 
             let rootPrefix = QuickOpenItem.rootPrefix(for: rootURL)
+
+            // honor the ignore rules of Git: `.git/info/exclude` first, then `.gitignore` files from the root down
+            var gitIgnore: GitIgnore?
+            if !includesGitIgnoredFiles {
+                gitIgnore = GitIgnore()
+                gitIgnore?.loadRoot(rootURL)
+            }
 
             var items: [QuickOpenItem] = []
             while let url = enumerator.nextObject() as? URL {
@@ -197,13 +211,20 @@ enum QuickOpenFileCollector {
 
                 guard let values = try? url.resourceValues(forKeys: keySet) else { continue }
 
+                let path = QuickOpenItem.relativePath(of: url, rootPrefix: rootPrefix)
+
                 if values.isDirectory == true {
-                    if Self.ignoredFolderNames.contains(url.lastPathComponent) {
+                    if Self.ignoredFolderNames.contains(url.lastPathComponent) || gitIgnore?.isIgnored(path, isDirectory: true) == true {
                         enumerator.skipDescendants()
+                    } else {
+                        // -> The enumerator visits a folder before its contents.
+                        gitIgnore?.load(in: url, base: path)
                     }
                     continue
                 }
                 guard values.isRegularFile == true || values.isAliasFile == true else { continue }
+                guard !Self.ignoredFileNames.contains(url.lastPathComponent) else { continue }
+                guard gitIgnore?.isIgnored(path, isDirectory: false) != true else { continue }
 
                 items.append(QuickOpenItem(fileURL: url, rootPrefix: rootPrefix))
             }

@@ -74,6 +74,7 @@ struct TreeSitterSampleHighlightTests {
             case .html: "test.html"
             case .java: "test.java"
             case .javaScript: "test.js"
+            case .jsx: "test.jsx"
             case .kotlin: "test.kt"
             case .latex: "test.tex"
             case .lua: "test.lua"
@@ -86,6 +87,7 @@ struct TreeSitterSampleHighlightTests {
             case .scala: "test.scala"
             case .sql: "test.sql"
             case .swift: "test.swift"
+            case .tsx: "test.tsx"
             case .typeScript: "test.ts"
         }
     }

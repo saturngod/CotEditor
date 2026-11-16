@@ -161,6 +161,8 @@ struct QuickOpenView: View {
         .frame(width: self.model.width)
         .background(.regularMaterial, in: .rect(cornerRadius: 10))
         .overlay(RoundedRectangle(cornerRadius: 10).strokeBorder(.separator))
+        // keep the bar stuck to the top while the window catches up with a shrunk result list
+        .frame(maxHeight: .infinity, alignment: .top)
         .onChange(of: self.model.input, initial: true) { self.updateCandidates() }
         .onChange(of: self.model.mode) { self.updateCandidates() }
         .onChange(of: self.model.items) { self.updateCandidates() }

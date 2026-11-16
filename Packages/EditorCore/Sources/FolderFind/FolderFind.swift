@@ -63,6 +63,7 @@ public enum FolderFind {
         
         public var includesOtherFileTypes: Bool
         public var includesHiddenFiles: Bool
+        public var includesGitIgnoredFiles: Bool
         public var excludedNames: Set<String>
         public var maximumFileSize: Int
         public var maximumMatchCount: Int
@@ -76,6 +77,7 @@ public enum FolderFind {
         /// - Parameters:
         ///   - includesOtherFileTypes: Whether files that do not look like plain text should also be searched.
         ///   - includesHiddenFiles: Whether hidden files should be included.
+        ///   - includesGitIgnoredFiles: Whether files and folders matched by `.gitignore` rules should be included.
         ///   - excludedNames: File or folder names to exclude from traversal.
         ///   - maximumFileSize: The maximum file size in bytes to search. Files larger than this size are skipped.
         ///   - maximumMatchCount: The maximum number of matches to collect in total. The search stops when it is reached.
@@ -85,6 +87,7 @@ public enum FolderFind {
         public init(
             includesOtherFileTypes: Bool = false,
             includesHiddenFiles: Bool = false,
+            includesGitIgnoredFiles: Bool = false,
             excludedNames: Set<String> = [".DS_Store", ".git"],
             maximumFileSize: Int = 1_000_000_000,  // 1 GB
             maximumMatchCount: Int = 500_000,
@@ -95,6 +98,7 @@ public enum FolderFind {
             
             self.includesOtherFileTypes = includesOtherFileTypes
             self.includesHiddenFiles = includesHiddenFiles
+            self.includesGitIgnoredFiles = includesGitIgnoredFiles
             self.excludedNames = excludedNames
             self.maximumFileSize = maximumFileSize
             self.maximumMatchCount = maximumMatchCount

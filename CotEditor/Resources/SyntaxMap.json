@@ -204,6 +204,11 @@
       "Package.resolved"
     ]
   },
+  "JSX" : {
+    "extensions" : [
+      "jsx"
+    ]
+  },
   "Java" : {
     "extensions" : [
       "java",
@@ -479,6 +484,11 @@
       "toml"
     ]
   },
+  "TSX" : {
+    "extensions" : [
+      "tsx"
+    ]
+  },
   "Tcl" : {
     "extensions" : [
       "tcl"
@@ -497,7 +507,6 @@
   "TypeScript" : {
     "extensions" : [
       "ts",
-      "tsx",
       "mts",
       "cts"
     ]

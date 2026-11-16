@@ -367,6 +367,31 @@ struct TreeSitterHighlightTests {
     }
     
     
+    @Test(arguments: [TreeSitterSyntax.jsx, .tsx])
+    func highlightJSXElements(syntax: TreeSitterSyntax) async throws {
+        
+        let source = #"""
+            const view = (
+              <div className="box">
+                <Label text="hi" />
+              </div>
+            )
+            """#
+        
+        let config = try self.registry.configuration(for: syntax)
+        let client = try TreeSitterClient(languageConfig: config, languageProvider: self.registry.languageProvider, syntax: syntax)
+        let captures = try #require(await client.parseHighlights(in: source, range: source.nsRange))
+            .highlights
+            .map { Capture(type: $0.value, text: (source as NSString).substring(with: $0.range)) }
+        
+        #expect(captures.filter { $0 == Capture(type: .keywords, text: "div") }.count == 2)
+        #expect(captures.contains(Capture(type: .types, text: "Label")))
+        #expect(captures.contains(Capture(type: .attributes, text: "className")))
+        #expect(captures.contains(Capture(type: .attributes, text: "text")))
+        #expect(captures.contains(Capture(type: .strings, text: "\"box\"")))
+    }
+    
+    
     @Test func highlightLaTeXArgumentBraces() async throws {
         
         let source = #"""

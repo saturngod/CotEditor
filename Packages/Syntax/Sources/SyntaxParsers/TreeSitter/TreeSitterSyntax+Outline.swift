@@ -50,7 +50,7 @@ extension TreeSitterSyntax {
                 .init(ignoredDepthNodeTypes: ["type_spec"])
             case .java:
                 .init(ignoredDepthNodeTypes: ["variable_declarator"])
-            case .javaScript:
+            case .javaScript, .jsx:
                 .init(ignoredDepthNodeTypes: [
                     "export_statement",
                     "variable_declarator",
@@ -80,7 +80,7 @@ extension TreeSitterSyntax {
                 .init(normalization: .init(flattenLevels: true))
             case .swift:
                 .init(normalization: .init(sectionMarkerKinds: [.separator, .mark], adjustSectionMarkerDepth: true))
-            case .typeScript:
+            case .typeScript, .tsx:
                 .init(ignoredDepthNodeTypes: [
                     "ambient_declaration",
                     "export_statement",
@@ -112,7 +112,7 @@ extension TreeSitterSyntax {
                 HTMLOutlineFormatter.self
             case .java:
                 JavaOutlineFormatter.self
-            case .javaScript:
+            case .javaScript, .jsx:
                 JavaScriptOutlineFormatter.self
             case .kotlin:
                 KotlinOutlineFormatter.self
@@ -136,7 +136,7 @@ extension TreeSitterSyntax {
                 SQLOutlineFormatter.self
             case .swift:
                 SwiftOutlineFormatter.self
-            case .typeScript:
+            case .typeScript, .tsx:
                 TypeScriptOutlineFormatter.self
             default:
                 DefaultOutlineFormatter.self
