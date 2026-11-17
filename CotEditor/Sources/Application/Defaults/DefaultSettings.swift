@@ -183,7 +183,7 @@ struct DefaultSettings {
             .countEncoding: String.Encoding.utf8.rawValue,
             
             // file browser
-            .fileBrowserShowsHiddenFiles: false,
+            .fileBrowserShowsHiddenFiles: true,
             
             // Outline inspector
             .outlineViewWrapsLines: false,
