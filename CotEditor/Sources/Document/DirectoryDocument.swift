@@ -35,14 +35,23 @@ final class DirectoryDocument: NSDocument {
     private enum SerializationKey {
         
         static let currentDocument = "currentDocument"
+        static let editorArea = "editorArea"
     }
     
     
     // MARK: Public Properties
     
     private(set) var fileNode: FileNode?
-    private(set) weak var currentDocument: DataDocument?
-    var documentHistory = DocumentHistory()
+    
+    /// The document presented in the focused editor tab.
+    var currentDocument: DataDocument?  { self.editorArea?.currentDocument }
+    
+    /// The navigation history of the focused editor tab.
+    var documentHistory: DocumentHistory {
+        
+        get { self.editorArea?.currentTab?.history ?? DocumentHistory() }
+        set { self.editorArea?.currentTab?.history = newValue }
+    }
     
     weak var fileBrowserViewController: FileBrowserViewController?
     
@@ -51,6 +60,17 @@ final class DirectoryDocument: NSDocument {
     
     private var documents: [DataDocument] = []
     private var windowController: DocumentWindowController?  { self.windowControllers.first as? DocumentWindowController }
+    
+    /// The tabbed editor area in the window.
+    private var editorArea: EditorAreaViewController? {
+        
+        guard
+            let viewController = self.windowController?.contentViewController as? WindowContentViewController,
+            viewController.isViewLoaded
+        else { return nil }
+        
+        return viewController.editorArea
+    }
     
     private var documentObserver: NotificationCenter.ObservationToken?
     
@@ -77,6 +97,10 @@ final class DirectoryDocument: NSDocument {
         
         super.encodeRestorableState(with: coder, backgroundQueue: queue)
         
+        if let state = self.editorArea?.encodedState() {
+            coder.encode(state, forKey: SerializationKey.editorArea)
+        }
+        
         if let fileURL = self.currentDocument?.fileURL,
            let bookmarkData = try? fileURL.bookmarkData(options: .withSecurityScope)
         {
@@ -88,6 +112,16 @@ final class DirectoryDocument: NSDocument {
     override func restoreState(with coder: NSCoder) {
         
         super.restoreState(with: coder)
+        
+        // restore the editor tabs
+        if let fileURL,
+           let state = coder.decodeObject(of: NSData.self, forKey: SerializationKey.editorArea) as? Data,
+           let editorArea = self.editorArea,
+           editorArea.restore(from: state, in: fileURL)
+        {
+            self.fileBrowserViewController?.selectCurrentDocument()
+            return
+        }
         
         // restore the last opened document
         var isStale = false
@@ -117,6 +151,7 @@ final class DirectoryDocument: NSDocument {
             self.documentObserver = NotificationCenter.default.addObserver(for: TextDocument.DidUpdateChangeMessage.self) { [unowned self] _ in
                 let hasEditedDocuments = self.documents.contains(where: \.isDocumentEdited)
                 self.windowController?.setDocumentEdited(hasEditedDocuments)
+                self.editorArea?.invalidateEditedStates()
             }
         }
     }
@@ -276,15 +311,9 @@ final class DirectoryDocument: NSDocument {
     ///   - asPlainText: If `true`, the document is forcibly opened as a plain text file.
     ///   - prefersOriginal: If `true`, opens the alias destination only if the URL already has permission. Otherwise, opens the original file.
     ///   - recordsHistory: If `true`, records the opened document in the document history.
+    ///   - disposition: How to present the document in the editor tabs.
     /// - Returns: Return `true` if the document of the given file did successfully open.
-    @discardableResult func openDocument(at fileURL: URL, asPlainText: Bool = false, prefersOriginal: Bool = false, recordsHistory: Bool = true) async -> Bool {
-        
-        if let currentDocument,
-           fileURL == currentDocument.fileURL,
-           !asPlainText || currentDocument is TextDocument
-        {
-            return true  // already open
-        }
+    @discardableResult func openDocument(at fileURL: URL, asPlainText: Bool = false, prefersOriginal: Bool = false, recordsHistory: Bool = true, disposition: EditorOpenDisposition = .temporary) async -> Bool {
         
         // open alias target if the URL already has permission
         var fileURL = fileURL
@@ -292,59 +321,94 @@ final class DirectoryDocument: NSDocument {
            let resolvedURL = try? URL(resolvingAliasFileAt: fileURL),
            (try? resolvedURL.isReadable) == true
         {
-            if let currentDocument,
-               resolvedURL == currentDocument.fileURL,
-               !asPlainText || currentDocument is TextDocument
-            {
-                return true  // already open
-            }
-            
             fileURL = resolvedURL
         }
         
-        // existing document
-        if let document = NSDocumentController.shared.document(for: fileURL) as? TextDocument {
-            if self.documents.contains(document) {
-                self.changeFrontmostDocument(to: document)
-                if recordsHistory {
-                    self.recordDocumentHistory(document: document, opensAsPlainText: asPlainText)
-                }
-                return true
-                
-            } else {
-                return await withCheckedContinuation { continuation in
-                    self.presentErrorAsSheet(DirectoryDocumentError.alreadyOpen(fileURL)) { _ in
-                        document.showWindows()
-                        continuation.resume(returning: false)
-                    }
+        // document opened in another window
+        if let document = NSDocumentController.shared.document(for: fileURL) as? TextDocument,
+           !self.documents.contains(document)
+        {
+            return await withCheckedContinuation { continuation in
+                self.presentErrorAsSheet(DirectoryDocumentError.alreadyOpen(fileURL)) { _ in
+                    document.showWindows()
+                    continuation.resume(returning: false)
                 }
             }
         }
         
-        let contentType = (try? fileURL.resourceValues(forKeys: [.contentTypeKey]).contentType) ?? .data
-        
-        // make document
-        let document: NSDocument
+        let document: DataDocument
         do {
-            document = (asPlainText || Self.shouldOpen(url: fileURL, ofType: contentType))
-                ? try NSDocumentController.shared.makeDocument(withContentsOf: fileURL, ofType: contentType.identifier)
-                : try PreviewDocument(contentsOf: fileURL, ofType: contentType.identifier)
+            document = try self.makeMemberDocument(at: fileURL, asPlainText: asPlainText)
         } catch {
             self.presentErrorAsSheet(error)
             return false
         }
         
-        guard let document = document as? DataDocument else { return false }
+        guard let editorArea = self.editorArea else { return false }
         
-        self.documents.append(document)
-        NSDocumentController.shared.addDocument(document)
+        let isAlreadyCurrent = (editorArea.currentDocument === document)
+        editorArea.present(document, disposition: disposition, opensAsPlainText: asPlainText)
         
-        self.changeFrontmostDocument(to: document)
-        if recordsHistory {
+        if recordsHistory, !isAlreadyCurrent || disposition == .newTab || disposition == .otherGroup {
             self.recordDocumentHistory(document: document, opensAsPlainText: asPlainText)
         }
         
+        self.disposeUnusedDocuments()
+        
         return true
+    }
+    
+    
+    /// Returns a member document for the file, opening it without presenting if needed.
+    ///
+    /// - Parameters:
+    ///   - fileURL: The file URL of the document.
+    ///   - asPlainText: If `true`, the document is forcibly opened as a plain text file.
+    /// - Returns: A document, or `nil` if failed.
+    func memberDocument(at fileURL: URL, asPlainText: Bool) -> DataDocument? {
+        
+        if let document = NSDocumentController.shared.document(for: fileURL) as? TextDocument,
+           !self.documents.contains(document)
+        {
+            return nil  // opened in another window
+        }
+        
+        return try? self.makeMemberDocument(at: fileURL, asPlainText: asPlainText)
+    }
+    
+    
+    /// Closes the member document that is no longer presented in any tab.
+    ///
+    /// - Parameters:
+    ///   - document: The document to release.
+    ///   - force: If `true`, closes the document even if it has unsaved changes. Otherwise, edited documents are kept until the window closes.
+    func releaseDocument(_ document: DataDocument, force: Bool) {
+        
+        guard self.documents.contains(document) else { return }
+        guard force || !document.isDocumentEdited else { return }
+        
+        self.documents.removeFirst(document)
+        if document.windowController === self.windowController {
+            document.windowController = nil
+        }
+        document.close()
+        
+        let hasEditedDocuments = self.documents.contains(where: \.isDocumentEdited)
+        self.windowController?.setDocumentEdited(hasEditedDocuments)
+        self.invalidateRestorableState()
+    }
+    
+    
+    /// Notifies that the document in the focused editor tab may have changed.
+    func editorAreaDidChangeCurrentDocument() {
+        
+        let document = self.currentDocument
+        
+        if self.windowController?.fileDocument !== document {
+            self.windowController?.fileDocument = document
+        }
+        self.fileBrowserViewController?.selectCurrentDocument()
+        self.invalidateRestorableState()
     }
     
     
@@ -439,7 +503,7 @@ final class DirectoryDocument: NSDocument {
             throw InvalidNameError.newLine
         }
         
-        let isCurrentDocument = self.currentDocument?.fileURL == node.file.fileURL
+        let renamedDocument = self.documents.first { $0.fileURL == node.file.fileURL }
         let newURL = node.file.fileURL.deletingLastPathComponent().appending(component: name)
         
         do {
@@ -450,7 +514,7 @@ final class DirectoryDocument: NSDocument {
             throw error
         }
         
-        if isCurrentDocument, let document = self.currentDocument as? TextDocument {
+        if let document = renamedDocument as? TextDocument {
             // -> At this point, the document hasn’t updated its fileURL yet.
             document.invalidateSyntax(filename: name)
         }
@@ -560,14 +624,9 @@ final class DirectoryDocument: NSDocument {
         }
         
         if !documentsToClose.isEmpty {
-            if let currentDocument, documentsToClose.contains(where: { $0 === currentDocument }) {
-                self.windowController?.fileDocument = nil
-                self.currentDocument = nil
-            }
-            
             for document in documentsToClose {
-                self.documents.removeFirst(document)
-                document.close()
+                self.editorArea?.removeTabs(presenting: document)
+                self.releaseDocument(document, force: true)
             }
             self.invalidateRestorableState()
         }
@@ -631,10 +690,7 @@ final class DirectoryDocument: NSDocument {
         
         if let document = self.documents.first(where: { $0.fileURL == fileURL }) {
             // detach the document from the receiver
-            if document === self.currentDocument {
-                self.windowController?.fileDocument = nil
-                self.currentDocument = nil
-            }
+            self.editorArea?.removeTabs(presenting: document)
             self.documents.removeFirst(document)
             self.invalidateRestorableState()
             
@@ -664,7 +720,7 @@ final class DirectoryDocument: NSDocument {
     /// - Parameter item: The history item to open.
     func openDocumentHistoryItem(_ item: DocumentHistory.Item) async {
         
-        let didOpen = await self.openDocument(at: item.url, asPlainText: item.entry.opensAsPlainText, recordsHistory: false)
+        let didOpen = await self.openDocument(at: item.url, asPlainText: item.entry.opensAsPlainText, recordsHistory: false, disposition: .replaceCurrent)
         
         guard didOpen else { return }
         
@@ -722,23 +778,31 @@ final class DirectoryDocument: NSDocument {
     }
     
     
-    /// Changes the frontmost document.
+    /// Finds the member document for the file, or makes a new one.
     ///
-    /// - Parameter document: The document to bring frontmost.
-    private func changeFrontmostDocument(to document: DataDocument) {
+    /// - Parameters:
+    ///   - fileURL: The file URL of the document.
+    ///   - asPlainText: If `true`, the document is forcibly opened as a plain text file.
+    /// - Returns: A document attached to the receiver's window.
+    private func makeMemberDocument(at fileURL: URL, asPlainText: Bool) throws -> DataDocument {
         
-        assert(self.documents.contains(document))
+        if let document = self.documents.first(where: { $0.fileURL == fileURL && (!asPlainText || $0 is TextDocument) }) {
+            return document
+        }
         
-        // remove window controller from current document
-        self.windowController?.fileDocument?.windowController = nil
+        let contentType = (try? fileURL.resourceValues(forKeys: [.contentTypeKey]).contentType) ?? .data
+        
+        let document = (asPlainText || Self.shouldOpen(url: fileURL, ofType: contentType))
+            ? try NSDocumentController.shared.makeDocument(withContentsOf: fileURL, ofType: contentType.identifier)
+            : try PreviewDocument(contentsOf: fileURL, ofType: contentType.identifier)
+        
+        guard let document = document as? DataDocument else { throw CocoaError(.fileReadUnknown) }
         
         document.windowController = self.windowController
-        self.windowController?.fileDocument = document
-        self.currentDocument = document
-        document.makeWindowControllers()
+        self.documents.append(document)
+        NSDocumentController.shared.addDocument(document)
         
-        // clean-up
-        self.disposeUnusedDocuments()
+        return document
     }
     
     
@@ -759,11 +823,11 @@ final class DirectoryDocument: NSDocument {
     private func disposeUnusedDocuments() {
         
         // -> postpone closing opened document if edited
-        for document in self.documents where !document.isDocumentEdited && document != self.currentDocument {
-            document.close()
-            self.documents.removeFirst(document)
+        guard let editorArea = self.editorArea else { return }
+        
+        for document in self.documents where !editorArea.isPresenting(document) {
+            self.releaseDocument(document, force: false)
         }
-        self.invalidateRestorableState()
     }
     
     

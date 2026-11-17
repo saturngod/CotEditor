@@ -36,6 +36,15 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
     
     private(set) var hostedViewController: NSViewController
     
+    /// The tabbed editor area if the receiver is in a folder window.
+    var editorArea: EditorAreaViewController?  { self.hostedViewController as? EditorAreaViewController }
+    
+    /// The text editor currently in focus.
+    var documentViewController: DocumentViewController? {
+        
+        self.editorArea?.documentViewController ?? (self.hostedViewController as? DocumentViewController)
+    }
+    
     /// Whether the terminal pane is currently visible.
     var isTerminalShown: Bool  { self.terminalViewController?.viewIfLoaded?.isHidden == false }
     
@@ -58,6 +67,20 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
         
         self.document = document
         self.hostedViewController = Self.viewController(document: document)
+        
+        super.init(nibName: nil, bundle: nil)
+        
+        self.addChild(self.hostedViewController)
+    }
+    
+    
+    /// Creates a content view controller hosting the tabbed editor area for a folder window.
+    ///
+    /// - Parameter directoryDocument: The folder document.
+    init(directoryDocument: DirectoryDocument) {
+        
+        self.document = nil
+        self.hostedViewController = EditorAreaViewController(directoryDocument: directoryDocument)
         
         super.init(nibName: nil, bundle: nil)
         
@@ -99,7 +122,7 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
         
         self.themeObservers = [
             NotificationCenter.default.publisher(for: DocumentViewController.didChangeThemeNotification)
-                .filter { [weak self] in ($0.object as? NSViewController) === self?.hostedViewController }
+                .filter { [weak self] in ($0.object as? NSViewController) === self?.documentViewController }
                 .sink { [weak self] _ in self?.invalidateTerminalTheme() },
             UserDefaults.standard.publisher(for: .theme)
                 .sink { [weak self] _ in self?.invalidateTerminalTheme() },
@@ -254,7 +277,7 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
         self.splitView.needsDisplay = true
         
         if hadFocus {
-            self.view.window?.makeFirstResponder((self.hostedViewController as? DocumentViewController)?.focusedTextView)
+            self.view.window?.makeFirstResponder(self.documentViewController?.focusedTextView)
         }
     }
     
@@ -262,7 +285,7 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
     /// The terminal colors that match the theme of the current document.
     private var terminalPalette: TerminalPalette {
         
-        let theme = (self.hostedViewController as? DocumentViewController)?.theme
+        let theme = self.documentViewController?.theme
             ?? (try? ThemeManager.shared.setting(name: ThemeManager.shared.userDefaultSettingName(inDarkMode: self.view.effectiveAppearance.isDark)))
             ?? Theme()
         
@@ -284,6 +307,9 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
         
         guard oldDocument != self.document else { return }
         
+        // the editor area manages its documents by itself
+        guard self.editorArea == nil else { return self.invalidateTerminalTheme() }
+        
         // remove only the hosted view controller to preserve accessories such as the status bar
         // -> Split view item accessory controllers can be attached as children (2026-05, macOS 26).
         self.hostedViewController.viewIfLoaded?.removeFromSuperview()
@@ -303,7 +329,7 @@ final class ContentViewController: NSViewController, NSSplitViewDelegate {
     ///
     /// - Parameter document: The represented document.
     /// - Returns: A view controller.
-    private static func viewController(document: DataDocument?) -> NSViewController {
+    static func viewController(document: DataDocument?) -> NSViewController {
         
         switch document {
             case let document as TextDocument:

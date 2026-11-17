@@ -16573,6 +16573,18 @@
         }
       }
     },
+    "EdT-bB-shw.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Show Editor Tab Bar\"; ObjectID = \"EdT-bB-shw\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Editor Tab Bar"
+          }
+        }
+      }
+    },
     "eIc-Sj-2mO.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Go to Line…\"; ObjectID = \"eIc-Sj-2mO\";",
       "extractionState" : "extracted_with_value",

@@ -67,6 +67,9 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
     
     private let splitState = SplitState()
     
+    /// Whether the split editor commands are handled by the editor area of the folder window.
+    private var delegatesSplitting = false
+    
     private var themeName: String?
     private var isThemeManuallySelected = false
     
@@ -145,7 +148,13 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         }
         
         // start parsing
-        self.document.syntaxController.setupParser()
+        // -> When the document is already shown in another editor (e.g., in another tab or split editor group),
+        //    reuse the parsed result instead of parsing the entire document again.
+        if self.document.syntaxController.isParserReady {
+            self.copyHighlightsFromOtherEditor()
+        } else {
+            self.document.syntaxController.setupParser()
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(textStorageDidProcessEditing),
                                                name: NSTextStorage.didProcessEditingNotification,
@@ -210,6 +219,9 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
         self.invalidateWindowAppearance()
         
         // observe user defaults
+        // -> Start observing only once, since the view can disappear and reappear when switching editor tabs,
+        //    and the initial values would otherwise override the settings changed for this document.
+        guard self.defaultsObservers.isEmpty else { return }
         self.defaultsObservers = [
             UserDefaults.standard.publisher(for: .showInvisibles, initial: true)
                 .sink { [weak self] in self?.showsInvisibles = $0 },
@@ -222,14 +234,6 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
             UserDefaults.standard.publisher(for: .showIndentGuides, initial: true)
                 .sink { [weak self] in self?.showsIndentGuides = $0 },
         ]
-    }
-    
-    
-    override func viewDidDisappear() {
-        
-        super.viewDidDisappear()
-        
-        self.defaultsObservers.removeAll()
     }
     
     
@@ -290,6 +294,19 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
                 self.setTheme(name: themeName)
             }
         }
+    }
+    
+    
+    override nonisolated func responds(to aSelector: Selector!) -> Bool {
+        
+        // let the editor area of the folder window handle the split editor commands
+        if let aSelector, Thread.isMainThread,
+           MainActor.assumeIsolated({ self.delegatesSplitting && Self.splitEditorActions.contains(aSelector) })
+        {
+            return false
+        }
+        
+        return super.responds(to: aSelector)
     }
     
     
@@ -852,7 +869,56 @@ final class DocumentViewController: NSSplitViewController, ThemeChanging, NSTool
     }
     
     
+    // MARK: Public Methods
+    
+    /// Delegates the split editor commands to the editor area and syncs the state shown in the navigation bar.
+    ///
+    /// - Parameters:
+    ///   - isVertical: Whether the editor groups are placed side by side.
+    ///   - canClose: Whether the editor group can be closed.
+    func applyExternalSplitState(isVertical: Bool, canClose: Bool) {
+        
+        self.delegatesSplitting = true
+        
+        if self.splitState.isVertical != isVertical {
+            self.splitState.isVertical = isVertical
+        }
+        if self.splitState.canClose != canClose {
+            self.splitState.canClose = canClose
+        }
+    }
+    
+    
     // MARK: Private Methods
+    
+    /// The split editor commands that the editor area handles instead when `delegatesSplitting` is `true`.
+    private static let splitEditorActions: Set<Selector> = [
+        #selector(openSplitTextView),
+        #selector(closeSplitTextView),
+        #selector(toggleSplitOrientation),
+        #selector(focusNextEditor),
+        #selector(focusPreviousEditor),
+    ]
+    
+    
+    /// Applies the syntax highlights already parsed in another editor of the same document.
+    private func copyHighlightsFromOtherEditor() {
+        
+        guard let layoutManager = self.focusedTextView?.layoutManager else { return }
+        
+        let highlights = self.document.textStorage.layoutManagers
+            .lazy
+            .filter { $0 !== layoutManager }
+            .map { $0.syntaxHighlights() }
+            .first { !$0.isEmpty }
+        
+        if let highlights {
+            layoutManager.apply(highlights: highlights, theme: self.theme, in: self.document.textStorage.range)
+        } else {
+            self.document.syntaxController.parseAll()
+        }
+    }
+    
     
     /// Creates a new split editor.
     ///

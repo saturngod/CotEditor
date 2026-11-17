@@ -637,6 +637,14 @@ final class FileBrowserViewController: NSViewController, NSMenuItemValidation {
         
         guard let item = outlineView.item(atRow: outlineView.clickedRow) else { return }
         
+        // keep the file open in a permanent tab
+        if let node = item as? FileNode, !node.file.isDirectory {
+            Task {
+                await self.document.openDocument(at: node.file.fileURL, prefersOriginal: node.file.isAlias, disposition: .permanent)
+            }
+            return
+        }
+        
         if outlineView.isItemExpanded(item) {
             outlineView.animator().collapseItem(item)
         } else {
@@ -1216,8 +1224,16 @@ extension FileBrowserViewController: NSOutlineViewDelegate {
             !node.file.isDirectory
         else { return }
         
+        // -> Option-click opens the file in a new tab, and Option-Shift-click in the split editor, like Xcode.
+        let modifiers = (outlineView.clickedRow == outlineView.selectedRow) ? NSApp.currentEvent?.modifierFlags.intersection(.deviceIndependentFlagsMask) : nil
+        let disposition: EditorOpenDisposition = switch modifiers {
+            case [.option]: .newTab
+            case [.option, .shift]: .otherGroup
+            default: .temporary
+        }
+        
         Task {
-            await self.document.openDocument(at: node.file.fileURL, prefersOriginal: node.file.isAlias && !node.file.isFolder)
+            await self.document.openDocument(at: node.file.fileURL, prefersOriginal: node.file.isAlias && !node.file.isFolder, disposition: disposition)
         }
     }
     

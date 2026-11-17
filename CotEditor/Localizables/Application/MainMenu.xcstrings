@@ -1244,6 +1244,9 @@
         }
       }
     },
+    "Hide Editor Tab Bar" : {
+      "comment" : "verb; menu item"
+    },
     "Hide Indent Guides" : {
       "comment" : "verb; menu item",
       "localizations" : {
@@ -4184,6 +4187,9 @@
           }
         }
       }
+    },
+    "Show Editor Tab Bar" : {
+      "comment" : "verb; menu item"
     },
     "Show Indent Guides" : {
       "comment" : "verb; menu item",

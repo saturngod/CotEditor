@@ -177,6 +177,7 @@ extension DefaultKeys {
     static let recentSyntaxNames = DefaultKey<[String]>("recentStyleNames")
     static let showStatusBar = DefaultKey<Bool>("showStatusArea")
     static let showNavigationBar = DefaultKey<Bool>("showNavigationBar")
+    static let showEditorTabBar = DefaultKey<Bool>("showEditorTabBar")
     static let splitViewVertical = DefaultKey<Bool>("splitViewVertical")
     static let consoleFontSize = DefaultKey<Double>("consoleFontSize")
     static let terminalHeight = DefaultKey<Double>("terminalHeight")

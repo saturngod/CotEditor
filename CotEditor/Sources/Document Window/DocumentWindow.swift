@@ -181,6 +181,52 @@ extension DocumentWindow {
             return true
         }
         
+        // switch editor tabs in folder window with `⌃⇥`/`⌃⇧⇥` or `⇧⌘]`/`⇧⌘[`
+        if let editorArea = (self.contentViewController as? WindowContentViewController)?.editorArea,
+           let forward = Self.tabSwitchingDirection(for: event),
+           (editorArea.focusedGroup?.tabs.count ?? 0) > 1
+        {
+            // prefer existing shortcut that user might define
+            guard NSApp.mainMenu?.performKeyEquivalent(with: event) != true else { return true }
+            
+            editorArea.focusedGroup?.selectAdjacentTab(forward: forward)
+            return true
+        }
+        
+        // select editor tab in folder window with `⌘-number` (`⌘9` for the last tab)
+        if
+            let shortcut = Shortcut(keyDownEvent: event),
+            shortcut.modifiers == [.command],
+            shortcut.keyEquivalent.count == 1,
+            let number = Int(shortcut.keyEquivalent), number > 0,
+            let group = (self.contentViewController as? WindowContentViewController)?.editorArea?.focusedGroup,
+            !group.tabs.isEmpty
+        {
+            // prefer existing shortcut that user might define
+            guard NSApp.mainMenu?.performKeyEquivalent(with: event) != true else { return true }
+            
+            group.selectTab(at: (number == 9) ? group.tabs.count - 1 : number - 1)
+            return true
+        }
+        
         return false
+    }
+    
+    
+    /// Returns the direction to switch editor tabs for the key event, if it is a tab switching shortcut.
+    ///
+    /// - Parameter event: The key down event.
+    /// - Returns: `true` for the next tab, `false` for the previous tab, or `nil` if not a tab switching shortcut.
+    private static func tabSwitchingDirection(for event: NSEvent) -> Bool? {
+        
+        let modifiers = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+        
+        switch (event.keyCode, modifiers) {
+            case (48, [.control]): return true  // ⌃⇥
+            case (48, [.control, .shift]): return false  // ⌃⇧⇥
+            case (30, [.command, .shift]): return true  // ⇧⌘]
+            case (33, [.command, .shift]): return false  // ⇧⌘[
+            default: return nil
+        }
     }
 }

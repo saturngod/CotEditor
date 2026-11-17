@@ -791,6 +791,9 @@
         }
       }
     },
+    "Close Other Tabs" : {
+      "comment" : "menu item for an editor tab"
+    },
     "Close split editor" : {
       "comment" : "verb; tooltip",
       "localizations" : {
@@ -1016,6 +1019,12 @@
           }
         }
       }
+    },
+    "Close Tab" : {
+      "comment" : "menu item for an editor tab; also tooltip and accessibility label for the close button in an editor tab"
+    },
+    "Close Tabs to the Right" : {
+      "comment" : "menu item for an editor tab"
     },
     "Code Point" : {
       "comment" : "label in document inspector",
@@ -3292,6 +3301,9 @@
           }
         }
       }
+    },
+    "Editor Tabs" : {
+      "comment" : "accessibility label for the editor tab bar"
     },
     "Encoding" : {
       "comment" : "label in document inspector",
@@ -10015,6 +10027,9 @@
         }
       }
     },
+    "Keep Open" : {
+      "comment" : "menu item for an editor tab"
+    },
     "Kill Terminal" : {
       "comment" : "button label"
     },
@@ -13039,6 +13054,9 @@
           }
         }
       }
+    },
+    "Open in Split Editor" : {
+      "comment" : "menu item for an editor tab"
     },
     "Open Original" : {
       "comment" : "verb; button; “Original” refers to the target of an alias/symlink in macOS. Refer to how the Finder translates it.",

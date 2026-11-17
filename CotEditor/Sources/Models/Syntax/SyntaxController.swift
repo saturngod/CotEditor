@@ -85,6 +85,13 @@ extension NSAttributedString.Key {
     
     // MARK: Public Methods
     
+    /// Whether the parsers are already set up.
+    var isParserReady: Bool {
+        
+        self.isReady
+    }
+    
+    
     /// Sets up parsers and starts the initial parse.
     func setupParser() {
         

@@ -34,7 +34,10 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
     // MARK: Public Properties
     
     var document: DataDocument?  { didSet { self.updateDocument() } }
-    var documentViewController: DocumentViewController?  { self.contentViewController.hostedViewController as? DocumentViewController }
+    var documentViewController: DocumentViewController?  { self.contentViewController.documentViewController }
+    
+    /// The tabbed editor area if the receiver is a folder window.
+    var editorArea: EditorAreaViewController?  { self.contentViewController.editorArea }
     
     
     // MARK: Private Properties
@@ -101,7 +104,11 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
             self.sidebarViewItem = sidebarViewItem
         }
         
-        let contentViewController = ContentViewController(document: self.document)
+        let contentViewController = if let directoryDocument {
+            ContentViewController(directoryDocument: directoryDocument)
+        } else {
+            ContentViewController(document: self.document)
+        }
         self.contentViewItem = NSSplitViewItem(viewController: contentViewController)
         let statusBarController = NSSplitViewItemAccessoryViewController()
         statusBarController.view = NSHostingView(rootView: StatusBar(model: self.statusBarModel))

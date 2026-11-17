@@ -630,6 +630,11 @@ Gw
                                                 <action selector="toggleTabBar:" target="Ady-hI-5gd" id="ehM-lG-1tm"/>
                                             </connections>
                                         </menuItem>
+                                        <menuItem title="Show Editor Tab Bar" id="EdT-bB-shw">
+                                            <connections>
+                                                <action selector="toggleEditorTabBar:" target="Ady-hI-5gd" id="EdT-bB-act"/>
+                                            </connections>
+                                        </menuItem>
                                         <menuItem title="Hide Toolbar" keyEquivalent="t" id="612">
                                             <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                             <connections>

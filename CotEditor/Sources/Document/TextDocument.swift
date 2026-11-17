@@ -999,10 +999,23 @@ extension NSTextView: EditorCounter.Source { }
     
     // MARK: Public Methods
     
+    /// The editor registered by the editor area of a folder window to represent the document.
+    ///
+    /// A document in a folder window can be presented in multiple editor tabs or groups,
+    /// and therefore cannot be resolved through the window.
+    @ObservationIgnored weak var editorViewController: DocumentViewController?
+    
+    
     /// The view controller represents document.
     var viewController: DocumentViewController? {
         
-        (self.windowController?.contentViewController as? WindowContentViewController)?.documentViewController
+        if let editorViewController {
+            return editorViewController
+        }
+        
+        let viewController = (self.windowController?.contentViewController as? WindowContentViewController)?.documentViewController
+        
+        return (viewController?.document === self) ? viewController : nil
     }
     
     
@@ -1340,7 +1353,7 @@ extension NSTextView: EditorCounter.Source { }
     ///
     /// - Parameter saveOperation: The save operation.
     /// - Returns: The file attributes.
-    private func additionalFileAttributes(for saveOperation: NSDocument.SaveOperationType) -> [String: any Sendable] {
+    private final func additionalFileAttributes(for saveOperation: NSDocument.SaveOperationType) -> [String: any Sendable] {
         
         var attributes: [String: any Sendable] = [:]
         

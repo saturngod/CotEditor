@@ -195,6 +195,7 @@ struct DefaultSettings {
             .recentSyntaxNames: [String](),
             .showStatusBar: true,
             .showNavigationBar: true,
+            .showEditorTabBar: true,
             .splitViewVertical: false,
             .consoleFontSize: NSFont.smallSystemFontSize,
             .terminalHeight: 240.0,
