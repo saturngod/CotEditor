@@ -102,6 +102,11 @@ public struct GitIgnore: Sendable {
     ///   - isDirectory: Whether the path is a folder.
     public func isIgnored(_ path: String, isDirectory: Bool) -> Bool {
 
+        // -> Folder URLs may end with a slash; drop it so that anchored rules (e.g., `/vendor`) match.
+        var trimmedPath = Substring(path)
+        while trimmedPath.hasSuffix("/") { trimmedPath = trimmedPath.dropLast() }
+        let path = String(trimmedPath)
+
         let name = path.split(separator: "/").last.map(String.init) ?? path
 
         for rule in self.rules.reversed() {

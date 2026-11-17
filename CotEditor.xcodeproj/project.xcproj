@@ -108,8 +108,8 @@
       "kind": "group",
       "name": "Products",
       "children": [
-        { "path": "<PRODUCTS>/CotEditor.app", "id": "2A7380222CAD911F00E870E5", "type": "wrapper.application", "index": false },
-        { "path": "<PRODUCTS>/CotEditor.app", "type": "wrapper.application", "index": false },
+        { "path": "<PRODUCTS>/Saryay.app", "id": "2A7380222CAD911F00E870E5", "type": "wrapper.application", "index": false },
+        { "path": "<PRODUCTS>/Saryay.app", "type": "wrapper.application", "index": false },
         { "path": "<PRODUCTS>/Tests.xctest", "id": "2A7380252CAD911F00E870E5", "type": "wrapper.cfbundle", "index": false },
         { "path": "<PRODUCTS>/UI Tests.xctest", "id": "2A7380262CAD911F00E870E5", "type": "wrapper.cfbundle", "index": false },
       ],
@@ -198,6 +198,7 @@
         "ENABLE_POINTER_AUTHENTICATION": "NO",
         "ENABLE_USER_SCRIPT_SANDBOXING": "NO",
         "INFOPLIST_FILE": "CotEditor/Info.plist",
+        "INFOPLIST_KEY_CFBundleDisplayName": "Saryay",
         "INFOPLIST_KEY_ITSAppUsesNonExemptEncryption": "NO",
         "INFOPLIST_KEY_LSApplicationCategoryType": "public.app-category.productivity",
         "INFOPLIST_KEY_NSAppleEventsUsageDescription": "CotEditor needs your approval to control other applications with AppleScript.",
@@ -205,7 +206,8 @@
         "INFOPLIST_KEY_NSMainStoryboardFile": "Main",
         "MARKETING_VERSION": "7.2.0-beta.2",
         "PRODUCT_BUNDLE_IDENTIFIER": "app.myanmars.saryay",
-        "PRODUCT_NAME": "CotEditor",
+        "PRODUCT_MODULE_NAME": "CotEditor",
+        "PRODUCT_NAME": "Saryay",
         "SWIFT_STRICT_CONCURRENCY": "complete",
         "SWIFT_UPCOMING_FEATURE_CONCISE_MAGIC_FILE": "YES",
         "SWIFT_UPCOMING_FEATURE_DEPRECATE_APPLICATION_MAIN": "YES",
@@ -250,9 +252,10 @@
       ],
       "build-settings": {
         "BUNDLE_LOADER": "$(TEST_HOST)",
+        "DEVELOPMENT_TEAM": "4UP69BH7R6",
         "PRODUCT_BUNDLE_IDENTIFIER": "com.coteditor.CotEditorTests",
         "PRODUCT_NAME": "$(TARGET_NAME)",
-        "TEST_HOST": "$(BUILT_PRODUCTS_DIR)/CotEditor.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/CotEditor",
+        "TEST_HOST": "$(BUILT_PRODUCTS_DIR)/Saryay.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Saryay",
       },
     }, {
       "name": "UI Tests",
@@ -274,6 +277,7 @@
         "compile-sources",
       ],
       "build-settings": {
+        "DEVELOPMENT_TEAM": "4UP69BH7R6",
         "PRODUCT_BUNDLE_IDENTIFIER": "com.wolfrosch.CotEditorUITests",
         "PRODUCT_NAME": "$(TARGET_NAME)",
         "TEST_TARGET_NAME": "CotEditor",

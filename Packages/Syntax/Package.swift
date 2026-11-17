@@ -86,9 +86,19 @@ let package = Package(
                 .product(name: "TreeSitterSql", package: "tree-sitter-sql"),
                 .product(name: "TreeSitterSwift", package: "tree-sitter-swift"),
                 .product(name: "TreeSitterTypeScript", package: "tree-sitter-typescript"),
+                "TreeSitterVue",
             ],
             resources: [.copy("Queries")]
         ),
+        // -> Vendored since the upstream repository provides no usable Swift package.
+        .target(
+            name: "TreeSitterVue",
+            path: "Sources/TreeSitterVue",
+            exclude: ["LICENSE", "README.md"],
+            sources: ["src/parser.c", "src/scanner.c"],
+            cSettings: [.headerSearchPath("src")]
+        ),
+        
         .testTarget(
             name: "SyntaxParsersTests",
             dependencies: ["SyntaxParsers", "EditorCore"],
@@ -113,7 +123,7 @@ let package = Package(
 )
 
 
-for target in package.targets {
+for target in package.targets where target.name != "TreeSitterVue" {
     target.plugins = (target.plugins ?? []) + [
         .plugin(name: "SwiftLintBuildToolPlugin", package: "SwiftLintPlugins"),
     ]

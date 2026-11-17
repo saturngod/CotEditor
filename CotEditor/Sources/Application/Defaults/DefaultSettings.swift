@@ -96,6 +96,7 @@ struct DefaultSettings {
             .highlightBraces: true,
             .highlightSelectionInstance: true,
             .selectionInstanceHighlightDelay: 0.5,
+            .quickOpenIncludesGitIgnoredFiles: false,
             
             // Mode
             .modes: [:],

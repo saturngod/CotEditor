@@ -49,6 +49,8 @@ struct EditSettingsView: View {
     @AppStorage(.highlightSelectionInstance) private var highlightSelectionInstance
     @AppStorage(.selectionInstanceHighlightDelay) private var selectionInstanceHighlightDelay
     
+    @AppStorage(.quickOpenIncludesGitIgnoredFiles) private var quickOpenIncludesGitIgnoredFiles
+    
     
     var body: some View {
         
@@ -122,6 +124,15 @@ struct EditSettingsView: View {
                     .foregroundStyle(self.highlightSelectionInstance ? .primary : .tertiary)
                     .controlSize(.small)
                     .padding(.leading, 20)
+                }
+            }
+            
+            GridRow {
+                Text("Quick Open:", tableName: "EditSettings")
+                    .gridColumnAlignment(.trailing)
+                
+                VStack(alignment: .leading) {
+                    Toggle(.init("Include files ignored by .gitignore", table: "EditSettings", comment: "checkbox; whether Quick Open lists files and folders matched by .gitignore"), isOn: $quickOpenIncludesGitIgnoredFiles)
                 }
             }
             

@@ -34,6 +34,8 @@ struct IntegrationSettingsView: View {
     
     @State private var commandLineToolStatus: CommandLineToolManager.Status = .none
     @State private var commandLineToolURL: URL?
+    @State private var commandLineToolError: CommandLineToolManager.InstallationError?
+    @State private var isCommandLineToolErrorPresented = false
     
 
     var body: some View {
@@ -45,6 +47,15 @@ struct IntegrationSettingsView: View {
                 
                 VStack(alignment: .leading) {
                     HStack(alignment: .firstTextBaseline) {
+                        if self.commandLineToolStatus == .validTarget {
+                            Button(String(localized: "Uninstall", table: "IntegrationSettings", comment: "verb; button")) {
+                                self.performCommandLineToolAction { try $0.uninstall() }
+                            }
+                        } else {
+                            Button(String(localized: "Install “\(CommandLineToolManager.commandName)” Command", table: "IntegrationSettings", comment: "verb; button; %@ is command name")) {
+                                self.performCommandLineToolAction { try $0.install() }
+                            }
+                        }
                         Button(.init("Learn More…", table: "IntegrationSettings", comment: "verb; button")) {
                             NSHelpManager.shared.openHelpAnchor("about_cot", inBook: nil)
                         }
@@ -63,7 +74,7 @@ struct IntegrationSettingsView: View {
                             .labelIconToTitleSpacing(6)
                         }
                     }
-                    Text("With the `cot` command-line tool, you can launch CotEditor and let it open files from the command line.", tableName: "IntegrationSettings")
+                    Text("With the `\(CommandLineToolManager.commandName)` command-line tool, you can open files and folders from the command line. For example, `\(CommandLineToolManager.commandName) .` opens the current folder.", tableName: "IntegrationSettings")
                         .foregroundStyle(.secondary)
                         .controlSize(.small)
                         .lineLimit(10)
@@ -120,12 +131,41 @@ struct IntegrationSettingsView: View {
             }
         }
         .onAppear {
-            let manager = CommandLineToolManager()
-            self.commandLineToolStatus = manager.validateSymlink()
-            self.commandLineToolURL = manager.linkURL
+            self.updateCommandLineToolStatus()
+        }
+        .alert(isPresented: $isCommandLineToolErrorPresented, error: self.commandLineToolError) {
+            Button("OK", role: .cancel) { }
         }
         .fixedSize(horizontal: false, vertical: true)
         .frame(width: SettingsPane.width)
+    }
+
+
+    // MARK: Private Methods
+
+    /// Updates the installation status of the command-line tool.
+    private func updateCommandLineToolStatus() {
+
+        let manager = CommandLineToolManager()
+        self.commandLineToolStatus = manager.validateSymlink()
+        self.commandLineToolURL = manager.linkURL
+    }
+
+
+    /// Performs install/uninstall and presents an error if failed.
+    ///
+    /// - Parameter action: The action to perform with the manager.
+    private func performCommandLineToolAction(_ action: (CommandLineToolManager) throws -> Void) {
+
+        do {
+            try action(CommandLineToolManager())
+        } catch is CancellationError {
+            // user canceled the authorization
+        } catch {
+            self.commandLineToolError = CommandLineToolManager.InstallationError(errorDescription: error.localizedDescription)
+            self.isCommandLineToolErrorPresented = true
+        }
+        self.updateCommandLineToolStatus()
     }
 }
 
@@ -150,11 +190,11 @@ private extension CommandLineToolManager.Status {
                 nil
             case .differentTarget:
                 String(localized: "CommandLineToolManager.Status.differentTarget.message",
-                       defaultValue: "The current `cot` symbolic link doesn’t target the running CotEditor.",
+                       defaultValue: "The current `saryay` symbolic link doesn’t target the running app.",
                        table: "IntegrationSettings")
             case .invalidTarget:
                 String(localized: "CommandLineToolManager.Status.invalidTarget.message",
-                       defaultValue: "The current `cot` symbolic link may target an invalid path.", table: "IntegrationSettings")
+                       defaultValue: "The current `saryay` symbolic link may target an invalid path.", table: "IntegrationSettings")
         }
     }
 }

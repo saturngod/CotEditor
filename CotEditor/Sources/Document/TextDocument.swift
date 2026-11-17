@@ -1908,36 +1908,6 @@ struct LossyEncodingError: LocalizedError, RecoverableError {
 }
 
 
-/// The limits to split long lines on reading files.
-///
-/// TextKit lays out a whole paragraph at once, and a line of a few megabytes already takes tens of seconds.
-private enum LongLineLimit {
-    
-    /// The line length in UTF-8 bytes above which a line is split.
-    static let maximumLineLength = 256 * 1024
-    
-    /// The target length in UTF-8 bytes of each split line.
-    static let chunkLength = 16 * 1024
-}
-
-
-private struct SplitLongLinesSavingError: LocalizedError {
-    
-    var errorDescription: String? {
-        
-        String(localized: "SplitLongLinesSavingError.description",
-               defaultValue: "The document can’t be saved because its long lines were split for display.")
-    }
-    
-    
-    var recoverySuggestion: String? {
-        
-        String(localized: "SplitLongLinesSavingError.recoverySuggestion",
-               defaultValue: "Saving would add line breaks that aren’t in the original file. Edit the file in another app that supports very long lines.")
-    }
-}
-
-
 private struct DocumentSavingError: LocalizedError, CustomNSError {
     
     enum Code {

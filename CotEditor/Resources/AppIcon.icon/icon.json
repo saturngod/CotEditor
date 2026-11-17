@@ -7,19 +7,16 @@
   },
   "groups" : [
     {
-      "blur-material" : 1,
       "hidden" : false,
       "layers" : [
         {
           "blend-mode" : "normal",
-          "fill" : "automatic",
-          "glass" : false,
+          "glass" : true,
           "hidden" : false,
-          "image-name" : "Pen.png",
-          "name" : "Pen",
-          "opacity" : 1,
+          "image-name" : "kanyut.png",
+          "name" : "kanyut",
           "position" : {
-            "scale" : 1,
+            "scale" : 0.6,
             "translation-in-points" : [
               0,
               0
@@ -27,157 +24,58 @@
           }
         },
         {
-          "glass" : false,
-          "hidden-specializations" : [
-            {
-              "value" : false
-            },
-            {
-              "appearance" : "dark",
-              "value" : true
-            }
-          ],
-          "image-name" : "Shadow.png",
-          "name" : "Shadow",
-          "opacity-specializations" : [
-            {
-              "value" : 0.3
-            },
-            {
-              "appearance" : "tinted",
-              "value" : 0.6
-            }
-          ]
+          "hidden" : false,
+          "image-name" : "kanyut_shadow.png",
+          "name" : "kanyut_shadow",
+          "opacity" : 0.2,
+          "position" : {
+            "scale" : 0.6,
+            "translation-in-points" : [
+              0,
+              0
+            ]
+          }
         }
       ],
-      "name" : "Object",
       "shadow" : {
-        "kind" : "layer-color",
-        "opacity" : 0.9
+        "kind" : "neutral",
+        "opacity" : 0.5
       },
-      "specular" : false,
       "translucency" : {
         "enabled" : true,
-        "value" : 0
+        "value" : 0.3
       }
     },
     {
-      "blur-material" : null,
-      "hidden" : false,
       "layers" : [
-        {
-          "blend-mode-specializations" : [
-            {
-              "value" : "normal"
-            },
-            {
-              "appearance" : "dark",
-              "value" : "normal"
-            }
-          ],
-          "fill-specializations" : [
-            {
-              "value" : "automatic"
-            },
-            {
-              "appearance" : "dark",
-              "value" : {
-                "solid" : "srgb:1.00000,1.00000,1.00000,1.00000"
-              }
-            }
-          ],
-          "glass" : true,
-          "hidden" : false,
-          "image-name" : "Gears_Stroke.svg",
-          "name" : "Gears_Stroke",
-          "opacity-specializations" : [
-            {
-              "value" : 1
-            },
-            {
-              "appearance" : "dark",
-              "value" : 1
-            }
-          ],
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
-        },
-        {
-          "blend-mode" : "normal",
-          "fill-specializations" : [
-            {
-              "value" : "automatic"
-            },
-            {
-              "appearance" : "dark",
-              "value" : {
-                "solid" : "srgb:0.00000,0.00000,0.00000,1.00000"
-              }
-            }
-          ],
-          "glass" : true,
-          "hidden" : false,
-          "image-name" : "Gears_Fill.svg",
-          "name" : "Gears_Fill",
-          "opacity-specializations" : [
-            {
-              "value" : 0.2
-            },
-            {
-              "appearance" : "dark",
-              "value" : 0.2
-            }
-          ],
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              0,
-              0
-            ]
-          }
-        }
+
       ],
-      "lighting" : "combined",
-      "name" : "Gears",
-      "opacity-specializations" : [
-        {
-          "value" : 0.7
-        },
-        {
-          "appearance" : "dark",
-          "value" : 0.2
-        },
-        {
-          "appearance" : "tinted",
-          "value" : 0.25
-        }
-      ],
-      "position" : {
-        "scale" : 0.98,
-        "translation-in-points" : [
-          0,
-          0
-        ]
-      },
+      "name" : "pay",
       "shadow" : {
-        "kind" : "none",
-        "opacity" : 0.1
+        "kind" : "neutral",
+        "opacity" : 0.5
       },
-      "specular" : false,
       "translucency" : {
-        "enabled" : false,
-        "value" : 0.2
+        "enabled" : true,
+        "value" : 0.3
       }
     },
     {
       "blur-material" : 0.5,
       "hidden" : false,
       "layers" : [
+        {
+          "hidden" : true,
+          "image-name" : "mask 3.png",
+          "name" : "mask 3",
+          "position" : {
+            "scale" : 1,
+            "translation-in-points" : [
+              7.64285714285711,
+              7.234693877551194
+            ]
+          }
+        },
         {
           "blend-mode-specializations" : [
             {
@@ -190,11 +88,11 @@
           ],
           "fill" : {
             "linear-gradient" : [
-              "display-p3:0.30400,0.60000,0.12000,1.00000",
-              "display-p3:0.60240,0.72000,0.21600,1.00000"
+              "display-p3:0.81154,0.74425,0.26684,1.00000",
+              "display-p3:1.00000,0.90033,0.28249,1.00000"
             ]
           },
-          "hidden" : false,
+          "hidden" : true,
           "image-name" : "Outline.svg",
           "name" : "Outline",
           "opacity-specializations" : [
@@ -209,8 +107,8 @@
           "position" : {
             "scale" : 1,
             "translation-in-points" : [
-              0,
-              0
+              7.092857142857042,
+              -0.14999999999997726
             ]
           }
         }

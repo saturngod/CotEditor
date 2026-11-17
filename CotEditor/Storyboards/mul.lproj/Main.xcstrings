@@ -3962,361 +3962,361 @@
       }
     },
     "56.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"CotEditor\"; ObjectID = \"56\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Saryay\"; ObjectID = \"56\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         }
       }
     },
     "57.title" : {
-      "comment" : "Class = \"NSMenu\"; title = \"CotEditor\"; ObjectID = \"57\";",
+      "comment" : "Class = \"NSMenu\"; title = \"Saryay\"; ObjectID = \"57\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor"
+            "value" : "Saryay"
           }
         }
       }
     },
     "58.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"About CotEditor\"; ObjectID = \"58\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"About Saryay\"; ObjectID = \"58\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "O aplikaci CotEditor"
+            "value" : "O aplikaci Saryay"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Über CotEditor"
+            "value" : "Über Saryay"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "About CotEditor"
+            "value" : "About Saryay"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "About CotEditor"
+            "value" : "About Saryay"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Acerca de CotEditor"
+            "value" : "Acerca de Saryay"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "À propos de CotEditor"
+            "value" : "À propos de Saryay"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor परिचय"
+            "value" : "Saryay परिचय"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Informazioni su CotEditor"
+            "value" : "Informazioni su Saryay"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorについて"
+            "value" : "Saryayについて"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor에 관하여"
+            "value" : "Saryay에 관하여"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Over CotEditor"
+            "value" : "Over Saryay"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor…"
+            "value" : "Saryay…"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sobre o CotEditor"
+            "value" : "Sobre o Saryay"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "О приложении CotEditor"
+            "value" : "О приложении Saryay"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Hakkında"
+            "value" : "Saryay Hakkında"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Про CotEditor"
+            "value" : "Про Saryay"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "关于CotEditor"
+            "value" : "关于Saryay"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關於CotEditor"
+            "value" : "關於Saryay"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "關於CotEditor"
+            "value" : "關於Saryay"
           }
         }
       }
@@ -5642,121 +5642,121 @@
       }
     },
     "111.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"CotEditor Help\"; ObjectID = \"111\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Saryay Help\"; ObjectID = \"111\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nápověda pro CotEditor"
+            "value" : "Nápověda pro Saryay"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Hilfe"
+            "value" : "Saryay-Hilfe"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor Help"
+            "value" : "Saryay Help"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Help"
+            "value" : "Saryay Help"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ayuda de CotEditor"
+            "value" : "Ayuda de Saryay"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aide CotEditor"
+            "value" : "Aide Saryay"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor सहायता"
+            "value" : "Saryay सहायता"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Aiuto di CotEditor"
+            "value" : "Aiuto di Saryay"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorヘルプ"
+            "value" : "Saryayヘルプ"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 도움말"
+            "value" : "Saryay 도움말"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Help"
+            "value" : "Saryay Help"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Pomoc CotEditora"
+            "value" : "Pomoc Saryaya"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ajuda do CotEditor"
+            "value" : "Ajuda do Saryay"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Справка CotEditor"
+            "value" : "Справка Saryay"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Yardımı"
+            "value" : "Saryay Yardımı"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Довідка CotEditor"
+            "value" : "Довідка Saryay"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor帮助"
+            "value" : "Saryay帮助"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor輔助說明"
+            "value" : "Saryay輔助說明"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor輔助說明"
+            "value" : "Saryay輔助說明"
           }
         }
       }
@@ -6602,241 +6602,241 @@
       }
     },
     "134.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Hide CotEditor\"; ObjectID = \"134\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Hide Saryay\"; ObjectID = \"134\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Skrýt CotEditor"
+            "value" : "Skrýt Saryay"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor ausblenden"
+            "value" : "Saryay ausblenden"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Hide CotEditor"
+            "value" : "Hide Saryay"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Hide CotEditor"
+            "value" : "Hide Saryay"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ocultar CotEditor"
+            "value" : "Ocultar Saryay"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Masquer CotEditor"
+            "value" : "Masquer Saryay"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor छिपाएँ"
+            "value" : "Saryay छिपाएँ"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nascondi CotEditor"
+            "value" : "Nascondi Saryay"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorを非表示"
+            "value" : "Saryayを非表示"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 가리기"
+            "value" : "Saryay 가리기"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Verberg CotEditor"
+            "value" : "Verberg Saryay"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukryj CotEditora"
+            "value" : "Ukryj Saryaya"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ocultar CotEditor"
+            "value" : "Ocultar Saryay"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Скрыть CotEditor"
+            "value" : "Скрыть Saryay"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor’ü Gizle"
+            "value" : "Saryay’ü Gizle"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Сховати CotEditor"
+            "value" : "Сховати Saryay"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隐藏CotEditor"
+            "value" : "隐藏Saryay"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隱藏CotEditor"
+            "value" : "隱藏Saryay"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "隱藏CotEditor"
+            "value" : "隱藏Saryay"
           }
         }
       }
     },
     "136.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Quit CotEditor\"; ObjectID = \"136\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Quit Saryay\"; ObjectID = \"136\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Ukončit CotEditor"
+            "value" : "Ukončit Saryay"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor beenden"
+            "value" : "Saryay beenden"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Quit CotEditor"
+            "value" : "Quit Saryay"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quit CotEditor"
+            "value" : "Quit Saryay"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Salir de CotEditor"
+            "value" : "Salir de Saryay"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Quitter CotEditor"
+            "value" : "Quitter Saryay"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor बंद करें"
+            "value" : "Saryay बंद करें"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Esci da CotEditor"
+            "value" : "Esci da Saryay"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorを終了"
+            "value" : "Saryayを終了"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 종료"
+            "value" : "Saryay 종료"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Stop CotEditor"
+            "value" : "Stop Saryay"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Zakończ CotEditora"
+            "value" : "Zakończ Saryaya"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Encerrar CotEditor"
+            "value" : "Encerrar Saryay"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Завершить CotEditor"
+            "value" : "Завершить Saryay"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor’den Çık"
+            "value" : "Saryay’den Çık"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Завершити CotEditor"
+            "value" : "Завершити Saryay"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "退出CotEditor"
+            "value" : "退出Saryay"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結束CotEditor"
+            "value" : "結束Saryay"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "結束CotEditor"
+            "value" : "結束Saryay"
           }
         }
       }
@@ -15974,121 +15974,121 @@
       }
     },
     "DCW-Ij-540.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"What’s New in CotEditor\"; ObjectID = \"DCW-Ij-540\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"What’s New in Saryay\"; ObjectID = \"DCW-Ij-540\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Co je nového v CotEditoru"
+            "value" : "Co je nového v Saryayu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Neue Funktionen in CotEditor"
+            "value" : "Neue Funktionen in Saryay"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "What’s New in CotEditor"
+            "value" : "What’s New in Saryay"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "What’s New in CotEditor"
+            "value" : "What’s New in Saryay"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Novedades en CotEditor"
+            "value" : "Novedades en Saryay"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nouveautés de CotEditor"
+            "value" : "Nouveautés de Saryay"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor में नया क्या है"
+            "value" : "Saryay में नया क्या है"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Novità di CotEditor"
+            "value" : "Novità di Saryay"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorの新機能"
+            "value" : "Saryayの新機能"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor의 새로운 기능"
+            "value" : "Saryay의 새로운 기능"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Nieuw in CotEditor"
+            "value" : "Nieuw in Saryay"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Co nowego w CotEditorze"
+            "value" : "Co nowego w Saryayze"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Novidades do CotEditor"
+            "value" : "Novidades do Saryay"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Что нового в CotEditor"
+            "value" : "Что нового в Saryay"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor’deki Yenilikler"
+            "value" : "Saryay’deki Yenilikler"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Що нового в CotEditor"
+            "value" : "Що нового в Saryay"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor新功能"
+            "value" : "Saryay新功能"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor的新功能"
+            "value" : "Saryay的新功能"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor的新功能"
+            "value" : "Saryay的新功能"
           }
         }
       }
@@ -17534,121 +17534,121 @@
       }
     },
     "g34-YV-E6o.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"CotEditor Web Site\"; ObjectID = \"g34-YV-E6o\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Saryay Web Site\"; ObjectID = \"g34-YV-E6o\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Webové stránky CotEditoru"
+            "value" : "Webové stránky Saryayu"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Webseite"
+            "value" : "Saryay-Webseite"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor Web Site"
+            "value" : "Saryay Web Site"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Website"
+            "value" : "Saryay Website"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Página web de CotEditor"
+            "value" : "Página web de Saryay"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Site web de CotEditor"
+            "value" : "Site web de Saryay"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor वेबसाइट"
+            "value" : "Saryay वेबसाइट"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Sito web di CotEditor"
+            "value" : "Sito web di Saryay"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Webサイト"
+            "value" : "Saryay Webサイト"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 웹사이트"
+            "value" : "Saryay 웹사이트"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-website"
+            "value" : "Saryay-website"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Strona internetowa CotEditora"
+            "value" : "Strona internetowa Saryaya"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Site do CotEditor"
+            "value" : "Site do Saryay"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Веб-сайт CotEditor"
+            "value" : "Веб-сайт Saryay"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Web Sitesi"
+            "value" : "Saryay Web Sitesi"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Вебсайт CotEditor"
+            "value" : "Вебсайт Saryay"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor网站"
+            "value" : "Saryay网站"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor網站"
+            "value" : "Saryay網站"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor網站"
+            "value" : "Saryay網站"
           }
         }
       }
@@ -21626,121 +21626,121 @@
       }
     },
     "M1N-Fg-Bo4.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"CotEditor Scripting Guide\"; ObjectID = \"M1N-Fg-Bo4\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Saryay Scripting Guide\"; ObjectID = \"M1N-Fg-Bo4\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor - Průvodce skriptováním"
+            "value" : "Saryay - Průvodce skriptováním"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Skripthandbuch"
+            "value" : "Saryay-Skripthandbuch"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor Scripting Guide"
+            "value" : "Saryay Scripting Guide"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Scripting Guide"
+            "value" : "Saryay Scripting Guide"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guía de scripts en CotEditor"
+            "value" : "Guía de scripts en Saryay"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guide de scripts CotEditor"
+            "value" : "Guide de scripts Saryay"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor स्क्रिप्टिंग गाइड"
+            "value" : "Saryay स्क्रिप्टिंग गाइड"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manuale di scripting di CotEditor"
+            "value" : "Manuale di scripting di Saryay"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorスクリプトガイド"
+            "value" : "Saryayスクリプトガイド"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 스크립트 가이드"
+            "value" : "Saryay 스크립트 가이드"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-gids voor scripting"
+            "value" : "Saryay-gids voor scripting"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przewodnik tworzenia skryptów CotEditora"
+            "value" : "Przewodnik tworzenia skryptów Saryaya"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manual de Scripts do CotEditor"
+            "value" : "Manual de Scripts do Saryay"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Руководство по сценариям CotEditor"
+            "value" : "Руководство по сценариям Saryay"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Betik Yazım Kılavuzu"
+            "value" : "Saryay Betik Yazım Kılavuzu"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Посібник зі скриптів CotEditor"
+            "value" : "Посібник зі скриптів Saryay"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor脚本手册"
+            "value" : "Saryay脚本手册"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor指令碼手冊"
+            "value" : "Saryay指令碼手冊"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor程式碼指南"
+            "value" : "Saryay程式碼指南"
           }
         }
       }
@@ -22465,6 +22465,18 @@
         }
       }
     },
+    "nTm-Nw-Cmd.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"New Terminal\"; ObjectID = \"nTm-Nw-Cmd\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "New Terminal"
+          }
+        }
+      }
+    },
     "NwE-Cf-L9F.title" : {
       "comment" : "Class = \"NSMenuItem\"; title = \"Find Next\"; ObjectID = \"NwE-Cf-L9F\";",
       "extractionState" : "extracted_with_value",
@@ -23066,121 +23078,121 @@
       }
     },
     "OLa-Mb-rXS.title" : {
-      "comment" : "Class = \"NSMenu\"; title = \"CotEditor Scripting Guide\"; ObjectID = \"OLa-Mb-rXS\";",
+      "comment" : "Class = \"NSMenu\"; title = \"Saryay Scripting Guide\"; ObjectID = \"OLa-Mb-rXS\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor - Průvodce skriptováním"
+            "value" : "Saryay - Průvodce skriptováním"
           }
         },
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-Skripthandbuch"
+            "value" : "Saryay-Skripthandbuch"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor Scripting Guide"
+            "value" : "Saryay Scripting Guide"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Scripting Guide"
+            "value" : "Saryay Scripting Guide"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guía de scripts en CotEditor"
+            "value" : "Guía de scripts en Saryay"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Guide de scripts CotEditor"
+            "value" : "Guide de scripts Saryay"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor स्क्रिप्टिंग गाइड"
+            "value" : "Saryay स्क्रिप्टिंग गाइड"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manuale di scripting di CotEditor"
+            "value" : "Manuale di scripting di Saryay"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorスクリプトガイド"
+            "value" : "Saryayスクリプトガイド"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 스크립트 가이드"
+            "value" : "Saryay 스크립트 가이드"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor-gids voor scripting"
+            "value" : "Saryay-gids voor scripting"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Przewodnik tworzenia skryptów CotEditora"
+            "value" : "Przewodnik tworzenia skryptów Saryaya"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Manual de Scripts do CotEditor"
+            "value" : "Manual de Scripts do Saryay"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Руководство по сценариям CotEditor"
+            "value" : "Руководство по сценариям Saryay"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor Betik Yazım Kılavuzu"
+            "value" : "Saryay Betik Yazım Kılavuzu"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Посібник зі скриптів CotEditor"
+            "value" : "Посібник зі скриптів Saryay"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor脚本手册"
+            "value" : "Saryay脚本手册"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor指令碼手冊"
+            "value" : "Saryay指令碼手冊"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor程式碼指南"
+            "value" : "Saryay程式碼指南"
           }
         }
       }
@@ -24397,128 +24409,104 @@
         }
       }
     },
-    "nTm-Nw-Cmd.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"New Terminal\"; ObjectID = \"nTm-Nw-Cmd\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "New Terminal"
-          }
-        }
-      }
-    },
-    "tRm-Tg-Cmd.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Show Terminal\"; ObjectID = \"tRm-Tg-Cmd\";",
-      "extractionState" : "extracted_with_value",
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "new",
-            "value" : "Show Terminal"
-          }
-        }
-      }
-    },
     "qPX-5r-cB2.title" : {
-      "comment" : "Class = \"NSMenuItem\"; title = \"Donate to CotEditor…\"; ObjectID = \"qPX-5r-cB2\";",
+      "comment" : "Class = \"NSMenuItem\"; title = \"Donate to Saryay…\"; ObjectID = \"qPX-5r-cB2\";",
       "extractionState" : "extracted_with_value",
       "localizations" : {
         "de" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Für CotEditor spenden …"
+            "value" : "Für Saryay spenden …"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Donate to CotEditor…"
+            "value" : "Donate to Saryay…"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Donate to CotEditor…"
+            "value" : "Donate to Saryay…"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Donar a CotEditor…"
+            "value" : "Donar a Saryay…"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Faire un don à CotEditor…"
+            "value" : "Faire un don à Saryay…"
           }
         },
         "hi" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor को दान करें…"
+            "value" : "Saryay को दान करें…"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Fai una donazione per CotEditor…"
+            "value" : "Fai una donazione per Saryay…"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditorに寄付…"
+            "value" : "Saryayに寄付…"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor 후원…"
+            "value" : "Saryay 후원…"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Doneer aan CotEditor…"
+            "value" : "Doneer aan Saryay…"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Поддержать CotEditor…"
+            "value" : "Поддержать Saryay…"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "CotEditor’a Bağış Yap…"
+            "value" : "Saryay’a Bağış Yap…"
           }
         },
         "uk" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Підтримати CotEditor…"
+            "value" : "Підтримати Saryay…"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "向CotEditor捐赠…"
+            "value" : "向Saryay捐赠…"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "捐贈給CotEditor⋯"
+            "value" : "捐贈給Saryay⋯"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "捐款給CotEditor⋯"
+            "value" : "捐款給Saryay⋯"
           }
         }
       }
@@ -26559,6 +26547,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "檢閲字元"
+          }
+        }
+      }
+    },
+    "tRm-Tg-Cmd.title" : {
+      "comment" : "Class = \"NSMenuItem\"; title = \"Show Terminal\"; ObjectID = \"tRm-Tg-Cmd\";",
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Show Terminal"
           }
         }
       }

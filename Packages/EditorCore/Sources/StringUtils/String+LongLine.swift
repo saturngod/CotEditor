@@ -20,6 +20,8 @@
 //  limitations under the License.
 //
 
+import Foundation
+
 public extension String {
 
     /// Returns a copy of the receiver in which every line longer than `maximumLineLength` is broken into chunks of about `chunkLength`.
@@ -96,7 +98,8 @@ public extension String {
 
         func append(_ range: Range<Int>) {
 
-            result += String(decoding: bytes[range], as: UTF8.self)
+            // -> Ranges always start and end at scalar boundaries, so decoding never fails.
+            result += String(bytes: bytes[range], encoding: .utf8) ?? ""
         }
 
         var lineStart = 0

@@ -50,6 +50,7 @@ import TreeSitterSql
 import TreeSitterSwift
 import TreeSitterTSX
 import TreeSitterTypeScript
+import TreeSitterVue
 
 public enum TreeSitterSyntax: String, CaseIterable, Sendable {
     
@@ -78,6 +79,7 @@ public enum TreeSitterSyntax: String, CaseIterable, Sendable {
     case swift = "Swift"
     case tsx = "TSX"
     case typeScript = "TypeScript"
+    case vue = "Vue"
     
     var name: String  { self.rawValue }
     
@@ -86,7 +88,7 @@ public enum TreeSitterSyntax: String, CaseIterable, Sendable {
     public var features: ParserFeatures {
         
         switch self {
-            case .blade: [.highlight]
+            case .blade, .vue: [.highlight]
             case .markdown: [.outline]
             default: [.highlight, .outline]
         }
@@ -99,7 +101,7 @@ public enum TreeSitterSyntax: String, CaseIterable, Sendable {
     var confinesInjectedHighlights: Bool {
         
         switch self {
-            case .blade: true
+            case .blade, .vue: true
             default: false
         }
     }
@@ -144,6 +146,7 @@ public enum TreeSitterSyntax: String, CaseIterable, Sendable {
             case .swift: unsafe tree_sitter_swift()
             case .tsx: unsafe tree_sitter_tsx()
             case .typeScript: unsafe tree_sitter_typescript()
+            case .vue: unsafe tree_sitter_vue()
         }
     }
 }

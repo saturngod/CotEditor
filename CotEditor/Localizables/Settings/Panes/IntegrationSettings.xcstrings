@@ -307,115 +307,115 @@
       "localizations" : {
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Aktuální symbolický odkaz `cot` neodkazuje na spuštěný CotEditor."
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Der aktuelle symbolische Link `cot` verweist nicht auf die laufende Version von CotEditor."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "The current `cot` symbolic link doesn’t target the running CotEditor."
+            "value" : "The current `saryay` symbolic link doesn’t target the running app."
           }
         },
         "en-GB" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "The current `cot` symbolic link doesn’t target the running CotEditor."
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "El enlace simbólico `cot` actual no se dirige al CotEditor en ejecución."
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Le lien symbolique `cot` actuel ne pointe pas vers la version de CotEditor en cours d’exécution."
           }
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "मौजूदा `cot` सिंबॉलिक लिंक चल रहे CotEditor को लक्षित नहीं करता।"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Il link simbolico `cot` attuale non punta al CotEditor in esecuzione."
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "現在の`cot`シンボリックリンクはこのCotEditor以外に向けられています。"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "현재 `cot` 심볼릭 링크가 실행 중인 CotEditor를 가리키지 않습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "De huidige `cot` symbolische link richt zich niet op de actieve CotEditor."
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Obecne połączenie symboliczne `cot` nie wskazuje działającego CotEditora."
           }
         },
         "pt" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "O link simbólico `cot` atual não aponta para o CotEditor em execução."
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Текущая символическая ссылка `cot` не указывает на запущенный CotEditor."
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Geçerli `cot` sembolik bağı, çalışan CotEditor’ü hedeflemiyor."
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Поточне символічне посилання `cot` не вказує на запущений CotEditor."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "当前的`cot`符号链接没有指向正在运行的CotEditor。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "當前的`cot`符號鏈接沒有指向正在運行的CotEditor。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "現時`cot`符號連結的目標不是正在執行的CotEditor。"
           }
         }
@@ -426,119 +426,122 @@
       "localizations" : {
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Aktuální symbolický odkaz `cot` může odkazovat na neplatnou cestu."
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Der aktuelle symbolische Link `cot` könnte auf einen ungültigen Pfad verweisen."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "The current `cot` symbolic link may target an invalid path."
+            "value" : "The current `saryay` symbolic link may target an invalid path."
           }
         },
         "en-GB" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "The current `cot` symbolic link may target an invalid path."
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "El enlace simbólico `cot` actual puede apuntar a una ruta no válida."
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Il se peut que le lien symbolique `cot` pointe vers un chemin invalide."
           }
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "मौजूदा `cot` सिंबॉलिक लिंक किसी अमान्य पथ को लक्षित कर सकता है।"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Il link simbolico `cot` attuale potrebbe puntare a un percorso non valido."
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "現在の`cot`シンボリックリンクは無効なパスに向けられています。"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "현재 `cot` 심볼릭 링크가 유효하지 않은 경로를 가리키고 있는 것 같습니다."
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "De huidige `cot` symbolische link kan een ongeldig pad als doel hebben."
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Obecne połączenie symboliczne `cot` może wskazywać nieprawidłową ścieżkę."
           }
         },
         "pt" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "O link simbólico `cot` atual pode apontar para um caminho inválido."
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Текущая символическая ссылка `cot` может указывать на недопустимый путь."
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Geçerli `cot` sembolik bağı, geçersiz bir yolu hedefleyebilir."
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Поточне символічне посилання `cot` може вказувати на недійсний шлях."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "当前的`cot`符号链接可能指向无效路径。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "當前的`cot`符號鏈接可能指向無效路徑。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "現時`cot`符號連結的目標可能是無效路徑。"
           }
         }
       }
+    },
+    "Install “%@” Command" : {
+      "comment" : "verb; button; %@ is command name"
     },
     "installed at %@" : {
       "localizations" : {
@@ -971,7 +974,21 @@
         }
       }
     },
+    "Uninstall" : {
+      "comment" : "verb; button"
+    },
+    "With the `%@` command-line tool, you can open files and folders from the command line. For example, `%@ .` opens the current folder." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "With the `%1$@` command-line tool, you can open files and folders from the command line. For example, `%2$@ .` opens the current folder."
+          }
+        }
+      }
+    },
     "With the `cot` command-line tool, you can launch CotEditor and let it open files from the command line." : {
+      "extractionState" : "stale",
       "localizations" : {
         "cs" : {
           "stringUnit" : {

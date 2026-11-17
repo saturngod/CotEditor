@@ -54,12 +54,19 @@ public final class LanguageRegistry: Sendable {
     /// such as statements and directive arguments in Blade, as separate documents.
     static let phpOnlyProviderNames: Set<String> = ["php_only", "php_parameter"]
     
+    /// The provider/injection name for JavaScript expressions in Vue templates.
+    ///
+    /// The expressions are parsed as a separate document from the `<script>` element
+    /// since they are not always valid code on their own, e.g. `item in items` in `v-for`.
+    static let vueExpressionProviderName = "vue_expression"
+    
     
     // MARK: Private Properties
     
     private let directoryURL: URL
     private let cachedConfiguration: Mutex<[TreeSitterSyntax: LanguageConfiguration]> = .init([:])
     private let cachedPHPOnlyConfiguration: Mutex<LanguageConfiguration?> = .init(nil)
+    private let cachedVueExpressionConfiguration: Mutex<LanguageConfiguration?> = .init(nil)
     
     
     // MARK: Lifecycle
@@ -81,6 +88,10 @@ public final class LanguageRegistry: Sendable {
         
         if Self.phpOnlyProviderNames.contains(name.lowercased()) {
             return self.phpOnlyConfiguration()
+        }
+        
+        if name.lowercased() == Self.vueExpressionProviderName {
+            return self.vueExpressionConfiguration()
         }
         
         guard let syntax = TreeSitterSyntax(providerName: name) else { return nil }
@@ -109,6 +120,28 @@ public final class LanguageRegistry: Sendable {
         
         let config = LanguageConfiguration(language, name: "php_only", queries: [.highlights: query])
         self.cachedPHPOnlyConfiguration.withLock { $0 = config }
+        
+        return config
+    }
+    
+    
+    /// Returns (and caches) the configuration for JavaScript expressions in Vue templates.
+    ///
+    /// - Returns: A language configuration, or `nil` if the JavaScript highlights query cannot be loaded.
+    nonisolated func vueExpressionConfiguration() -> LanguageConfiguration? {
+        
+        if let cache = self.cachedVueExpressionConfiguration.withLock({ $0 }) {
+            return cache
+        }
+        
+        // -> Share only the highlights query with JavaScript.
+        let language = unsafe Language(TreeSitterSyntax.javaScript.language)
+        let queryURL = self.queriesURL(for: .javaScript).appending(path: Query.Definition.highlights.filename)
+        
+        guard let query = try? Query(language: language, url: queryURL) else { return nil }
+        
+        let config = LanguageConfiguration(language, name: Self.vueExpressionProviderName, queries: [.highlights: query])
+        self.cachedVueExpressionConfiguration.withLock { $0 = config }
         
         return config
     }

@@ -1021,6 +1021,9 @@
         }
       }
     },
+    "Include files ignored by .gitignore" : {
+      "comment" : "checkbox; whether Quick Open lists files and folders matched by .gitignore"
+    },
     "Including whitespace-only lines" : {
       "comment" : "checkbox; also trim whitespace-only lines",
       "localizations" : {
@@ -1809,6 +1812,9 @@
           }
         }
       }
+    },
+    "Quick Open:" : {
+
     },
     "seconds" : {
       "comment" : "init for delay time",

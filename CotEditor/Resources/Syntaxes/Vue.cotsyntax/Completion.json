@@ -1,0 +1,152 @@
+[
+  {
+    "text": "component"
+  },
+  {
+    "text": "computed"
+  },
+  {
+    "text": "defineEmits"
+  },
+  {
+    "text": "defineExpose"
+  },
+  {
+    "text": "defineModel"
+  },
+  {
+    "text": "defineOptions"
+  },
+  {
+    "text": "defineProps"
+  },
+  {
+    "text": "defineSlots"
+  },
+  {
+    "text": "inject"
+  },
+  {
+    "text": "keep-alive"
+  },
+  {
+    "text": "nextTick"
+  },
+  {
+    "text": "onBeforeMount"
+  },
+  {
+    "text": "onBeforeUnmount"
+  },
+  {
+    "text": "onMounted"
+  },
+  {
+    "text": "onUnmounted"
+  },
+  {
+    "text": "onUpdated"
+  },
+  {
+    "text": "provide"
+  },
+  {
+    "text": "reactive"
+  },
+  {
+    "text": "ref"
+  },
+  {
+    "text": "scoped"
+  },
+  {
+    "text": "script"
+  },
+  {
+    "text": "setup"
+  },
+  {
+    "text": "shallowRef"
+  },
+  {
+    "text": "slot"
+  },
+  {
+    "text": "style"
+  },
+  {
+    "text": "suspense"
+  },
+  {
+    "text": "teleport"
+  },
+  {
+    "text": "template"
+  },
+  {
+    "text": "toRef"
+  },
+  {
+    "text": "toRefs"
+  },
+  {
+    "text": "transition"
+  },
+  {
+    "text": "transition-group"
+  },
+  {
+    "text": "v-bind"
+  },
+  {
+    "text": "v-cloak"
+  },
+  {
+    "text": "v-else"
+  },
+  {
+    "text": "v-else-if"
+  },
+  {
+    "text": "v-for"
+  },
+  {
+    "text": "v-html"
+  },
+  {
+    "text": "v-if"
+  },
+  {
+    "text": "v-memo"
+  },
+  {
+    "text": "v-model"
+  },
+  {
+    "text": "v-on"
+  },
+  {
+    "text": "v-once"
+  },
+  {
+    "text": "v-pre"
+  },
+  {
+    "text": "v-show"
+  },
+  {
+    "text": "v-slot"
+  },
+  {
+    "text": "v-text"
+  },
+  {
+    "text": "watch"
+  },
+  {
+    "text": "watchEffect"
+  },
+  {
+    "text": "withDefaults"
+  }
+]

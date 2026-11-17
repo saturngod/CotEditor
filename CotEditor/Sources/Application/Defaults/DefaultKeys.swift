@@ -93,6 +93,7 @@ extension DefaultKeys {
     static let highlightBraces = DefaultKey<Bool>("highlightBraces")
     static let highlightSelectionInstance = DefaultKey<Bool>("highlightSelectionInstance")
     static let selectionInstanceHighlightDelay = DefaultKey<Double>("selectionInstanceHighlightDelay")
+    static let quickOpenIncludesGitIgnoredFiles = DefaultKey<Bool>("quickOpenIncludesGitIgnoredFiles")
     
     // Mode
     static let modes = DefaultKey<[String: AnyHashable]>("modes")

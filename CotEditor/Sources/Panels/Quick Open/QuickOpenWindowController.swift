@@ -43,7 +43,7 @@ final class QuickOpenWindowController: NSWindowController {
     private var loadTask: Task<Void, Never>?
 
     /// Cache of the collected project files keyed by the project folder.
-    private var cache: (rootURL: URL, items: [QuickOpenItem])?
+    private var cache: (rootURL: URL, includesGitIgnoredFiles: Bool, items: [QuickOpenItem])?
 
 
     // MARK: Lifecycle
@@ -225,9 +225,9 @@ final class QuickOpenWindowController: NSWindowController {
         recents += (openURLs + recentURLs).filter { rootURL.isAncestor(of: $0) }
         self.model.recentURLs = recents.uniqued
 
-        let includesGitIgnoredFiles = UserDefaults.standard[.folderFindIncludesGitIgnoredFiles]
+        let includesGitIgnoredFiles = UserDefaults.standard[.quickOpenIncludesGitIgnoredFiles]
 
-        if let cache = self.cache, cache.rootURL == rootURL {
+        if let cache = self.cache, cache.rootURL == rootURL, cache.includesGitIgnoredFiles == includesGitIgnoredFiles {
             self.model.items = cache.items
         } else {
             self.model.items = []
@@ -240,7 +240,7 @@ final class QuickOpenWindowController: NSWindowController {
             let items = await QuickOpenFileCollector.collect(in: rootURL, includesGitIgnoredFiles: includesGitIgnoredFiles)
             guard !Task.isCancelled, let self else { return }
 
-            self.cache = (rootURL, items)
+            self.cache = (rootURL, includesGitIgnoredFiles, items)
             if self.directoryDocument?.fileURL == rootURL, self.model.items != items {
                 self.model.items = items
             }

@@ -522,6 +522,11 @@
       "sv"
     ]
   },
+  "Vue" : {
+    "extensions" : [
+      "vue"
+    ]
+  },
   "XML" : {
     "extensions" : [
       "xml",

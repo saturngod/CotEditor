@@ -8748,6 +8748,9 @@
         }
       }
     },
+    "Include Git-Ignored Files" : {
+      "comment" : "verb; menu item"
+    },
     "Include Hidden Files" : {
       "comment" : "verb; menu item",
       "localizations" : {

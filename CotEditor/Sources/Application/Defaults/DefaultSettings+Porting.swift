@@ -89,6 +89,7 @@ extension DefaultSettings {
         .highlightBraces,
         .highlightSelectionInstance,
         .selectionInstanceHighlightDelay,
+        .quickOpenIncludesGitIgnoredFiles,
         
         // Mode
         .modes,

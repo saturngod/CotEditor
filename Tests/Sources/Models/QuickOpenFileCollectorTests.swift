@@ -59,4 +59,25 @@ struct QuickOpenFileCollectorTests {
         
         #expect(paths == [".env", ".gitignore"])
     }
+    
+    
+    @Test func skipsLaravelVendorFolder() async throws {
+        
+        let rootURL = URL.temporaryDirectory.appending(path: UUID().uuidString, directoryHint: .isDirectory)
+        let fileManager = FileManager.default
+        defer { try? fileManager.removeItem(at: rootURL) }
+        
+        try fileManager.createDirectory(at: rootURL.appending(path: "vendor/symfony/routing"), withIntermediateDirectories: true)
+        try fileManager.createDirectory(at: rootURL.appending(path: "routes"), withIntermediateDirectories: true)
+        try "*.log\n.env\n/node_modules\n/public/build\n/vendor\nThumbs.db\n".write(to: rootURL.appending(path: ".gitignore"), atomically: true, encoding: .utf8)
+        for path in ["vendor/symfony/routing/Route.php", "routes/web.php"] {
+            try "".write(to: rootURL.appending(path: path), atomically: true, encoding: .utf8)
+        }
+        
+        let paths = await QuickOpenFileCollector.collect(in: rootURL).map(\.path)
+        #expect(paths == [".gitignore", "routes/web.php"])
+        
+        let allPaths = await QuickOpenFileCollector.collect(in: rootURL, includesGitIgnoredFiles: true).map(\.path)
+        #expect(allPaths.contains("vendor/symfony/routing/Route.php"))
+    }
 }

@@ -28,7 +28,16 @@ import UniformTypeIdentifiers
 import URLUtils
 
 final class CommandLineToolManager: Sendable {
-    
+
+    /// The name of the command installed in `/usr/local/bin`.
+    static let commandName = "saryay"
+
+
+    struct InstallationError: LocalizedError {
+
+        var errorDescription: String?
+    }
+
     enum Status {
         
         case none
@@ -54,7 +63,7 @@ final class CommandLineToolManager: Sendable {
     init(bundle: Bundle = .main) {
         
         self.bundledCommandURL = bundle.cotURL!
-        self.preferredLinkURL = URL(filePath: "/usr/local/bin/cot")
+        self.preferredLinkURL = URL(filePath: "/usr/local/bin/").appending(component: Self.commandName)
         self.preferredApplicationURL = URL.applicationDirectory
             .appendingPathComponent(bundle.bundleName, conformingTo: .application)
         
@@ -80,6 +89,82 @@ final class CommandLineToolManager: Sendable {
         { return .validTarget }
         
         return .differentTarget
+    }
+
+
+    /// Creates (or replaces) the symbolic link to the bundled command-line tool.
+    ///
+    /// Asks for administrator privileges if the link location isn't writable for the current user.
+    @MainActor func install() throws {
+
+        let source = self.bundledCommandURL.path(percentEncoded: false)
+        let destination = self.linkURL.path(percentEncoded: false)
+        let directory = self.linkURL.deletingLastPathComponent().path(percentEncoded: false)
+
+        // try without privileges first
+        do {
+            try FileManager.default.createDirectory(atPath: directory, withIntermediateDirectories: true)
+            if (try? FileManager.default.destinationOfSymbolicLink(atPath: destination)) != nil || FileManager.default.fileExists(atPath: destination) {
+                try FileManager.default.removeItem(atPath: destination)
+            }
+            try FileManager.default.createSymbolicLink(atPath: destination, withDestinationPath: source)
+            return
+        } catch {
+            // fall back to the administrator privileges
+        }
+
+        try Self.runPrivileged("mkdir -p \(directory.shellQuoted) && ln -sfn \(source.shellQuoted) \(destination.shellQuoted)")
+    }
+
+
+    /// Removes the installed symbolic link.
+    ///
+    /// Asks for administrator privileges if the link location isn't writable for the current user.
+    @MainActor func uninstall() throws {
+
+        let destination = self.linkURL.path(percentEncoded: false)
+
+        // remove only symbolic links to avoid deleting an unrelated file
+        guard (try? FileManager.default.destinationOfSymbolicLink(atPath: destination)) != nil else { return }
+
+        do {
+            try FileManager.default.removeItem(atPath: destination)
+        } catch {
+            try Self.runPrivileged("rm -f \(destination.shellQuoted)")
+        }
+    }
+
+
+    // MARK: Private Methods
+
+    /// Runs a shell command with administrator privileges via AppleScript.
+    ///
+    /// - Parameter command: The shell command to run.
+    @MainActor private static func runPrivileged(_ command: String) throws {
+
+        let escaped = command
+            .replacing("\\", with: "\\\\")
+            .replacing("\"", with: "\\\"")
+        let source = "do shell script \"\(escaped)\" with administrator privileges"
+
+        var errorInfo: NSDictionary?
+        NSAppleScript(source: source)?.executeAndReturnError(&errorInfo)
+
+        if let errorInfo {
+            // -128: user canceled
+            if errorInfo[NSAppleScript.errorNumber] as? Int == -128 { throw CancellationError() }
+            throw InstallationError(errorDescription: errorInfo[NSAppleScript.errorMessage] as? String)
+        }
+    }
+}
+
+
+private extension String {
+
+    /// The string quoted for safe use as a single shell argument.
+    var shellQuoted: String {
+
+        "'" + self.replacing("'", with: "'\\''") + "'"
     }
 }
 

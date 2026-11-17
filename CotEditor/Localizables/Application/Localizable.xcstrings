@@ -18789,6 +18789,50 @@
         }
       }
     },
+    "SplitLongLinesAlert.informativeText" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Lines longer than %@ were split into shorter lines for display. To keep the file unchanged, the document is read-only and can’t be saved."
+          }
+        }
+      }
+    },
+    "SplitLongLinesAlert.message" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "This document has lines too long to display."
+          }
+        }
+      }
+    },
+    "SplitLongLinesSavingError.description" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "The document can’t be saved because its long lines were split for display."
+          }
+        }
+      }
+    },
+    "SplitLongLinesSavingError.recoverySuggestion" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Saving would add line breaks that aren’t in the original file. Edit the file in another app that supports very long lines."
+          }
+        }
+      }
+    },
     "SyntaxName.none" : {
       "extractionState" : "extracted_with_value",
       "localizations" : {

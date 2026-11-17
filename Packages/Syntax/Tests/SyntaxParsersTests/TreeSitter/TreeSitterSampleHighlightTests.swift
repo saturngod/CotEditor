@@ -89,6 +89,7 @@ struct TreeSitterSampleHighlightTests {
             case .swift: "test.swift"
             case .tsx: "test.tsx"
             case .typeScript: "test.ts"
+            case .vue: "test.vue"
         }
     }
 }

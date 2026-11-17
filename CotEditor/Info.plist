@@ -105,7 +105,7 @@
 	<key>CFBundleHelpBookName</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER).help</string>
 	<key>CFBundleSpokenName</key>
-	<string>Cot editor</string>
+	<string>Saryay</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>NSServices</key>
@@ -160,7 +160,7 @@
 		</dict>
 	</dict>
 	<key>OSAScriptingDefinition</key>
-	<string>$(PRODUCT_NAME).sdef</string>
+	<string>CotEditor.sdef</string>
 	<key>SUEnableInstallerLauncherService</key>
 	<true/>
 	<key>SUPublicEDKey</key>
