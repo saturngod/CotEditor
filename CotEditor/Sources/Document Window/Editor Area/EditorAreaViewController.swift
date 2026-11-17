@@ -99,18 +99,6 @@ final class EditorAreaViewController: NSSplitViewController {
 
     // MARK: Split View Controller Methods
 
-    override func splitView(_ splitView: NSSplitView, constrainMinCoordinate proposedMinimumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
-
-        max(proposedMinimumPosition, self.dividerPosition(before: dividerIndex) + 120)
-    }
-
-
-    override func splitView(_ splitView: NSSplitView, constrainMaxCoordinate proposedMaximumPosition: CGFloat, ofSubviewAt dividerIndex: Int) -> CGFloat {
-
-        min(proposedMaximumPosition, self.dividerPosition(before: dividerIndex + 2) - splitView.dividerThickness - 120)
-    }
-
-
     override func validateUserInterfaceItem(_ item: any NSValidatedUserInterfaceItem) -> Bool {
 
         switch item.action {
@@ -911,20 +899,6 @@ final class EditorAreaViewController: NSSplitViewController {
         guard let view = sender as? NSView else { return nil }
 
         return self.groups.first { view.isDescendant(of: $0.view) }
-    }
-
-
-    /// Returns the position where the subview at the given index begins.
-    private func dividerPosition(before index: Int) -> CGFloat {
-
-        let subviews = self.splitView.arrangedSubviews
-
-        guard index > 0 else { return 0 }
-        guard let view = subviews[safe: index] else {
-            return self.splitView.isVertical ? self.splitView.bounds.width : self.splitView.bounds.height
-        }
-
-        return self.splitView.isVertical ? view.frame.minX : view.frame.minY
     }
 
 

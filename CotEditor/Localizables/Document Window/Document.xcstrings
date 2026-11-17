@@ -1021,7 +1021,7 @@
       }
     },
     "Close Tab" : {
-      "comment" : "menu item for an editor tab; also tooltip and accessibility label for the close button in an editor tab"
+      "comment" : "accessibility label for the close button in an editor tab\nmenu item for an editor tab\ntooltip for the close button in an editor tab"
     },
     "Close Tabs to the Right" : {
       "comment" : "menu item for an editor tab"
@@ -12943,7 +12943,7 @@
       }
     },
     "Open in New Window" : {
-      "comment" : "verb; button\nverb; menu item",
+      "comment" : "menu item for an editor tab\nverb; button\nverb; menu item",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -14282,7 +14282,7 @@
       }
     },
     "Reveal in File Browser" : {
-      "comment" : "verb; menu item",
+      "comment" : "menu item for an editor tab\nverb; menu item",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
@@ -15412,7 +15412,7 @@
       }
     },
     "Show in Finder" : {
-      "comment" : "verb; button\nverb; menu item",
+      "comment" : "menu item for an editor tab\nverb; button\nverb; menu item",
       "localizations" : {
         "cs" : {
           "stringUnit" : {
