@@ -1,38 +1,32 @@
 {
-  "features" : [
-    "specular-location"
-  ],
   "fill" : {
-    "automatic-gradient" : "gray:0.96342,1.00000"
+    "linear-gradient" : [
+      "display-p3:0.82461,0.67068,0.16492,1.00000",
+      "display-p3:0.60073,0.47800,0.09268,1.00000"
+    ],
+    "orientation" : {
+      "start" : {
+        "x" : 0.5,
+        "y" : 1
+      },
+      "stop" : {
+        "x" : 0.5,
+        "y" : 0
+      }
+    }
   },
   "groups" : [
     {
-      "hidden" : false,
       "layers" : [
         {
-          "blend-mode" : "normal",
-          "glass" : true,
-          "hidden" : false,
-          "image-name" : "kanyut.png",
-          "name" : "kanyut",
+          "glass" : false,
+          "image-name" : "Engraved Capybara Portrait.png",
+          "name" : "Engraved Capybara Portrait",
           "position" : {
-            "scale" : 0.6,
+            "scale" : 1.5,
             "translation-in-points" : [
-              0,
-              0
-            ]
-          }
-        },
-        {
-          "hidden" : false,
-          "image-name" : "kanyut_shadow.png",
-          "name" : "kanyut_shadow",
-          "opacity" : 0.2,
-          "position" : {
-            "scale" : 0.6,
-            "translation-in-points" : [
-              0,
-              0
+              -509.75,
+              423
             ]
           }
         }
@@ -45,116 +39,6 @@
         "enabled" : true,
         "value" : 0.3
       }
-    },
-    {
-      "layers" : [
-
-      ],
-      "name" : "pay",
-      "shadow" : {
-        "kind" : "neutral",
-        "opacity" : 0.5
-      },
-      "translucency" : {
-        "enabled" : true,
-        "value" : 0.3
-      }
-    },
-    {
-      "blur-material" : 0.5,
-      "hidden" : false,
-      "layers" : [
-        {
-          "hidden" : true,
-          "image-name" : "mask 3.png",
-          "name" : "mask 3",
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              7.64285714285711,
-              7.234693877551194
-            ]
-          }
-        },
-        {
-          "blend-mode-specializations" : [
-            {
-              "value" : "normal"
-            },
-            {
-              "appearance" : "dark",
-              "value" : "normal"
-            }
-          ],
-          "fill" : {
-            "linear-gradient" : [
-              "display-p3:0.81154,0.74425,0.26684,1.00000",
-              "display-p3:1.00000,0.90033,0.28249,1.00000"
-            ]
-          },
-          "hidden" : true,
-          "image-name" : "Outline.svg",
-          "name" : "Outline",
-          "opacity-specializations" : [
-            {
-              "value" : 1
-            },
-            {
-              "appearance" : "dark",
-              "value" : 1
-            }
-          ],
-          "position" : {
-            "scale" : 1,
-            "translation-in-points" : [
-              7.092857142857042,
-              -0.14999999999997726
-            ]
-          }
-        }
-      ],
-      "lighting" : "combined",
-      "name" : "Green",
-      "opacity-specializations" : [
-        {
-          "value" : 0.92
-        },
-        {
-          "appearance" : "dark",
-          "value" : 0.9
-        },
-        {
-          "appearance" : "tinted",
-          "value" : 0.6
-        }
-      ],
-      "position" : {
-        "scale" : 0.98,
-        "translation-in-points" : [
-          0,
-          0
-        ]
-      },
-      "shadow" : {
-        "kind" : "layer-color",
-        "opacity" : 0.1
-      },
-      "specular" : "inside",
-      "translucency-specializations" : [
-        {
-          "value" : {
-            "enabled" : true,
-            "value" : 0.25
-          }
-        },
-        {
-          "appearance" : "tinted",
-          "value" : {
-            "enabled" : true,
-            "value" : 0.6
-          }
-        }
-      ]
     }
   ],
   "supported-platforms" : {
