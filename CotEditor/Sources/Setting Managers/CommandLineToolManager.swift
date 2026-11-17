@@ -30,7 +30,7 @@ import URLUtils
 final class CommandLineToolManager: Sendable {
 
     /// The name of the command installed in `/usr/local/bin`.
-    static let commandName = "saryay"
+    static let commandName = "yayeditor"
 
 
     struct InstallationError: LocalizedError {

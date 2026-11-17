@@ -561,7 +561,10 @@ private final class EditorTabItemView: NSView {
         self.closeButton.frame = NSRect(x: 6, y: midY - buttonSize / 2, width: buttonSize, height: buttonSize)
 
         // center icon and title together
-        let titleWidth = min(self.titleField.intrinsicContentSize.width, bounds.width - 2 * (8 + buttonSize + 4) - iconSize - 4)
+        // -> Measure the title text itself. The label's intrinsic size can stay at
+        //    the narrow width it had in an earlier layout pass and truncate the title.
+        let naturalTitleWidth = (self.titleField.attributedStringValue.size().width + 4).rounded(.up)
+        let titleWidth = min(naturalTitleWidth, bounds.width - 2 * (8 + buttonSize + 4) - iconSize - 4)
         let contentWidth = iconSize + 4 + max(0, titleWidth)
         let originX = max(8 + buttonSize + 4, (bounds.width - contentWidth) / 2)
         let titleHeight = self.titleField.intrinsicContentSize.height

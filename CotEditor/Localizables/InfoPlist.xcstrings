@@ -904,7 +904,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         }
       }
@@ -916,91 +916,91 @@
         "de" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "en-GB" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "es" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "fr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "it" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "ja" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "ko" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "nl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "pl" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "pt" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "ru" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "tr" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
             "state" : "needs_review",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         }
       },
@@ -1025,7 +1025,7 @@
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "Saryay"
+            "value" : "YayEditor"
           }
         },
         "en-GB" : {
@@ -3596,115 +3596,115 @@
       "localizations" : {
         "cs" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor potřebuje souhlas uživatele k ovládání jiných aplikací pomocí AppleScriptu."
           }
         },
         "de" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor benötigt deine Erlaubnis, um andere Programme mit AppleScript zu steuern."
           }
         },
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "CotEditor needs your approval to control other applications with AppleScript."
+            "value" : "YayEditor needs your approval to control other applications with AppleScript."
           }
         },
         "en-GB" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor needs your approval to control other applications with AppleScript."
           }
         },
         "es" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor necesita tu aprobación para controlar otras aplicaciones con AppleScript."
           }
         },
         "fr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor a besoin de votre autorisation pour contrôler les autres applications avec AppleScript."
           }
         },
         "hi" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "अन्य एप्लिकेशन को AppleScript से नियंत्रित करने के लिए CotEditor को आपकी स्वीकृति चाहिए।"
           }
         },
         "it" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor ha bisogno dell’autorizzazione per controllare altre applicazioni tramite AppleScript."
           }
         },
         "ja" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditorがAppleScriptでほかのアプリを操作するためにユーザの許可が必要です。"
           }
         },
         "ko" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor가 AppleScript로 다른 응용 프로그램을 제어하려면 사용자 승인이 필요합니다."
           }
         },
         "nl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor heeft jouw toestemming nodig om andere apps te bedienen met AppleScript."
           }
         },
         "pl" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor potrzebuje zgody użytkownika, aby sterować innymi aplikacjami za pomocą AppleScript."
           }
         },
         "pt" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "O CotEditor precisa da sua aprovação para controlar outros aplicativos via AppleScript."
           }
         },
         "ru" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "Для управления другими приложениями с помощью AppleScript приложению CotEditor требуется Ваше разрешение."
           }
         },
         "tr" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor, başka uygulamaları AppleScript ile denetlemek için kullanıcı onayına gereksinim duyuyor."
           }
         },
         "uk" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor потрібен дозвіл на керування іншими програмами за допомогою AppleScript."
           }
         },
         "zh-Hans" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor需要用户授权使用AppleScript控制其他应用。"
           }
         },
         "zh-Hant" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor需要用戶授權使用AppleScript控制其他應用。"
           }
         },
         "zh-HK" : {
           "stringUnit" : {
-            "state" : "translated",
+            "state" : "needs_review",
             "value" : "CotEditor需要你的批准才能使用AppleScript控制其他應用程式。"
           }
         }

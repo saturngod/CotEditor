@@ -9010,6 +9010,9 @@
         }
       }
     },
+    "Forked from CotEditor" : {
+
+    },
     "GrantAccessPanel.message" : {
       "comment" : "message in the Open dialog to grant the access permission to open an alias location.",
       "extractionState" : "extracted_with_value",
@@ -20255,6 +20258,9 @@
           }
         }
       }
+    },
+    "YayEditor is a fork of CotEditor" : {
+
     }
   },
   "version" : "1.0"

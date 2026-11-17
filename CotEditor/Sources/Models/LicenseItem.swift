@@ -35,10 +35,18 @@ struct LicenseItem {
     
     
 #if SPARKLE
-    static let items = Self.commonItems + [.sparkle]
+    static let items = [.cotEditor] + Self.commonItems + [.sparkle]
 #else
-    static let items = Self.commonItems
+    static let items = [.cotEditor] + Self.commonItems
 #endif
+    
+    private static let cotEditor = Self(
+        name: "CotEditor",
+        url: "https://github.com/coteditor/CotEditor",
+        copyright: "© 2005-2009 nakamuxu\n© 2011, 2014 usami-k\n© 2013-2026 1024jp",
+        license: .custom("CotEditor"),
+        description: "YayEditor is a fork of CotEditor")
+    
     
     private static let commonItems = [
         Self(name: "swift-tree-sitter",

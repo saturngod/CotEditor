@@ -658,7 +658,6 @@ extension DocumentWindowController: NSToolbarDelegate {
         let directoryIdentifiers = self.isDirectoryDocument ? self.immovableDirectoryIdentifiers + [.documentHistory] : []
         
         return directoryIdentifiers + [
-            .syntax,
             .inspectorTrackingSeparator,
             .flexibleSpace,
             .toggleInspector,
@@ -671,7 +670,6 @@ extension DocumentWindowController: NSToolbarDelegate {
         let directoryIdentifiers = self.isDirectoryDocument ? self.immovableDirectoryIdentifiers + [.documentHistory] : []
         
         var identifiers = directoryIdentifiers + [
-            .syntax,
             .toggleInspector,
             .textSize,
             .writingDirection,

@@ -105,7 +105,7 @@
 	<key>CFBundleHelpBookName</key>
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER).help</string>
 	<key>CFBundleSpokenName</key>
-	<string>Saryay</string>
+	<string>YayEditor</string>
 	<key>NSAppleScriptEnabled</key>
 	<true/>
 	<key>NSServices</key>
@@ -163,8 +163,14 @@
 	<string>CotEditor.sdef</string>
 	<key>SUEnableInstallerLauncherService</key>
 	<true/>
+	<key>SUFeedURL</key>
+	<string>https://yayeditor.myanmars.app/updates/appcast.xml</string>
 	<key>SUPublicEDKey</key>
-	<string>BouLWwqNvz1a8USmfRPmtooMFjc27w3JPrT/VTuZQaI=</string>
+	<string>kA+r57fRiPYg67++l21Mnh53977o/V8C2O2aUEhdvSs=</string>
+	<key>SURequireSignedFeed</key>
+	<true/>
+	<key>SUVerifyUpdateBeforeExtraction</key>
+	<true/>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>

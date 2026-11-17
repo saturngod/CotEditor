@@ -41,7 +41,7 @@ import SemanticVersioning
     
     // MARK: Private Properties
     
-    private nonisolated static let feedURLString = "https://coteditor.com/appcast.xml"
+    private nonisolated static let feedURLString = "https://yayeditor.myanmars.app/updates/appcast.xml"
     
     private lazy var controller = SPUStandardUpdaterController(updaterDelegate: self, userDriverDelegate: nil)
     private var menuItem: NSMenuItem?

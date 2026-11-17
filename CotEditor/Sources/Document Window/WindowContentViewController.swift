@@ -113,9 +113,10 @@ final class WindowContentViewController: NSSplitViewController, NSToolbarItemVal
         let statusBarController = NSSplitViewItemAccessoryViewController()
         statusBarController.view = NSHostingView(rootView: StatusBar(model: self.statusBarModel))
         statusBarController.isHidden = !UserDefaults.standard[.showStatusBar]
-        if #unavailable(macOS 27) {
-            statusBarController.automaticallyAppliesContentInsets = false
-        }
+        // -> Place the status bar below the editor instead of over it.
+        //    The editor scroll views don't adopt the safe area inset of the accessory,
+        //    so the last lines would otherwise stay hidden behind the status bar.
+        statusBarController.automaticallyAppliesContentInsets = false
         self.contentViewItem.addBottomAlignedAccessoryViewController(statusBarController)
         self.addSplitViewItem(self.contentViewItem)
         

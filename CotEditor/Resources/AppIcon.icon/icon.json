@@ -1,8 +1,8 @@
 {
   "fill" : {
     "linear-gradient" : [
-      "display-p3:0.82461,0.67068,0.16492,1.00000",
-      "display-p3:0.60073,0.47800,0.09268,1.00000"
+      "display-p3:1.00000,1.00000,1.00000,1.00000",
+      "display-p3:0.94902,0.94902,0.94902,1.00000"
     ],
     "orientation" : {
       "start" : {
@@ -19,14 +19,14 @@
     {
       "layers" : [
         {
-          "glass" : false,
-          "image-name" : "Engraved Capybara Portrait.png",
-          "name" : "Engraved Capybara Portrait",
+          "glass" : true,
+          "image-name" : "red.png",
+          "name" : "red",
           "position" : {
-            "scale" : 1.5,
+            "scale" : 0.87,
             "translation-in-points" : [
-              -509.75,
-              423
+              0,
+              0
             ]
           }
         }

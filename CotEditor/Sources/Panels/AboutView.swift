@@ -60,6 +60,8 @@ struct AboutView: View {
                      tableName: "About",
                      comment: "%1$@ is version number and %2$@ is build number")
                 
+                Text(String("Fork of CotEditor"))
+                    .foregroundStyle(.secondary)
                 Link(String("coteditor.com"), destination: URL(string: "https://coteditor.com")!)
                     .foregroundStyle(.tint)
                 
@@ -145,6 +147,12 @@ private struct CreditsView: View {
     var body: some View {
         
         LazyVStack(spacing: 6) {
+            SectionView("Forked from CotEditor") {
+                Text(String("YayEditor is a fork of CotEditor, an open source text editor for macOS created by the CotEditor Project."))
+                    .padding(.bottom, 2)
+                ContributorView(contributor: .init(name: "CotEditor", url: "https://github.com/coteditor/CotEditor"))
+            }
+            
             SectionView(.init("The CotEditor Project", table: "About", comment: "section heading")) {
                 ForEach(self.credits.project, id: \.name) {
                     ContributorView(contributor: $0)

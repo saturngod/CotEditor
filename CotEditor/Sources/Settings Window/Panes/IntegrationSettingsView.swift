@@ -190,11 +190,11 @@ private extension CommandLineToolManager.Status {
                 nil
             case .differentTarget:
                 String(localized: "CommandLineToolManager.Status.differentTarget.message",
-                       defaultValue: "The current `saryay` symbolic link doesn’t target the running app.",
+                       defaultValue: "The current `yayeditor` symbolic link doesn’t target the running app.",
                        table: "IntegrationSettings")
             case .invalidTarget:
                 String(localized: "CommandLineToolManager.Status.invalidTarget.message",
-                       defaultValue: "The current `saryay` symbolic link may target an invalid path.", table: "IntegrationSettings")
+                       defaultValue: "The current `yayeditor` symbolic link may target an invalid path.", table: "IntegrationSettings")
         }
     }
 }

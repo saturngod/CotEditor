@@ -12,3 +12,8 @@ default.profraw
 .build
 .swiftpm
 Packages/*/Package.resolved
+
+# Website
+website
+
+build.sh

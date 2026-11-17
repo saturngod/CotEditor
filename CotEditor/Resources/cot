@@ -36,11 +36,11 @@ from typing import Optional
 
 # meta data
 __version__ = '7.1.2'
-__description__ = 'command-line utility for Saryay.'
+__description__ = 'command-line utility for YayEditor.'
 
 
 # constants
-APPLICATION_NAME = 'Saryay'
+APPLICATION_NAME = 'YayEditor'
 WAIT_INTERVAL = 1.0
 
 
