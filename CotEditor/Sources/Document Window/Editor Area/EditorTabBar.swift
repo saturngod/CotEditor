@@ -97,6 +97,11 @@ final class EditorTabBar: NSView {
         self.scrollView.documentView = self.documentView
         self.addSubview(self.scrollView)
 
+        // track hover for all tabs with a single tracking area
+        // -> Per-tab tracking areas set in `updateTrackingAreas()` are not reliably installed
+        //    for views placed by frame in a scroll view.
+        self.addTrackingArea(NSTrackingArea(rect: .zero, options: [.mouseEnteredAndExited, .mouseMoved, .activeInActiveApp, .inVisibleRect], owner: self))
+        
         self.setAccessibilityElement(true)
         self.setAccessibilityRole(.tabGroup)
         self.setAccessibilityLabel(String(localized: "Editor Tabs", table: "Document", comment: "accessibility label for the editor tab bar"))
@@ -133,6 +138,31 @@ final class EditorTabBar: NSView {
         let lineWidth = 1 / (self.window?.backingScaleFactor ?? 2)
         NSColor.separatorColor.setFill()
         NSRect(x: 0, y: self.bounds.maxY - lineWidth, width: self.bounds.width, height: lineWidth).fill()
+    }
+
+
+    override func mouseEntered(with event: NSEvent) {
+
+        self.updateHover(at: event.locationInWindow)
+    }
+
+
+    override func mouseMoved(with event: NSEvent) {
+
+        self.updateHover(at: event.locationInWindow)
+    }
+
+
+    override func mouseExited(with event: NSEvent) {
+
+        self.updateHover(at: nil)
+    }
+
+
+    override func scrollWheel(with event: NSEvent) {
+
+        super.scrollWheel(with: event)
+        self.updateHoverAtCurrentMouseLocation()
     }
 
 
@@ -197,6 +227,7 @@ final class EditorTabBar: NSView {
             self.layoutItems(animated: false)
         }
         self.scrollSelectedTabToVisible()
+        self.updateHoverAtCurrentMouseLocation()
     }
 
 
@@ -286,8 +317,34 @@ final class EditorTabBar: NSView {
             self.delegate?.tabBar(self, moveTab: view.id, to: targetIndex)
         }
         self.layoutItems(animated: true)
+        self.updateHoverAtCurrentMouseLocation()
 
         return true
+    }
+
+
+    /// Updates the hover state of the tabs and their close buttons.
+    ///
+    /// - Parameter location: The mouse location in the window coordinates, or `nil` if the mouse is outside.
+    private func updateHover(at location: NSPoint?) {
+
+        let point = location.map { self.documentView.convert($0, from: nil) }
+        let isInBar = location.map { self.bounds.contains(self.convert($0, from: nil)) } ?? false
+
+        for view in self.itemViews.values {
+            let isHovered = isInBar && point.map(view.frame.contains) == true
+            view.isHovered = isHovered
+            view.updateCloseButtonHover(at: isHovered ? location : nil)
+        }
+    }
+
+
+    /// Updates the hover state with the current mouse location, e.g., after tabs moved under the stationary mouse.
+    fileprivate func updateHoverAtCurrentMouseLocation() {
+
+        guard let window = self.window else { return }
+
+        self.updateHover(at: window.mouseLocationOutsideOfEventStream)
     }
 
 
@@ -415,8 +472,8 @@ private final class EditorTabItemView: NSView {
 
     private let iconView = NSImageView()
     private let titleField = NSTextField(labelWithString: "")
-    private let closeButton: NSButton
-    private var isHovered = false {
+    private let closeButton = EditorTabCloseButton()
+    var isHovered = false {
 
         didSet {
             guard isHovered != oldValue else { return }
@@ -431,21 +488,15 @@ private final class EditorTabItemView: NSView {
 
         self.id = id
 
-        let closeImage = NSImage(systemSymbolName: "xmark", accessibilityDescription: String(localized: "Close Tab", table: "Document", comment: "accessibility label for the close button in an editor tab"))!
-            .withSymbolConfiguration(.init(pointSize: 9, weight: .semibold))!
-        self.closeButton = NSButton(image: closeImage, target: nil, action: nil)
-
         super.init(frame: .zero)
 
         self.wantsLayer = true
         self.layerContentsRedrawPolicy = .onSetNeedsDisplay
 
-        self.closeButton.isBordered = false
-        self.closeButton.bezelStyle = .accessoryBarAction
-        self.closeButton.contentTintColor = .secondaryLabelColor
-        self.closeButton.target = self
-        self.closeButton.action = #selector(closeTab)
-        self.closeButton.toolTip = String(localized: "Close Tab", table: "Document", comment: "tooltip for the close button in an editor tab")
+        self.closeButton.action = { [weak self] in
+            guard let self else { return }
+            self.tabBar?.close(self)
+        }
 
         self.iconView.imageScaling = .scaleProportionallyDown
         self.iconView.setAccessibilityElement(false)
@@ -480,25 +531,21 @@ private final class EditorTabItemView: NSView {
     override var mouseDownCanMoveWindow: Bool  { false }
 
 
-    override func updateTrackingAreas() {
+    override func setFrameSize(_ newSize: NSSize) {
 
-        super.updateTrackingAreas()
+        super.setFrameSize(newSize)
 
-        if self.trackingAreas.isEmpty {
-            self.addTrackingArea(NSTrackingArea(rect: .zero, options: [.mouseEnteredAndExited, .activeInActiveApp, .inVisibleRect], owner: self))
-        }
+        // -> The tab bar places tabs by frame, so subviews need to be laid out again on resize.
+        self.needsLayout = true
     }
 
 
-    override func mouseEntered(with event: NSEvent) {
+    /// Updates the hover state of the close button.
+    ///
+    /// - Parameter location: The mouse location in the window coordinates, or `nil` if the tab is not hovered.
+    func updateCloseButtonHover(at location: NSPoint?) {
 
-        self.isHovered = true
-    }
-
-
-    override func mouseExited(with event: NSEvent) {
-
-        self.isHovered = false
+        self.closeButton.isHovered = location.map { self.closeButton.bounds.contains(self.closeButton.convert($0, from: nil)) } ?? false
     }
 
 
@@ -507,11 +554,11 @@ private final class EditorTabItemView: NSView {
         super.layout()
 
         let bounds = self.bounds
-        let buttonSize: CGFloat = 16
+        let buttonSize = EditorTabCloseButton.size
         let iconSize: CGFloat = 16
         let midY = bounds.midY
 
-        self.closeButton.frame = NSRect(x: 8, y: midY - buttonSize / 2, width: buttonSize, height: buttonSize)
+        self.closeButton.frame = NSRect(x: 6, y: midY - buttonSize / 2, width: buttonSize, height: buttonSize)
 
         // center icon and title together
         let titleWidth = min(self.titleField.intrinsicContentSize.width, bounds.width - 2 * (8 + buttonSize + 4) - iconSize - 4)
@@ -534,8 +581,10 @@ private final class EditorTabItemView: NSView {
                 case (true, false): 0.07
                 default: 0.05
             }
+            // capsule like the tabs in Xcode
+            let rect = self.bounds.insetBy(dx: 2, dy: 3)
             NSColor.labelColor.withAlphaComponent(alpha).setFill()
-            NSBezierPath(roundedRect: self.bounds.insetBy(dx: 2, dy: 3), xRadius: 6, yRadius: 6).fill()
+            NSBezierPath(roundedRect: rect, xRadius: rect.height / 2, yRadius: rect.height / 2).fill()
 
         } else if self.showsLeadingSeparator {
             NSColor.separatorColor.setFill()
@@ -544,7 +593,7 @@ private final class EditorTabItemView: NSView {
 
         // edited indicator in place of the close button
         if self.item?.isEdited == true, !self.isHovered {
-            let rect = NSRect(x: 8 + 4, y: self.bounds.midY - 4, width: 8, height: 8)
+            let rect = NSRect(x: self.closeButton.frame.midX - 4, y: self.bounds.midY - 4, width: 8, height: 8)
             NSColor.secondaryLabelColor.setFill()
             NSBezierPath(ovalIn: rect).fill()
         }
@@ -589,14 +638,6 @@ private final class EditorTabItemView: NSView {
     override func accessibilityValue() -> Any? {
 
         self.isSelected
-    }
-
-
-    // MARK: Actions
-
-    @objc private func closeTab(_ sender: Any?) {
-
-        self.tabBar?.close(self)
     }
 
 
@@ -656,4 +697,132 @@ private final class EditorTabItemView: NSView {
 private final class FlippedView: NSView {
 
     override var isFlipped: Bool  { true }
+}
+
+
+// MARK: - Close Button
+
+/// The circular close button shown on the leading edge of a hovered tab, like Xcode.
+///
+/// The circle is filled only while the mouse is over the button itself,
+/// and the action fires on mouse up inside the button.
+private final class EditorTabCloseButton: NSView {
+    
+    static let size: CGFloat = 16
+    
+    var action: (() -> Void)?
+    
+    var isHovered = false {
+        
+        didSet {
+            guard isHovered != oldValue else { return }
+            self.needsDisplay = true
+        }
+    }
+    
+    private var isPressed = false {
+        
+        didSet {
+            guard isPressed != oldValue else { return }
+            self.needsDisplay = true
+        }
+    }
+    
+    private static let symbol = NSImage(systemSymbolName: "xmark", accessibilityDescription: nil)
+    private static let symbolConfiguration = NSImage.SymbolConfiguration(pointSize: 7, weight: .semibold)
+    
+    
+    // MARK: Lifecycle
+    
+    override init(frame frameRect: NSRect) {
+        
+        super.init(frame: frameRect)
+        
+        self.wantsLayer = true
+        self.layerContentsRedrawPolicy = .onSetNeedsDisplay
+        self.toolTip = String(localized: "Close Tab", table: "Document", comment: "tooltip for the close button in an editor tab")
+        
+        self.setAccessibilityElement(true)
+        self.setAccessibilityRole(.button)
+        self.setAccessibilitySubrole(.closeButton)
+        self.setAccessibilityLabel(String(localized: "Close Tab", table: "Document", comment: "accessibility label for the close button in an editor tab"))
+    }
+    
+    
+    @available(*, unavailable)
+    required init?(coder: NSCoder) {
+        
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    
+    // MARK: View Methods
+    
+    override var isFlipped: Bool  { true }
+    
+    
+    override var mouseDownCanMoveWindow: Bool  { false }
+    
+    
+    override var isHidden: Bool {
+        
+        didSet {
+            if isHidden {
+                self.isHovered = false
+                self.isPressed = false
+            }
+        }
+    }
+    
+    
+    override func mouseDown(with event: NSEvent) {
+        
+        guard let window = self.window else { return }
+        
+        self.isPressed = true
+        
+        // track like a button: fire only when released inside
+        while let nextEvent = window.nextEvent(matching: [.leftMouseDragged, .leftMouseUp]) {
+            let isInside = self.bounds.contains(self.convert(nextEvent.locationInWindow, from: nil))
+            self.isPressed = isInside
+            self.isHovered = isInside
+            
+            guard nextEvent.type == .leftMouseUp else { continue }
+            
+            self.isPressed = false
+            if isInside {
+                self.action?()
+            }
+            break
+        }
+    }
+    
+    
+    override func draw(_ dirtyRect: NSRect) {
+        
+        if self.isHovered || self.isPressed {
+            let alpha: CGFloat = self.isPressed ? 0.22 : 0.12
+            NSColor.labelColor.withAlphaComponent(alpha).setFill()
+            NSBezierPath(ovalIn: self.bounds).fill()
+        }
+        
+        guard let symbol = Self.symbol else { return }
+        
+        let color: NSColor = (self.isHovered || self.isPressed) ? .labelColor : .secondaryLabelColor
+        // -> Combine the configurations; passing only the palette would reset the point size.
+        let configuration = Self.symbolConfiguration.applying(.init(paletteColors: [color]))
+        guard let image = symbol.withSymbolConfiguration(configuration) else { return }
+        let size = image.size
+        let rect = NSRect(x: (self.bounds.width - size.width) / 2,
+                          y: (self.bounds.height - size.height) / 2,
+                          width: size.width, height: size.height)
+        image.draw(in: rect.integral)
+    }
+    
+    
+    override func accessibilityPerformPress() -> Bool {
+        
+        self.action?()
+        return true
+    }
 }
